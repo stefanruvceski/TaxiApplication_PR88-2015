@@ -8,7 +8,7 @@ namespace TaxiApplication.Models.Klase
     public class Musterija : Korisnik
     {
         public Musterija() { }
-        public Musterija(string korisnikoIme, string lozinka, string ime, string prezime, string pol, long jmbg, string kontaktTelefon, string email)
+        public Musterija(string korisnikoIme, string lozinka, string ime, string prezime, string pol, string jmbg, string kontaktTelefon, string email)
         {
             KorisnickoIme = korisnikoIme;
             Lozinka = lozinka;

@@ -14,6 +14,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using TaxiApplication.Models;
+using TaxiApplication.Models.Klase;
 using TaxiApplication.Providers;
 using TaxiApplication.Results;
 
@@ -321,14 +322,28 @@ namespace TaxiApplication.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(MusterijaBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            Polovi p; Enum.TryParse(model.Pol, out p);
+            Musterija m = new Musterija()
+            {
+                KorisnickoIme = model.KorisnickoIme,
+                Ime = model.Ime,
+                Prezime = model.Prezime,
+                Lozinka = model.Password,
+                Pol = p,
+                Jmbg = model.Jmbg,
+                KontaktTelefon = model.KontaktTelefon,
+                Email = model.Email,
+                Uloga = Uloge.Musterija,
+                Voznje = new Dictionary<string, Voznja>(),
+            };
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

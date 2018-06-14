@@ -14,13 +14,13 @@ namespace TaxiApplication.Controllers
         // GET: api/Korisnici
         public IEnumerable<Korisnik> Get()
         {
-            return new Korisnik[1];
+            return DataBase.Korisnici.Values.ToList();
         }
 
         // GET: api/Korisnici/5
-        public Korisnik Get(int id)
+        public Korisnik Get(string id)
         {
-            return new Musterija();
+            return DataBase.Korisnici[id];
         }
 
         // POST: api/Korisnici
@@ -34,8 +34,9 @@ namespace TaxiApplication.Controllers
         }
 
         // DELETE: api/Korisnici/5
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            DataBase.Korisnici.Remove(id);
         }
     }
 }

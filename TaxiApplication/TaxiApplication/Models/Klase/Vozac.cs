@@ -11,7 +11,7 @@ namespace TaxiApplication.Models.Klase
         Automobil automobil;
 
         public Vozac() { }
-        public Vozac(string korisnikoIme, string lozinka, string ime, string prezime, string pol, long jmbg, string kontaktTelefon, string email,Automobil automobil)
+        public Vozac(string korisnikoIme, string lozinka, string ime, string prezime, string pol, string jmbg, string kontaktTelefon, string email,Automobil automobil)
         {
             KorisnickoIme = korisnikoIme;
             Lozinka = lozinka;
