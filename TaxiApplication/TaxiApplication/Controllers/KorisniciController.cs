@@ -11,10 +11,29 @@ namespace TaxiApplication.Controllers
     [Authorize]
     public class KorisniciController : ApiController
     {
+        [Route("api/korisnici/getpage")]
+        public string GetPage()
+        {
+            if (User.IsInRole("Dispecer"))
+                return "DispecerMain.html";
+            else if (User.IsInRole("Vozac"))
+                return "VozacMain.html";
+            else
+                return "MusterijaMain.html";
+            
+        }
+
         // GET: api/Korisnici
         public IEnumerable<Korisnik> Get()
         {
-            return DataBase.Korisnici.Values.ToList();
+            if (User.IsInRole("Dispecer"))
+            {
+                return DataBase.Korisnici.Values.ToList();
+            }
+            else
+            {
+                return DataBase.Korisnici.Values.ToList().FindAll(x => x.KorisnickoIme == User.Identity.Name);
+            }
         }
 
         // GET: api/Korisnici/5

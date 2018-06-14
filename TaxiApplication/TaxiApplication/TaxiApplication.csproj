@@ -269,8 +269,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Htmls\Data.html" />
+    <Content Include="Htmls\DispecerMain.html" />
     <Content Include="Htmls\Login.html" />
+    <Content Include="Htmls\MusterijaMain.html" />
     <Content Include="Htmls\Register.html" />
+    <Content Include="Htmls\VozacMain.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

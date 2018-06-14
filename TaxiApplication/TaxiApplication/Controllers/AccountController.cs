@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -328,6 +329,8 @@ namespace TaxiApplication.Controllers
             {
                 return BadRequest(ModelState);
             }
+            //string[] s = Roles.GetAllRoles();
+           
             Polovi p; Enum.TryParse(model.Pol, out p);
             Musterija m = new Musterija()
             {
@@ -343,8 +346,61 @@ namespace TaxiApplication.Controllers
                 Voznje = new Dictionary<string, Voznja>(),
             };
 
-            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
+            DataBase.Korisnici.Add(m.KorisnickoIme, m);
 
+            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
+            IdentityUserRole r = new IdentityUserRole();
+            r.UserId = user.Id;
+            r.RoleId = "3";
+            user.Roles.Add(r);
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/Register
+        [Authorize(Roles ="Dispecer")]
+        [Route("RegisterDriver")]
+        public async Task<IHttpActionResult> Register(VozacBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //string[] s = Roles.GetAllRoles();
+
+            Polovi p; Enum.TryParse(model.Pol, out p);
+            TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
+            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila),int.Parse(model.godisteAutomobila),model.KorisnickoIme,model.BrojRegistarskeOznake,t);
+            Vozac m = new Vozac()
+            {
+                KorisnickoIme = model.KorisnickoIme,
+                Ime = model.Ime,
+                Prezime = model.Prezime,
+                Lozinka = model.Password,
+                Pol = p,
+                Jmbg = model.Jmbg,
+                KontaktTelefon = model.KontaktTelefon,
+                Email = model.Email,
+                Uloga = Uloge.Musterija,
+                Voznje = new Dictionary<string, Voznja>(),
+                Lokacija = new Lokacija(),
+                Automobil = automobil
+                
+            };
+
+            DataBase.Korisnici.Add(m.KorisnickoIme, m);
+
+            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
+            IdentityUserRole r = new IdentityUserRole();
+            r.UserId = user.Id;
+            r.RoleId = "2";
+            user.Roles.Add(r);
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)

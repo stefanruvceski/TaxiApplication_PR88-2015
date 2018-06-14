@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,6 +17,7 @@ namespace TaxiApplication.Models
             // Add custom user claims here
             return userIdentity;
         }
+        
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
