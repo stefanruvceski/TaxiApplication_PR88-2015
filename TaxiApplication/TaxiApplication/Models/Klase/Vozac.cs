@@ -26,6 +26,7 @@ namespace TaxiApplication.Models.Klase
             Email = email;
             Uloga = Uloge.Vozac;
             this.Lokacija = new Lokacija();
+
             this.Automobil = automobil;
         }
 

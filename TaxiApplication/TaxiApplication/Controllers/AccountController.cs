@@ -26,7 +26,7 @@ namespace TaxiApplication.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private ApplicationUserManager _userManager;
+        private  ApplicationUserManager _userManager;
 
         public AccountController()
         {
@@ -39,7 +39,7 @@ namespace TaxiApplication.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public ApplicationUserManager UserManager
+        public  ApplicationUserManager UserManager
         {
             get
             {
@@ -52,6 +52,168 @@ namespace TaxiApplication.Controllers
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
+        #region MOJE
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(MusterijaBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Polovi p; Enum.TryParse(model.Pol, out p);
+            Musterija m = new Musterija()
+            {
+                KorisnickoIme = model.KorisnickoIme,
+                Ime = model.Ime,
+                Prezime = model.Prezime,
+                Lozinka = model.Password,
+                Pol = p,
+                Jmbg = model.Jmbg,
+                KontaktTelefon = model.KontaktTelefon,
+                Email = model.Email,
+                Uloga = Uloge.Musterija,
+                Voznje = new Dictionary<string, Voznja>(),
+            };
+
+            DataBase.Korisnici.Add(m.KorisnickoIme, m);
+
+            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email, PhoneNumber = m.KontaktTelefon };
+            IdentityUserRole r = new IdentityUserRole();
+            r.UserId = user.Id;
+            r.RoleId = "3";
+            user.Roles.Add(r);
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/Register
+        [Authorize(Roles = "Dispecer")]
+        [Route("RegisterDriver")]
+        public async Task<IHttpActionResult> Register(VozacBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //string[] s = Roles.GetAllRoles();
+
+            Polovi p; Enum.TryParse(model.Pol, out p);
+            TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
+            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.KorisnickoIme, model.BrojRegistarskeOznake, t);
+            Vozac m = new Vozac()
+            {
+                KorisnickoIme = model.KorisnickoIme,
+                Ime = model.Ime,
+                Prezime = model.Prezime,
+                Lozinka = model.Password,
+                Pol = p,
+                Jmbg = model.Jmbg,
+                KontaktTelefon = model.KontaktTelefon,
+                Email = model.Email,
+                Uloga = Uloge.Musterija,
+                Voznje = new Dictionary<string, Voznja>(),
+                Lokacija = new Lokacija(),
+                Automobil = automobil
+
+            };
+
+            DataBase.Korisnici.Add(m.KorisnickoIme, m);
+
+            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email, PhoneNumber = m.KontaktTelefon };
+            IdentityUserRole r = new IdentityUserRole();
+            r.UserId = user.Id;
+            r.RoleId = "2";
+            user.Roles.Add(r);
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        [Authorize]
+        [Route("Edit")]
+        public async Task<IHttpActionResult> Edit([FromBody]EditKorisnikBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            DataBase.Korisnici[model.KorisnickoIme].Ime = model.Ime;
+            DataBase.Korisnici[model.KorisnickoIme].Prezime = model.Prezime;
+            DataBase.Korisnici[model.KorisnickoIme].Email = model.Email;
+            DataBase.Korisnici[model.KorisnickoIme].KontaktTelefon = model.KontaktTelefon;
+
+            ApplicationUser applicationUser = await UserManager.FindAsync(model.KorisnickoIme, DataBase.Korisnici[model.KorisnickoIme].Lozinka);
+
+            IdentityResult result1 = UserManager.SetEmail(applicationUser.Id, model.Email);
+
+            IdentityResult result2 = UserManager.SetPhoneNumber(applicationUser.Id, model.KontaktTelefon);
+
+            if (!result1.Succeeded)
+            {
+                return GetErrorResult(result1);
+            }
+            else if (!result2.Succeeded)
+            {
+                return GetErrorResult(result2);
+            }
+
+            return Ok();
+        }
+
+        [Authorize]
+        [Route("Edit")]
+        public async Task<IHttpActionResult> Edit([FromBody]EditVozacBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
+            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.BrojRegistarskeOznake, model.KorisnickoIme, t);
+
+            DataBase.Korisnici[model.KorisnickoIme].Ime = model.Ime;
+            DataBase.Korisnici[model.KorisnickoIme].Prezime = model.Prezime;
+            DataBase.Korisnici[model.KorisnickoIme].Email = model.Email;
+            DataBase.Korisnici[model.KorisnickoIme].KontaktTelefon = model.KontaktTelefon;
+            ((Vozac)DataBase.Korisnici[model.KorisnickoIme]).Automobil = automobil;
+
+            ApplicationUser applicationUser = await UserManager.FindAsync(model.KorisnickoIme, DataBase.Korisnici[model.KorisnickoIme].Lozinka);
+
+            IdentityResult result1 = UserManager.SetEmail(applicationUser.Id, model.Email);
+
+            IdentityResult result2 = UserManager.SetPhoneNumber(applicationUser.Id, model.KontaktTelefon);
+
+            if (!result1.Succeeded)
+            {
+                return GetErrorResult(result1);
+            }
+            else if (!result2.Succeeded)
+            {
+                return GetErrorResult(result2);
+            }
+
+            return Ok();
+        }
+
+        #endregion
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -319,98 +481,7 @@ namespace TaxiApplication.Controllers
 
             return logins;
         }
-
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(MusterijaBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            //string[] s = Roles.GetAllRoles();
-           
-            Polovi p; Enum.TryParse(model.Pol, out p);
-            Musterija m = new Musterija()
-            {
-                KorisnickoIme = model.KorisnickoIme,
-                Ime = model.Ime,
-                Prezime = model.Prezime,
-                Lozinka = model.Password,
-                Pol = p,
-                Jmbg = model.Jmbg,
-                KontaktTelefon = model.KontaktTelefon,
-                Email = model.Email,
-                Uloga = Uloge.Musterija,
-                Voznje = new Dictionary<string, Voznja>(),
-            };
-
-            DataBase.Korisnici.Add(m.KorisnickoIme, m);
-
-            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
-            IdentityUserRole r = new IdentityUserRole();
-            r.UserId = user.Id;
-            r.RoleId = "3";
-            user.Roles.Add(r);
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
-        }
-
-        // POST api/Account/Register
-        [Authorize(Roles ="Dispecer")]
-        [Route("RegisterDriver")]
-        public async Task<IHttpActionResult> Register(VozacBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            //string[] s = Roles.GetAllRoles();
-
-            Polovi p; Enum.TryParse(model.Pol, out p);
-            TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
-            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila),int.Parse(model.godisteAutomobila),model.KorisnickoIme,model.BrojRegistarskeOznake,t);
-            Vozac m = new Vozac()
-            {
-                KorisnickoIme = model.KorisnickoIme,
-                Ime = model.Ime,
-                Prezime = model.Prezime,
-                Lozinka = model.Password,
-                Pol = p,
-                Jmbg = model.Jmbg,
-                KontaktTelefon = model.KontaktTelefon,
-                Email = model.Email,
-                Uloga = Uloge.Musterija,
-                Voznje = new Dictionary<string, Voznja>(),
-                Lokacija = new Lokacija(),
-                Automobil = automobil
-                
-            };
-
-            DataBase.Korisnici.Add(m.KorisnickoIme, m);
-
-            var user = new ApplicationUser() { UserName = m.KorisnickoIme, Email = m.Email };
-            IdentityUserRole r = new IdentityUserRole();
-            r.UserId = user.Id;
-            r.RoleId = "2";
-            user.Roles.Add(r);
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
-        }
-
+        
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -454,6 +525,10 @@ namespace TaxiApplication.Controllers
 
             base.Dispose(disposing);
         }
+
+
+
+        
 
         #region Helpers
 

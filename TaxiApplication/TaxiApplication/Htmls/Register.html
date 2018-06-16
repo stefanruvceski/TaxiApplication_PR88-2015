@@ -136,6 +136,7 @@
                     },
                     success: function () {
                         $('#successModal').modal('show');
+                        window.location = "login.html";
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseText);

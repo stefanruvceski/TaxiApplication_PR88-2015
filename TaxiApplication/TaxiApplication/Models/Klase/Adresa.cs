@@ -7,11 +7,12 @@ namespace TaxiApplication.Models.Klase
 {
     public class Adresa
     {
-        int broj;
-        string ulica;
-        string grad;
-        int postanskiBroj;
+        int broj = 0;
+        string ulica = "";
+        string grad = "";
+        int postanskiBroj = 0;
 
+        public Adresa() { }
         public Adresa(int broj, string ulica, string grad, int postanskiBroj)
         {
             this.broj = broj;

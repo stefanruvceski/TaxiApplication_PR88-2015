@@ -75,6 +75,7 @@
                     // EmployeeService project before running it
                     success: function (response) {
                         localStorage.setItem("accessToken", response.access_token);
+                        
                         $.ajax({
                             // Post username, password & the grant type to /token
                             url: '/api/korisnici/getpage/',
@@ -84,6 +85,7 @@
                             },
                             success: function (response) {
                                 window.location.href = response;
+                                localStorage.setItem("mainPage", response);
                             }
 
                         });

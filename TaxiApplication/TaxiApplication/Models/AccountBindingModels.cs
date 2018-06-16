@@ -50,7 +50,7 @@ namespace TaxiApplication.Models
         public string ConfirmPassword { get; set; }
     }
 
-    /// <summary>
+    #region MOJE
     public class MusterijaBindingModel
     {
         [Required]
@@ -87,6 +87,67 @@ namespace TaxiApplication.Models
         [Display(Name = "Potvrda Lozinke")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class EditKorisnikBindingModel
+    {
+        [Required]
+        [Display(Name = "Korisnicko Ime")]
+        public string KorisnickoIme { get; set; }
+        [Required]
+        [Display(Name = "Ime")]
+        public string Ime { get; set; }
+        [Required]
+        [Display(Name = "Prezime")]
+        public string Prezime { get; set; }
+       
+        [Required]
+        [Display(Name = "Kontakt Telefon")]
+        public string KontaktTelefon { get; set; }
+
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        
+    }
+
+    public class EditVozacBindingModel
+    {
+        [Required]
+        [Display(Name = "Korisnicko Ime")]
+        public string KorisnickoIme { get; set; }
+        [Required]
+        [Display(Name = "Ime")]
+        public string Ime { get; set; }
+        [Required]
+        [Display(Name = "Prezime")]
+        public string Prezime { get; set; }
+
+        [Required]
+        [Display(Name = "Kontakt Telefon")]
+        public string KontaktTelefon { get; set; }
+
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Broj Taksi Vozila")]
+        public string BrojTaksiVozila { get; set; }
+        [Required]
+        [Display(Name = "Godiste Automobila")]
+        public string godisteAutomobila { get; set; }
+        [Required]
+        [Display(Name = "Tip Automobila")]
+        public string tipAutomobila { get; set; }
+        [Required]
+        [Display(Name = "Broj Registarske Oznake")]
+        public string BrojRegistarskeOznake { get; set; }
+
+
     }
 
     public class VozacBindingModel
@@ -139,7 +200,30 @@ namespace TaxiApplication.Models
         [Display(Name = "Broj Registarske Oznake")]
         public string BrojRegistarskeOznake { get; set; }
     }
-    /// </summary>
+
+    public class LokacijaBindingModel
+    {
+        [Required]
+        [Display(Name = "X Koordinata")]
+        public double XKoordinata { get; set; }
+        [Required]
+        [Display(Name = "Y Koordinata")]
+        public double YKoordinata { get; set; }
+        
+        [Required]
+        [Display(Name = "Ulica")]
+        public string Ulica { get; set; }
+        [Required]
+        [Display(Name = "Broj Ulice")]
+        public int Broj { get; set; }
+        [Required]
+        [Display(Name = "Grad")]
+        public string Grad { get; set; }
+        [Required]
+        [Display(Name = "Postanski Broj")]
+        public int PostanskiBroj { get; set; }
+    }
+    #endregion
 
     public class RegisterExternalBindingModel
     {
