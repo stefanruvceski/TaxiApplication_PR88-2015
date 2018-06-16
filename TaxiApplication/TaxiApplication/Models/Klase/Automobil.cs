@@ -14,6 +14,7 @@ namespace TaxiApplication.Models.Klase
         string brojRegistarskeOznake;
         TipoviAutomobila tipAutomobila;
 
+        public Automobil() { }
         public Automobil(int brojTaskiVozila, int godiste,string vozac, string brojRegistarskeOznake, TipoviAutomobila tipAutomobila)
         {
             this.brojTaksiVozila = brojTaskiVozila;

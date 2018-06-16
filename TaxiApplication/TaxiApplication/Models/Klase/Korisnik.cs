@@ -18,7 +18,7 @@ namespace TaxiApplication.Models.Klase
         string kontaktTelefon;
         string email;
         Uloge uloga;
-        Dictionary<string,Voznja> voznje;
+        List<Voznja> voznje;
 
        
         [Key]
@@ -31,6 +31,6 @@ namespace TaxiApplication.Models.Klase
         public string KontaktTelefon { get => kontaktTelefon; set => kontaktTelefon = value; }
         public string Email { get => email; set => email = value; }
         public Uloge Uloga { get => uloga; set => uloga = value; }
-        public Dictionary<string, Voznja> Voznje { get => voznje; set => voznje = value; }
+        public List<Voznja> Voznje { get => voznje; set => voznje = value; }
     }
 }

@@ -13,6 +13,7 @@ namespace TaxiApplication.Models.Klase
         Voznja voznja;
         Ocene ocena;
 
+        public Komentar() { }
         public Komentar(string opis, DateTime datumObjave, Korisnik korisnik, Voznja voznja, Ocene ocena = Ocene.Nula)
         {
             this.opis = opis;

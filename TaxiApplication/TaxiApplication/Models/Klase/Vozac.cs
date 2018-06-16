@@ -7,8 +7,8 @@ namespace TaxiApplication.Models.Klase
 {
     public class Vozac: Korisnik
     {
-        Lokacija lokacija;
-        Automobil automobil;
+        Lokacija lokacija = new Lokacija();
+        Automobil automobil = new Automobil();
 
         public Vozac() { }
         public Vozac(string korisnikoIme, string lozinka, string ime, string prezime, string pol, string jmbg, string kontaktTelefon, string email,Automobil automobil)

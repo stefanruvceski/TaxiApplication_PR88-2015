@@ -25,5 +25,10 @@ namespace TaxiApplication.Models.Klase
         public string Ulica { get => ulica; set => ulica = value; }
         public string Grad { get => grad; set => grad = value; }
         public int PostanskiBroj { get => postanskiBroj; set => postanskiBroj = value; }
+
+        public override string ToString()
+        {
+            return $"{Ulica},{Broj},{Grad},{PostanskiBroj}";
+        }
     }
 }

@@ -12,6 +12,12 @@ namespace TaxiApplication.Models.Klase
         Adresa adresa; //Format: Ulica broj,Grad pozivni broj -> Sutjeska 3, Novi Sad 21000
 
         public Lokacija() { adresa = new Adresa(); }
+
+        public Lokacija(Adresa adresa)
+        {
+            this.adresa = adresa;
+        }
+
         public Lokacija(double xKoordinata, double yKooridinata, Adresa adresa)
         {
             this.xKoordinata = xKoordinata;
@@ -22,5 +28,7 @@ namespace TaxiApplication.Models.Klase
         public double XKoordinata { get => xKoordinata; set => xKoordinata = value; }
         public double YKoordinata { get => yKoordinata; set => yKoordinata = value; }
         public Adresa Adresa { get => adresa; set => adresa = value; }
+
+        
     }
 }

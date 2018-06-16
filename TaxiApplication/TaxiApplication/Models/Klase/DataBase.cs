@@ -36,7 +36,7 @@ namespace TaxiApplication.Models.Klase
         public static Dictionary<string, Korisnik> Korisnici = new Dictionary<string, Korisnik>()
         {
             {"stefanrrr", new Dispecer("stefanrrr","Terminator_96","Stefan","Ruvceski","m","0606996800011","0658601731","stefanruvceski@gmail.com") },
-            {"teodorar", new Musterija("reodorar","Teodora_96","Teodora","Ruvceski","z","1234555","0653103123","teodoraruvceski@gmail.com") },
+            {"teodorarrrr", new Musterija("reodorarrrr","Teodora_96","Teodora","Ruvceski","z","1234555","0653103123","teodoraruvceski@gmail.com"){ Voznje = new List<Voznja>()} },
             {"musterija1", new Musterija("musterija1","lozinka1","Ime1","Prezime1","m","12345","065111111","email11@gmail.com") },
             {"musterija2", new Musterija("musterija2","lozinka2","Ime2","Prezime2","z","123456","065111112","email12@gmail.com") },
             {"musterija3", new Musterija("musterija3","lozinka3","Ime3","Prezime3","m","123457","065111113","email13@gmail.com") },
@@ -50,6 +50,8 @@ namespace TaxiApplication.Models.Klase
             {"vozac3", new Vozac("vozac3","lozinka3","Ime3","Prezime3","m","1234567","065111113","email33@gmail.com",new Automobil(333,2013,"NS-030-LE","vozac3",TipoviAutomobila.PutnickiAutomobil)) },
 
         };
+
+        
 
     }
 }

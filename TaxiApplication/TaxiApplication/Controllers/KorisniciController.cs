@@ -68,7 +68,7 @@ namespace TaxiApplication.Controllers
         [Route("api/korisnici/editlocation")]
         public IHttpActionResult EditLocation([FromBody]LokacijaBindingModel model)
         {
-            ((Vozac)DataBase.Korisnici[User.Identity.Name]).Lokacija = new Lokacija(model.XKoordinata, model.YKoordinata, new Adresa(model.Broj, model.Ulica, model.Grad, model.PostanskiBroj));
+            ((Vozac)DataBase.Korisnici[User.Identity.Name]).Lokacija = new Lokacija( new Adresa(model.Broj, model.Ulica, model.Grad, model.PostanskiBroj));
             return Ok();
         }
 

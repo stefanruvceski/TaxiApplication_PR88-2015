@@ -203,12 +203,12 @@ namespace TaxiApplication.Models
 
     public class LokacijaBindingModel
     {
-        [Required]
-        [Display(Name = "X Koordinata")]
-        public double XKoordinata { get; set; }
-        [Required]
-        [Display(Name = "Y Koordinata")]
-        public double YKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
         
         [Required]
         [Display(Name = "Ulica")]
@@ -222,6 +222,54 @@ namespace TaxiApplication.Models
         [Required]
         [Display(Name = "Postanski Broj")]
         public int PostanskiBroj { get; set; }
+    }
+
+    public class KorisnikVoznjaBindingModel
+    {
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
+        [Required]
+        [Display(Name = "Ulica")]
+        public string Ulica { get; set; }
+        [Required]
+        [Display(Name = "Broj Ulice")]
+        public int Broj { get; set; }
+        [Required]
+        [Display(Name = "Grad")]
+        public string Grad { get; set; }
+        [Required]
+        [Display(Name = "Postanski Broj")]
+        public int PostanskiBroj { get; set; }
+        [Required]
+        [Display(Name = "TipAutomobila")]
+        public string TipAutomobila { get; set; }
+    }
+
+    public class GetKorisnikVoznjaBindingModel
+    {
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
+
+        public string Polaziste { get; set; }
+        public string Odrediste { get; set; }
+       
+        [Display(Name = "TipAutomobila")]
+        public string TipAutomobila { get; set; }
+        public string Ocena { get; set; }
+        public string StatusVoznje { get; set; }
+
+        public string DatumIVreme { get; set; }
+        public string BrojTaksija { get; set; }
+
+        
     }
     #endregion
 

@@ -77,7 +77,7 @@ namespace TaxiApplication.Controllers
                 KontaktTelefon = model.KontaktTelefon,
                 Email = model.Email,
                 Uloga = Uloge.Musterija,
-                Voznje = new Dictionary<string, Voznja>(),
+                Voznje = new List<Voznja>(),
             };
 
             DataBase.Korisnici.Add(m.KorisnickoIme, m);
@@ -122,7 +122,7 @@ namespace TaxiApplication.Controllers
                 KontaktTelefon = model.KontaktTelefon,
                 Email = model.Email,
                 Uloga = Uloge.Musterija,
-                Voznje = new Dictionary<string, Voznja>(),
+                Voznje = new List<Voznja>(),
                 Lokacija = new Lokacija(),
                 Automobil = automobil
 

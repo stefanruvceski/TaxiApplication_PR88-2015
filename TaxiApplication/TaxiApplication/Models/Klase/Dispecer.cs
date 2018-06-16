@@ -7,6 +7,7 @@ namespace TaxiApplication.Models.Klase
 {
     public class Dispecer : Korisnik
     {
+        public Dispecer() { }
         public Dispecer(string korisnikoIme, string lozinka, string ime, string prezime, string pol, string jmbg, string kontaktTelefon, string email)
         {
             KorisnickoIme = korisnikoIme;
