@@ -157,6 +157,7 @@
             });
 
             $('#btnOrderStart').click(function () {
+                id = -1;
                 $('#btnOrder').val('Order');
                 $('#ulica').val('');
                 $('#broj').val('');
@@ -534,7 +535,7 @@
                                         <td>Tip Automobila</td>
                                         <td>
 
-                                            <input type="radio" name="tipAutomobila" value="PutnickoVozilo" id="PutnickoVozilo">
+                                            <input type="radio" name="tipAutomobila" checked="checked" value="PutnickoVozilo" id="PutnickoVozilo">
                                             <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
                                             <input type="radio" name="tipAutomobila" value="KombiVozilo" id="KombiVozilo">

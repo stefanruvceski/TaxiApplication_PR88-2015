@@ -68,32 +68,39 @@ namespace TaxiApplication.Models.Klase
 
         public static Voznja FromString(string red)
         {
-            string[] s = red.Split('|');
-            //6 / 18 / 2018 10:13:04 PM
-            string[] ss = s[1].Split('/', ':');
-            string[] sss = ss[2].Split(' ');
-            StatusiVoznje status;
-            TipoviAutomobila tip;
-            string korisnik = "-1";
-            if (s[6] != "")
-                korisnik = s[6];
-            Enum.TryParse(s[3], out tip);
-            Enum.TryParse(s[2], out status);
-            Voznja voznja = new Voznja
+            if (red != "")
             {
-                Id = int.Parse(s[0]),
-                DatumIVreme = new DateTime(int.Parse(sss[0]), int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(sss[1]), int.Parse(ss[3]), int.Parse(ss[4].Substring(0,2))),
-                statusVoznje = status,
-                tipAutomobila = tip,
-                Iznos = double.Parse(s[4]),
-                vozacID = s[5],
-                korisnikID = korisnik,
-                lokacijaID = s[7],
-                odredisteID = s[8],
-                komentarID = int.Parse(s[9])
-            };
-
-            return voznja;
+                string[] s = red.Split('|');
+                //6 / 18 / 2018 10:13:04 PM
+                string[] ss = s[1].Split('/', ':');
+                string[] sss = ss[2].Split(' ');
+                StatusiVoznje status;
+                TipoviAutomobila tip;
+                string korisnik = "-1";
+                if (s[6] != "")
+                    korisnik = s[6];
+                Enum.TryParse(s[3], out tip);
+                Enum.TryParse(s[2], out status);
+                Voznja voznja = new Voznja
+                {
+                    Id = int.Parse(s[0]),
+                    DatumIVreme = new DateTime(int.Parse(sss[0]), int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(sss[1]), int.Parse(ss[3]), int.Parse(ss[4].Substring(0, 2))),
+                    statusVoznje = status,
+                    tipAutomobila = tip,
+                    Iznos = double.Parse(s[4]),
+                    vozacID = s[5],
+                    korisnikID = korisnik,
+                    lokacijaID = s[7],
+                    odredisteID = s[8],
+                    komentarID = int.Parse(s[9])
+                };
+                return voznja;
+            }
+            else
+            {
+                return new Voznja();
+            }
+            
         }
 
 

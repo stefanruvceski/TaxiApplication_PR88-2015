@@ -39,7 +39,7 @@
                         korisnickoIme: $('#korisnickoIme').val(),
                         ime: $('#ime').val(),
                         prezime: $('#prezime').val(),
-                        pol: $('#pol').val(),
+                        pol: $('#pol:checked').val(),
                         jmbg: $('#jmbg').val(),
                         kontaktTelefon: $('#kontaktTelefon').val(),
                         email: $('#email').val(),
@@ -47,7 +47,7 @@
                         confirmPassword: $('#confirmPassword').val(),
                         brojTaksiVozila: $('#brojTaksiVozila').val(),
                         godisteAutomobila: $('#godisteAutomobila').val(),
-                        tipAutomobila: $('#tipAutomobila').val(),
+                        tipAutomobila: $("#tipAutomobila:checked").val(),
                         brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
@@ -62,6 +62,7 @@
                     }
                 });
             });
+
             $('#btnEditStart').click(function () {
                 $.ajax({
                     url: '/api/korisnici/getme/',
@@ -144,29 +145,160 @@
                     }
                 });
             });
+
+            $('#btnRefreshStart').click(function () {
+                $.ajax({
+                    url: '/api/voznje',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+                        $('#divData').removeClass('hidden');
+                        $('#tblBody').empty();
+                        $.each(data, function (index, value) {
+                            if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
+                                var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
+                                    + value.Vozac + '</td><td>'
+                                    + value.Musterija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    //+ '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                            else if (value.StatusVoznje == "Otkazana") {
+                                var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
+                                    + value.Vozac + '</td><td>'
+                                    + value.Musterija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + "Nedefinisano" + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + "Nedefinisano" + '</td><td>'
+                                    //+ '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                            else {
+                                var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
+                                    + value.Vozac + '</td><td>'
+                                    + value.Musterija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + "Nedefinisano" + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + "Nedefinisano" + '</td><td>'
+                                    //+ '<input id=' + value.VoznjaID + ' name="BbtnEdit" class="btn btn-success"type = "button" value = "Edit" />'
+                                    //+ '<input id=' + value.VoznjaID + ' name="BbtnDelete" class="btn btn-success"type = "button" value = "Delete" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnProcess" class="btn btn-success"type = "button" value = "Process" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                        });
+                    },
+                    error: function (data) {
+                        alert(data + "fgdfdfdfd");
+                    }
+
+                });
+            });
+
+            $('#btnFormOrderStart').click(function () {
+                id = -1;
+                $.ajax({
+                    url: '/api/korisnici/getavailabledrivers',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+                        $('#vozaci').html('');
+                        $('#btnOrder').val('Order');
+                        $('#ulica').val('');
+                        $('#broj').val('');
+                        $('#grad').val('');
+                        $('#postanskiBroj').val('');
+                        $('#tipAutomobila').val('');
+                        $('#OrderModal').modal('show');
+                        var vozaci = '';
+                        $.each(data, function (index, value) {
+                           vozaci += '<option value=' + value + '>'+value+'</option>'
+                        });
+                        $('#vozaci').append(vozaci);
+                        $('#FormOrderModal').modal('show');
+                    }
+                });
+            });
+            $('#btnFormOrder').click(function () {
+
+                $.ajax({
+                    url: '/api/voznje/dispecerpost',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    data: {
+                        ulica: $('#ulica').val(),
+                        broj: $('#broj').val(),
+                        grad: $('#grad').val(),
+                        postanskiBroj: $('#postanskiBroj').val(),
+                        VozacId : $('#vozaci').val(),
+                        tipAutomobila: $("#tipAutomobila:checked").val(),
+                        VoznjaID: id
+
+                        //brojTaksiVozila: $('#brojTaksiVozila').val(),
+                        //godisteAutomobila: $('#godisteAutomobila').val(),
+                        //tipAutomobila: $('#tipAutomobila').val(),
+                        //brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
+                    },
+                    success: function () {
+                        $('#FormOrderModal').modal('hide');
+                        $('#successContent').text('Order Successful!')
+                        $('#successModal').modal('show');
+                        $('#btnRefreshStart').trigger("click");
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
         });
     </script>
 </head>
-<body style="padding-top:20px">
+<body style="padding-top:20px;background-color:black">
 
 
-    <div class="col-md-10 col-md-offset-1">
+    <div id="Buttons" class="col-md-10 col-md-offset-1">
         <div class="well">
             <input id="btnRegisterStart" class="btn btn-success" type="button" value="Register Driver" />
             <input id="btnEditStart" class="btn btn-success" type="button" value="Edit Profile" />
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
-            <input id="btnLogoff" class="btn btn-success pull-right"
-                   type="button" value="Log Off" />
+            <input id="btnFormOrderStart" class="btn btn-success" type="button" value="Formiraj voznju" />
+            <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
+            <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
         </div>
         <div id="divData" class="well hidden">
-            <table class="table table-bordered" id="tblData">
+            <table class="table table-bordered " id="tblData">
                 <thead>
                     <tr class="success">
-                        <td>ID</td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Gender</td>
-                        <td>Salary</td>
+                        <td>Broj Taksija</td>
+                        <td>Vozac</td>
+                        <td>Musterija</td>
+                        <td>Polaziste</td>
+                        <td>Odrediste</td>
+                        <td>Status Voznje</td>
+                        <td>Datum I Vreme</td>
+                        <td>Tip Automobila</td>
+                        <td>Ocena</td>
+                        <td>Opcije</td>
                     </tr>
                 </thead>
                 <tbody id="tblBody"></tbody>
@@ -312,10 +444,10 @@
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
-                                            <label for="PutnickiAutomobil">Puticnki Automobil</label>
+                                            <input type="radio" name="tipAutomobila" checked="checked" value="PutnickoVozilo" id="tipAutomobila">
+                                            <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" value="KombiVozilo" />
+                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="tipAutomobila">
                                             <label for="KombiVozilo">Kombi Vozilo</label>
                                         </td>
                                     </tr>
@@ -554,5 +686,84 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="FormOrderModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Form Order</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="modal-content">
+                            <!--This table contains the fields that we want to capture to register a new user-->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="success">
+                                        <th colspan="2">
+                                            Fill in information
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>Ulica</td>
+                                        <td><input type="text" id="ulica" placeholder="Ulica" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Broj</td>
+                                        <td><input type="number" id="broj" placeholder="Broj" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grad</td>
+                                        <td><input type="text" id="grad" placeholder="Grad" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Postanski Broj</td>
+                                        <td><input type="number" id="postanskiBroj" placeholder="Postanski Broj" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tip Automobila</td>
+                                        <td>
+                                            <input type="radio" name="tipAutomobila" value="PutnickoVozilo" checked="checked" id="tipAutomobila">
+                                            <label for="PutnickoVozilo">Putnicko Vozilo</label>
+
+                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="tipAutomobila">
+                                            <label for="KombiVozilo">Kombi Vozilo</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vozac</td>
+                                        <td>
+                                            <select id="vozaci"></select>
+                                        </td>
+                                    </tr>
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <input id="btnFormOrder" class="btn btn-success"
+                                                   type="button" value="Order" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align:center;position:absolute; bottom:0;height:60px;" class="col-md-10 col-md-offset-1 well">
+        <p>Develop by Stefan Ruvceski</p>
+    </footer>
 </body>
 </html>

@@ -16,19 +16,6 @@ namespace TaxiApplication.Controllers
     public class KorisniciController : ApiController
     {
 
-        private ApplicationUserManager _userManager;
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
         [Route("api/korisnici/getpage")]
         public string GetPage()
         {
@@ -60,6 +47,29 @@ namespace TaxiApplication.Controllers
             {
                 return DataBase.Korisnici.Values.ToList().FindAll(x => x.KorisnickoIme == User.Identity.Name);
             }
+        }
+        [Route("api/korisnici/getavailabledrivers")]
+        //[Authorize(Roles ="Dispecer")]
+        [HttpGet]
+        public List<string> DriversGet()
+        {
+            bool isAvailable = true;
+            List<string> lista = new List<string>();
+            foreach(Korisnik k in DataBase.Korisnici.Values)
+            {
+                if (k.Uloga == Uloge.Vozac && k.KorisnickoIme != "-1")
+                {
+                    foreach (int i in k.VoznjeID)
+                        if (DataBase.voznje[i].StatusVoznje == StatusiVoznje.Prihvacena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Obradjena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Formirana)
+                            isAvailable = false;
+                        
+                    if(isAvailable)
+                        lista.Add(k.KorisnickoIme);
+                    isAvailable = true;
+                }
+            }
+
+            return lista;
         }
 
         // GET: api/Korisnici/5

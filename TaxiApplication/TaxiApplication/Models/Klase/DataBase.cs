@@ -36,7 +36,7 @@ namespace TaxiApplication.Models.Klase
 
         #region Default Objects
         static Korisnik defaultKorisnik = new Vozac("-1", "-1", "-1", "-1", "m", "-1", "-1", "-1", -1);
-        static Automobil defualtAutomobil = new Automobil(-1, -1, "Nepoznatno", "Nepoznato", TipoviAutomobila.PutnickiAutomobil);
+        static Automobil defualtAutomobil = new Automobil(-1, -1, "Nepoznatno", "Nedefinisano", TipoviAutomobila.PutnickiAutomobil);
         static Voznja defaultVoznja = new Voznja(-1, "-1", -1, "-1");
         static Lokacija defaultLokacija = new Lokacija("-1", "-1");
         static Adresa defaultAdresa = new Adresa("-1", -1, "-1", "-1", -1);

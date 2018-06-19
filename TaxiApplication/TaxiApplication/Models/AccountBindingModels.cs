@@ -264,6 +264,57 @@ namespace TaxiApplication.Models
         public string TipAutomobila { get; set; }
         public string VoznjaID { get; set; }
     }
+    public class DispecerVoznjaBindingModel
+    {
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
+        [Required]
+        [Display(Name = "Ulica")]
+        public string Ulica { get; set; }
+        [Required]
+        [Display(Name = "Broj Ulice")]
+        public int Broj { get; set; }
+        [Required]
+        [Display(Name = "Grad")]
+        public string Grad { get; set; }
+        [Required]
+        [Display(Name = "Postanski Broj")]
+        public int PostanskiBroj { get; set; }
+        [Required]
+        [Display(Name = "TipAutomobila")]
+        public string TipAutomobila { get; set; }
+        public string VoznjaID { get; set; }
+        public string VozacID { get; set; }
+    }
+
+    public class GetDispecerVoznjaBindingModel
+    {
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
+
+        public string VoznjaID { get; set; }
+        public string Vozac { get; set; }
+        public string Musterija { get; set; }
+        public string Polaziste { get; set; }
+        public string Odrediste { get; set; }
+
+        public string TipAutomobila { get; set; }
+        public string Ocena { get; set; }
+        public string StatusVoznje { get; set; }
+
+        public string DatumIVreme { get; set; }
+        public string BrojTaksija { get; set; }
+
+
+    }
 
     public class GetKorisnikVoznjaBindingModel
     {

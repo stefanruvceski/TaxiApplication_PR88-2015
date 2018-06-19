@@ -122,7 +122,7 @@ namespace TaxiApplication.Controllers
                 Jmbg = model.Jmbg,
                 KontaktTelefon = model.KontaktTelefon,
                 Email = model.Email,
-                Uloga = Uloge.Musterija,
+                Uloga = Uloge.Vozac,
                 VoznjeID = new List<int>(),
                 AutomobilID = automobil.BrojTaksiVozila
 
