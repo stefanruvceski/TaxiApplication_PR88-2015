@@ -77,7 +77,7 @@ namespace TaxiApplication.Controllers
                 KontaktTelefon = model.KontaktTelefon,
                 Email = model.Email,
                 Uloga = Uloge.Musterija,
-                Voznje = new List<Voznja>(),
+                VoznjeID = new List<int>(),
             };
 
             DataBase.Korisnici.Add(m.KorisnickoIme, m);
@@ -111,6 +111,7 @@ namespace TaxiApplication.Controllers
             Polovi p; Enum.TryParse(model.Pol, out p);
             TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
             Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.KorisnickoIme, model.BrojRegistarskeOznake, t);
+            DataBase.automobili.Add(automobil.BrojTaksiVozila, automobil);
             Vozac m = new Vozac()
             {
                 KorisnickoIme = model.KorisnickoIme,
@@ -122,9 +123,8 @@ namespace TaxiApplication.Controllers
                 KontaktTelefon = model.KontaktTelefon,
                 Email = model.Email,
                 Uloga = Uloge.Musterija,
-                Voznje = new List<Voznja>(),
-                Lokacija = new Lokacija(),
-                Automobil = automobil
+                VoznjeID = new List<int>(),
+                AutomobilID = automobil.BrojTaksiVozila
 
             };
 
@@ -145,7 +145,7 @@ namespace TaxiApplication.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize()]
         [Route("Edit")]
         public async Task<IHttpActionResult> Edit([FromBody]EditKorisnikBindingModel model)
         {
@@ -177,8 +177,8 @@ namespace TaxiApplication.Controllers
             return Ok();
         }
 
-        [Authorize]
-        [Route("Edit")]
+        [Authorize(Roles= "Dispecer")]
+        [Route("EditD")]
         public async Task<IHttpActionResult> Edit([FromBody]EditVozacBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -187,13 +187,13 @@ namespace TaxiApplication.Controllers
             }
 
             TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
-            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.BrojRegistarskeOznake, model.KorisnickoIme, t);
-
+            Automobil a = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.BrojRegistarskeOznake, model.KorisnickoIme, t);
+            DataBase.automobili[int.Parse(model.BrojTaksiVozila)] = a;
             DataBase.Korisnici[model.KorisnickoIme].Ime = model.Ime;
             DataBase.Korisnici[model.KorisnickoIme].Prezime = model.Prezime;
             DataBase.Korisnici[model.KorisnickoIme].Email = model.Email;
             DataBase.Korisnici[model.KorisnickoIme].KontaktTelefon = model.KontaktTelefon;
-            ((Vozac)DataBase.Korisnici[model.KorisnickoIme]).Automobil = automobil;
+            ((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID = a.BrojTaksiVozila;
 
             ApplicationUser applicationUser = await UserManager.FindAsync(model.KorisnickoIme, DataBase.Korisnici[model.KorisnickoIme].Lozinka);
 

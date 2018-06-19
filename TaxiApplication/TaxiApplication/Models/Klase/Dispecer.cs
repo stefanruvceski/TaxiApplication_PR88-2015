@@ -14,7 +14,7 @@ namespace TaxiApplication.Models.Klase
             Lozinka = lozinka;
             Ime = ime;
             Prezime = prezime;
-            if (pol.Equals("m"))
+            if (pol.Equals("Muski"))
                 Pol = Polovi.Muski;
             else
                 Pol = Polovi.Zenski;
@@ -22,7 +22,9 @@ namespace TaxiApplication.Models.Klase
             Jmbg = jmbg;
             KontaktTelefon = kontaktTelefon;
             Email = email;
-            Uloga = Uloge.Musterija;
+            Uloga = Uloge.Dispecer;
         }
+
+      
     }
 }

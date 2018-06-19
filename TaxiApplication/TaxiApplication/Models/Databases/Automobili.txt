@@ -1,0 +1,4 @@
+-1|Nepoznato|-1|PutnickiAutomobil|Nepoznatno
+111|NS-010-LE|2011|KombiVozilo|vozac1
+222|NS-020-LE|2012|KombiVozilo|vozac2
+333|NS-030-LE|2013|PutnickiAutomobil|vozac3

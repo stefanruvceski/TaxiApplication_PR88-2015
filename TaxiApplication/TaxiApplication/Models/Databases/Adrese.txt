@@ -1,0 +1,13 @@
+-1|-1|-1|-1|-1
+1|Kolo Srpskih Sestara|22|Novi Sad|21000
+2|Puskinova|21|Novi Sad|21000
+3|Mise Dimitrijevica|7|Novi Sad|21000
+4|Brace Jerkovica|25|Novi Sad|21000
+5|Pariskih Komuna|77|Novi Sad|21000
+6|Kolo Srpskih Sestara|22|Novi Sad|21000
+7|Mise Dimitrijevica|7|Novi Sad|21000
+8|Puskinova|21|Novi Sad|21000
+9|Brace Jerkovica|25|Novi Sad|21000
+10|Kolo Srpskih Sestara|123|Novi Sad|123
+11|Kolo Srpskih Sestara|2|Novi Sad|2
+12|puskinova|1|Novi Sad|2

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Owin;
 using Owin;
+using TaxiApplication.Models.Klase;
 
 [assembly: OwinStartup(typeof(TaxiApplication.Startup))]
 
@@ -13,6 +14,7 @@ namespace TaxiApplication
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            DataBase.Run();
         }
     }
 }

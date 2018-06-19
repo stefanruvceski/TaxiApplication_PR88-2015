@@ -224,6 +224,21 @@ namespace TaxiApplication.Models
         public int PostanskiBroj { get; set; }
     }
 
+    public class VoznjaDetailsBindingModel
+    {
+        public string Adresa1 { get; set; }
+
+        public string Adresa2 { get; set; }
+
+        public string TipAutomobila { get; set; }
+        public string KorisnickoImeKorisnika { get; set; }
+        public string Ocena { get; set; }
+        public string Opis { get; set; }
+        public string StatusVoznje { get; set; }
+        
+        public string BrojTaksija { get; set; }
+    }
+
     public class KorisnikVoznjaBindingModel
     {
         //[Required]
@@ -247,6 +262,7 @@ namespace TaxiApplication.Models
         [Required]
         [Display(Name = "TipAutomobila")]
         public string TipAutomobila { get; set; }
+        public string VoznjaID { get; set; }
     }
 
     public class GetKorisnikVoznjaBindingModel
@@ -258,10 +274,10 @@ namespace TaxiApplication.Models
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
 
+        public string VoznjaID { get; set; }
         public string Polaziste { get; set; }
         public string Odrediste { get; set; }
-       
-        [Display(Name = "TipAutomobila")]
+ 
         public string TipAutomobila { get; set; }
         public string Ocena { get; set; }
         public string StatusVoznje { get; set; }
@@ -270,6 +286,13 @@ namespace TaxiApplication.Models
         public string BrojTaksija { get; set; }
 
         
+    }
+
+    public class KomentarBindingModel
+    {
+        public string Opis { get; set; }
+        public string VoznjaID { get; set; }
+        public string Ocena { get; set; }
     }
     #endregion
 

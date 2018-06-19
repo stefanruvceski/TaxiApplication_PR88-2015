@@ -14,7 +14,7 @@ namespace TaxiApplication.Models.Klase
             Lozinka = lozinka;
             Ime = ime;
             Prezime = prezime;
-            if (pol == "m")
+            if (pol.Equals("Muski"))
                 Pol = Polovi.Muski;
             else
                 Pol = Polovi.Zenski;

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using TaxiApplication.Models;
 using TaxiApplication.Models.Klase;
 
@@ -44,6 +45,7 @@ namespace TaxiApplication.Controllers
         [Route("api/korisnici/getme")]
         public Korisnik GetMe()
         {
+            var json = new JavaScriptSerializer().Serialize(DataBase.Korisnici[User.Identity.Name]);
             return DataBase.Korisnici[User.Identity.Name];
         }
 
@@ -68,7 +70,10 @@ namespace TaxiApplication.Controllers
         [Route("api/korisnici/editlocation")]
         public IHttpActionResult EditLocation([FromBody]LokacijaBindingModel model)
         {
-            ((Vozac)DataBase.Korisnici[User.Identity.Name]).Lokacija = new Lokacija( new Adresa(model.Broj, model.Ulica, model.Grad, model.PostanskiBroj));
+            Adresa adresa = new Adresa(User.Identity.Name,model.Broj, model.Ulica, model.Grad, model.PostanskiBroj);
+            
+            DataBase.adrese[User.Identity.Name] = adresa;
+            DataBase.lokacije[User.Identity.Name].AdresaID = adresa.Id;
             return Ok();
         }
 

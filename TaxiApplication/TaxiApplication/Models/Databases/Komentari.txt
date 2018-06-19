@@ -1,0 +1,7 @@
+-1|-1|Nula|1/1/0001 12:00:00 PM|-1|-1
+1||Nula|6/19/2018 2:17:39 AM|-1|teodorarrrr
+2|opis je veoma vazan|Nula|6/19/2018 2:43:53 AM|1|teodorarrrr
+3|opis je veoma vazan|Nula|6/19/2018 2:44:58 AM|1|teodorarrrr
+4|sdsadsd|Jedan|6/19/2018 2:45:19 AM|7|teodorarrrr
+5|Van big opis|Cetiri|6/19/2018 2:51:48 AM|1|teodorarrrr
+6|fsfsdfsdfsdfdsfdsfsd|Nula|6/19/2018 2:54:08 AM|3|teodorarrrr
