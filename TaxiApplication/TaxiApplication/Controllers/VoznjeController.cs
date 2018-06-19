@@ -78,10 +78,11 @@ namespace TaxiApplication.Controllers
             return voznja;
         }
 
-        [Route("api/voznje/details/")]
+        [Route("api/voznje/details/{id:int}")]
         [HttpGet]
-        public VoznjaDetailsBindingModel Details(int id)
+        public VoznjaDetailsBindingModel Detail(int id)
         {
+            //int id = int.Parse(idd);
             Adresa a1 = DataBase.adrese[DataBase.lokacije[DataBase.voznje[id].LokacijaID].AdresaID];
             Adresa a2 = DataBase.adrese[DataBase.lokacije[DataBase.voznje[id].OdredisteID].AdresaID];
             Komentar k = DataBase.komentari[DataBase.voznje[id].KomentarID];

@@ -24,7 +24,7 @@
                 id = data.target.id;
 
                 $.ajax({
-                    url: '/api/voznje/details/'+id+'/',
+                    url: '/api/voznje/details/'+id,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
