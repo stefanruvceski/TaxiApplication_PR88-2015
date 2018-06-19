@@ -47,7 +47,7 @@ namespace TaxiApplication.Models.Klase
             return retVal;
         }
 
-        public new static Korisnik FromString(string red)
+        public new static Vozac FromString(string red)
         {
             
             Vozac k = new Vozac();
@@ -71,7 +71,8 @@ namespace TaxiApplication.Models.Klase
             string[] ss = s[11].Split(']', '-', '[');
             for (int i = 1; i < ss.Length - 1; i++)
             {
-                k.VoznjeID.Add(int.Parse(ss[i]));
+                if (ss[i] != "")
+                    k.VoznjeID.Add(int.Parse(ss[i]));
             }
             k.lokacijaID = s[9];
             k.automobilID = int.Parse(s[10]);

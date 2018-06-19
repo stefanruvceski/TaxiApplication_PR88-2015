@@ -87,9 +87,10 @@ namespace TaxiApplication.Models.Klase
             {
                 Thread.CurrentThread.IsBackground = true;
                 string line;
-
+                
                 using (System.IO.TextReader readFile = new StreamReader(@"D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\Models\Databases\korisnici.txt"))
-                { 
+                {
+                    Korisnik k = null;
                     while (true)
                     {
                         line = readFile.ReadLine();
@@ -97,7 +98,10 @@ namespace TaxiApplication.Models.Klase
                         {
                             break;
                         }
-                        Korisnik k = Korisnik.FromString(line);
+                        if (line.Split('|')[8] == "Vozac")
+                            k = Vozac.FromString(line);
+                        else
+                            k= Korisnik.FromString(line);
                         Korisnici.Add(k.KorisnickoIme, k);
                     }
                 }

@@ -29,17 +29,17 @@
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
-                    success: function (data1) {
+                    success: function (data) {
 
-                        $('#Dadresa1').val(data1.Adresa1);
-                        $('#Dadresa2').val(data1.Adresa2);
-                        $('#DkorisnickoIme').val(data1.KorisnickoImeKorisnika);
-                        $('#DbrojTaksija').val(data1.BrojTaksija);
-                        $('#DtipAutomobila').val(data1.TipAutomobila);
-                        $('#DstatusVoznje').val(data1.statusVoznje);
-                        $('#Dopis').val(data1.Opis);
-                        $('#Docena').val(data1.Ocena);
-
+                        $('#Dadresa1').val(data.Adresa1);
+                        $('#Dadresa2').val(data.Adresa2);
+                        $('#DkorisnickoIme').val(data.KorisnickoImeKorisnika);
+                        $('#DbrojTaksija').val(data.BrojTaksija);
+                        $('#DtipAutomobila').val(data.TipAutomobila);
+                        $('#DstatusVoznje').val(data.StatusVoznje);
+                        $('#Dopis').val(data.Opis);
+                        $('#Docena').val(data.Ocena);
+                        $('#VoznjaDetailsModel').modal('show');
                     },
                 });
             });
@@ -75,6 +75,7 @@
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
                     success: function () {
+                        $('#opis').val('');
                         $('#PostKomentarModal').modal('show');
                         $('#btnRefreshStart').trigger("click");
                     }
@@ -588,11 +589,11 @@
 
                                     <tr>
                                         <td>Dolaziste</td>
-                                        <td><input type="text" id="Ddolaziste" disabled /></td>
+                                        <td><input type="text" id="Dadresa1" disabled /></td>
                                     </tr>
                                     <tr>
                                         <td>Odrediste</td>
-                                        <td><input type="number" disabled id="Dodrediste" /></td>
+                                        <td><input type="text" disabled id="Dadresa2" /></td>
                                     </tr>
                                     <tr>
                                         <td>Tip Automobila</td>
@@ -613,7 +614,8 @@
 
                                     <tr>
                                         <td>Opis</td>
-                                        <td><input type="text" disabled  id="Dopis" /></td>
+                                        <td><textarea id="Dopis" name="opis" class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
+
                                     </tr>
                                     <tr>
                                         <td>Ocena</td>
