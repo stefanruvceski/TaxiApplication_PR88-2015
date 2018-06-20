@@ -11,7 +11,8 @@ namespace TaxiApplication.Models.Klase
         DateTime datumIVreme = DateTime.Now;
         string lokacijaID = "-1";
         TipoviAutomobila tipAutomobila = TipoviAutomobila.PutnickiAutomobil;
-        string korisnikID = "-1";
+        string musterijaID = "-1";
+        string dispecerID = "-1";
         string odredisteID = "-1";
         string vozacID = "-1";
         double iznos = -1;
@@ -25,9 +26,9 @@ namespace TaxiApplication.Models.Klase
             this.datumIVreme = DateTime.Now;
             this.lokacijaID = lokacija;
             this.tipAutomobila = tipAutomobila;
-            this.korisnikID = musterija;
+            this.musterijaID = musterija;
             this.odredisteID = null;
-           
+            this.dispecerID = dispecer;
             this.vozacID = vozac;
             this.iznos = iznos;
             this.komentarID = komentar;
@@ -40,9 +41,9 @@ namespace TaxiApplication.Models.Klase
             this.datumIVreme = DateTime.Now;
             this.lokacijaID = lokacija;
             this.tipAutomobila = tipAutomobila;
-            this.korisnikID = musterija;
+            this.musterijaID = musterija;
             this.odredisteID = null;
-
+            this.dispecerID = dispecer;
             this.vozacID = vozac;
             this.iznos = iznos;
             this.komentarID = komentar;
@@ -52,7 +53,7 @@ namespace TaxiApplication.Models.Klase
         public DateTime DatumIVreme { get => datumIVreme; set => datumIVreme = value; }
         public string LokacijaID { get => lokacijaID; set => lokacijaID = value; }
         public TipoviAutomobila TipAutomobila { get => tipAutomobila; set => tipAutomobila = value; }
-        public string KorisnikID { get => korisnikID; set => korisnikID = value; }
+        public string MusterijaID { get => musterijaID; set => musterijaID = value; }
         public string OdredisteID { get => odredisteID; set => odredisteID = value; }
         
         public string VozacID { get => vozacID; set => vozacID = value; }
@@ -60,10 +61,11 @@ namespace TaxiApplication.Models.Klase
         public int KomentarID { get => komentarID; set => komentarID = value; }
         public StatusiVoznje StatusVoznje { get => statusVoznje; set => statusVoznje = value; }
         public int Id { get => id; set => id = value; }
+        public string DispecerID { get => dispecerID; set => dispecerID = value; }
 
         public override string ToString()
         {
-            return $"{Id}|{datumIVreme}|{statusVoznje.ToString()}|{tipAutomobila.ToString()}|{Iznos}|{vozacID}|{korisnikID}|{lokacijaID}|{odredisteID}|{komentarID}";
+            return $"{Id}|{datumIVreme}|{statusVoznje.ToString()}|{tipAutomobila.ToString()}|{Iznos}|{vozacID}|{musterijaID}|{dispecerID}|{lokacijaID}|{odredisteID}|{komentarID}";
         }
 
         public static Voznja FromString(string red)
@@ -76,9 +78,14 @@ namespace TaxiApplication.Models.Klase
                 string[] sss = ss[2].Split(' ');
                 StatusiVoznje status;
                 TipoviAutomobila tip;
-                string korisnik = "-1";
+                string musterija = "-1";
                 if (s[6] != "")
-                    korisnik = s[6];
+                    musterija = s[6];
+
+                string dispecer = "-1";
+                if (s[7] != "")
+                    dispecer = s[7];
+
                 Enum.TryParse(s[3], out tip);
                 Enum.TryParse(s[2], out status);
                 Voznja voznja = new Voznja
@@ -89,10 +96,11 @@ namespace TaxiApplication.Models.Klase
                     tipAutomobila = tip,
                     Iznos = double.Parse(s[4]),
                     vozacID = s[5],
-                    korisnikID = korisnik,
-                    lokacijaID = s[7],
-                    odredisteID = s[8],
-                    komentarID = int.Parse(s[9])
+                    musterijaID = musterija,
+                    dispecerID = dispecer,
+                    lokacijaID = s[8],
+                    odredisteID = s[9],
+                    komentarID = int.Parse(s[10])
                 };
                 return voznja;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -303,6 +304,7 @@ namespace TaxiApplication.Models
         public string VoznjaID { get; set; }
         public string Vozac { get; set; }
         public string Musterija { get; set; }
+        public string Dispecer { get; set; }
         public string Polaziste { get; set; }
         public string Odrediste { get; set; }
 
@@ -314,6 +316,32 @@ namespace TaxiApplication.Models
         public string BrojTaksija { get; set; }
 
 
+    }
+
+    public class ProcessDispecerVoznjaBindingModel
+    {
+        //[Required]
+        //[Display(Name = "X Koordinata")]
+        //public double XKoordinata { get; set; }
+        //[Required]
+        //[Display(Name = "Y Koordinata")]
+        //public double YKoordinata { get; set; }
+
+        public string Vozac { get; set; }
+        public string Musterija { get; set; }
+        public string Adresa { get; set; }
+        public List<string> Vozaci { get; set; }
+        public string TipAutomobila { get; set; }
+        public string StatusVoznje { get; set; }
+
+
+
+    }
+
+    public class ProcessVoznjaBindingModel
+    {
+        public string VozacID { get; set; }
+        public string VoznjaID { get; set; }
     }
 
     public class GetKorisnikVoznjaBindingModel

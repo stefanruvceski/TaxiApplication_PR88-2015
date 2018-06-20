@@ -7,3 +7,5 @@
 6|Brace Jerkovica|43|Novi Sad|21000
 7|Pariskih Komuna|2|Novi Sad|21000
 8|Alekse Santica|56|Novi Sad|21000
+9|Brace Ribnikara|16|Novi Sad|21000
+10|Bulevar Evrope|32|Novi Sad|21000

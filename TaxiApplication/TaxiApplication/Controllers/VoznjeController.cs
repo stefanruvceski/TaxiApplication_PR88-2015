@@ -13,6 +13,7 @@ namespace TaxiApplication.Controllers
     public class VoznjeController : ApiController
     {
         // GET: api/Voznje
+        [Authorize(Roles ="Dispecer")]
         public List<GetDispecerVoznjaBindingModel> Get()
         {
             List<GetDispecerVoznjaBindingModel> lista = new List<GetDispecerVoznjaBindingModel>();
@@ -47,10 +48,15 @@ namespace TaxiApplication.Controllers
                         else
                             model.Odrediste = DataBase.adrese[DataBase.lokacije[voznja.Value.OdredisteID].AdresaID].ToBindingString();
                     }
-                    if (DataBase.Korisnici[voznja.Value.KorisnikID].Uloga == Uloge.Musterija)
-                        model.Musterija = DataBase.Korisnici[voznja.Value.KorisnikID].KorisnickoIme;
+                    if (voznja.Value.MusterijaID != "-1")
+                        model.Musterija = DataBase.Korisnici[voznja.Value.MusterijaID].KorisnickoIme;
                     else
                         model.Musterija = "Nedefinisano";
+
+                    if (voznja.Value.DispecerID != "-1")
+                        model.Dispecer = DataBase.Korisnici[voznja.Value.DispecerID].KorisnickoIme;
+                    else
+                        model.Dispecer = "Nedefinisano";
 
                     lista.Add(model);
                 }
@@ -71,28 +77,40 @@ namespace TaxiApplication.Controllers
 
                     string polazisteID = DataBase.lokacije[DataBase.voznje[vv].LokacijaID].AdresaID;
 
-                    string odredisteID = "-1";
+                    string odredisteID = "Nedefinisano";
                     if (DataBase.voznje[vv].OdredisteID != "-1")
-                        odredisteID = DataBase.lokacije[DataBase.voznje[vv].OdredisteID].AdresaID;
+                        odredisteID = DataBase.adrese[DataBase.lokacije[DataBase.voznje[vv].OdredisteID].AdresaID].ToBindingString();
 
                     int komentarID = DataBase.voznje[vv].KomentarID;
-
+                    string brojtaksija = "";
                     string vozacID = DataBase.voznje[vv].VozacID;
-
-                    int automobilID = -1;
+                    string automobilID = "Nedefinisano";
                     if (vozacID != "-1")
-                        automobilID = ((Vozac)DataBase.Korisnici[vozacID]).AutomobilID;
+                        automobilID = ((Vozac)DataBase.Korisnici[vozacID]).AutomobilID.ToString();
+
+                    if (vozacID == "-1")
+                    {
+                        brojtaksija = "Nedefinisano";
+                    }
+                    else
+                    {
+                        brojtaksija = DataBase.automobili[int.Parse(automobilID)].BrojTaksiVozila.ToString();
+                    }
+                    string ocena = DataBase.komentari[komentarID].Ocena.ToString();
+                    if (ocena == "Nula")
+                        ocena = "Nedefinisano";
+
 
                     GetKorisnikVoznjaBindingModel v = new GetKorisnikVoznjaBindingModel()
                     {
                         VoznjaID = vv.ToString(),
                         Polaziste = DataBase.adrese[polazisteID].ToBindingString(),
-                        Odrediste = DataBase.adrese[odredisteID].ToBindingString(),
-                        Ocena = DataBase.komentari[komentarID].Ocena.ToString(),
+                        Odrediste = odredisteID,
+                        Ocena = ocena,
                         TipAutomobila = DataBase.voznje[vv].TipAutomobila.ToString(),
                         DatumIVreme = DataBase.voznje[vv].DatumIVreme.ToString(),
                         StatusVoznje = DataBase.voznje[vv].StatusVoznje.ToString(),
-                        BrojTaksija = DataBase.automobili[automobilID].BrojTaksiVozila.ToString()
+                        BrojTaksija = brojtaksija
                     };
                     voznje.Add(v);
                 }
@@ -120,7 +138,7 @@ namespace TaxiApplication.Controllers
 
         [Route("api/voznje/details/{id:int}")]
         [HttpGet]
-        [Authorize(Roles = "Dispecer")]
+
         public VoznjaDetailsBindingModel Detail(int id)
         {
             //int id = int.Parse(idd);
@@ -152,6 +170,40 @@ namespace TaxiApplication.Controllers
             return voznja;
         }
 
+        [Route("api/voznje/process/{id:int}")]
+        [HttpGet]
+        [Authorize(Roles = "Dispecer")]
+        public ProcessDispecerVoznjaBindingModel Process(int id)
+        {
+            Adresa a1 = DataBase.adrese[DataBase.lokacije[DataBase.voznje[id].LokacijaID].AdresaID];
+            Automobil a = DataBase.automobili[((Vozac)DataBase.Korisnici[DataBase.voznje[id].VozacID]).AutomobilID];
+            ProcessDispecerVoznjaBindingModel voznja = new ProcessDispecerVoznjaBindingModel();
+
+            voznja.Adresa = a1.ToBindingString();
+            voznja.Musterija = DataBase.Korisnici[DataBase.voznje[id].MusterijaID].KorisnickoIme;
+            voznja.StatusVoznje = DataBase.voznje[id].StatusVoznje.ToString();
+            voznja.TipAutomobila = DataBase.voznje[id].TipAutomobila.ToString();
+            voznja.Vozac = "Nedefinisano";
+
+            voznja.Vozaci = new List<string>();
+
+            bool isAvailable = true;
+            foreach (Korisnik k in DataBase.Korisnici.Values)
+            {
+                if (k.Uloga == Uloge.Vozac && k.KorisnickoIme != "-1")
+                {
+                    foreach (int i in k.VoznjeID)
+                        if (DataBase.voznje[i].StatusVoznje == StatusiVoznje.Prihvacena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Obradjena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Formirana)
+                            isAvailable = false;
+
+                    if (isAvailable && DataBase.automobili[((Vozac)k).AutomobilID].TipAutomobila.ToString() == voznja.TipAutomobila )
+                        voznja.Vozaci.Add(k.KorisnickoIme);
+                    isAvailable = true;
+                }
+            }
+            return voznja;
+        }
+
         // POST: api/Voznje
         public IHttpActionResult Post([FromBody]KorisnikVoznjaBindingModel value)
         {
@@ -166,7 +218,7 @@ namespace TaxiApplication.Controllers
                     TipoviAutomobila t; Enum.TryParse(value.TipAutomobila, out t);
                     Voznja voznja = new Voznja()
                     {
-                        KorisnikID = User.Identity.Name,
+                        MusterijaID = User.Identity.Name,
                         LokacijaID = lokacija.Id,
                         TipAutomobila = t,
                         DatumIVreme = DateTime.Now
@@ -212,7 +264,7 @@ namespace TaxiApplication.Controllers
                     TipoviAutomobila t; Enum.TryParse(value.TipAutomobila, out t);
                     Voznja voznja = new Voznja()
                     {
-                        KorisnikID = User.Identity.Name,
+                        DispecerID = User.Identity.Name,
                         LokacijaID = lokacija.Id,
                         TipAutomobila = t,
                         DatumIVreme = DateTime.Now,
@@ -242,6 +294,29 @@ namespace TaxiApplication.Controllers
             catch
             {
                 return InternalServerError(new Exception("Order error"));
+            }
+
+        }
+
+        [Route("api/voznje/dispecerprocess")]
+        [HttpPost]
+        [Authorize(Roles = "Dispecer")]
+        public IHttpActionResult DispecerProcess([FromBody]ProcessVoznjaBindingModel value)
+        {
+            try
+            {
+                DataBase.voznje[int.Parse(value.VoznjaID)].VozacID = value.VozacID;
+                DataBase.voznje[int.Parse(value.VoznjaID)].DispecerID = User.Identity.Name;
+                DataBase.Korisnici[value.VozacID].VoznjeID.Add(int.Parse(value.VoznjaID));
+                DataBase.voznje[int.Parse(value.VoznjaID)].StatusVoznje = StatusiVoznje.Obradjena;
+
+              
+                
+                return Ok();
+            }
+            catch
+            {
+                return InternalServerError(new Exception("Process error"));
             }
 
         }

@@ -6,3 +6,4 @@
 555|NS-050-LE|2015|PutnickiAutomobil|vozac5
 666|NS-060-LE|2015|KombiVozilo|vozac6
 777|NS-070-LE|2011|KombiVozilo|vozac7
+888|NS-080-LE|2018|KombiVozilo|vozac8
