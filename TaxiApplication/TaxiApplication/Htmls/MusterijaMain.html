@@ -81,6 +81,12 @@
                     }
                 });
             });
+
+            $('body').on('click', "input[name='BbtnRate']", function (data) {
+                id = data.target.id;
+                $('#ocena').removeAttr("disabled");
+                $('#PostKomentarModal').modal('show');
+            });
             $('#btnCommentPost').click(function () {
                 $.ajax({
                     url: '/api/komentari/',
@@ -212,8 +218,21 @@
                         $('#divData').removeClass('hidden');
                         $('#tblBody').empty();
                         $.each(data, function (index, value) {
-                            if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
-                                var row = $('<tr><td>' + value.BrojTaskija + '</td><td>'
+                            if(value.StatusVoznje == "Uspesna") {
+                                var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success"type = "button" value = "Rate" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }  
+                            else if(value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
+                                    var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
                                     + value.StatusVoznje + '</td><td>'
@@ -222,20 +241,20 @@
                                     + value.Ocena + '</td><td>'
                                     + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
                                     + '</td></tr>');
-                                    $('#tblData').append(row);
-                            }
-                            else if (value.StatusVoznje == "Otkazana") {
-                                var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
-                                    + value.Polaziste + '</td><td>'
-                                    + "Nedefinisano" + '</td><td>'
-                                    + value.StatusVoznje + '</td><td>'
-                                    + value.DatumIVreme + '</td><td>'
-                                    + value.TipAutomobila + '</td><td>'
-                                    + "Nedefinisano" + '</td><td>' 
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
-                                    + '</td></tr>');
                                 $('#tblData').append(row);
                             }
+                            //else if (value.StatusVoznje == "Otkazana") {
+                            //    var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
+                            //        + value.Polaziste + '</td><td>'
+                            //        + "Nedefinisano" + '</td><td>'
+                            //        + value.StatusVoznje + '</td><td>'
+                            //        + value.DatumIVreme + '</td><td>'
+                            //        + value.TipAutomobila + '</td><td>'
+                            //        + "Nedefinisano" + '</td><td>' 
+                            //        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                            //        + '</td></tr>');
+                            //    $('#tblData').append(row);
+                            //}
                             else {
                                 var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
                                     + value.Polaziste + '</td><td>'
@@ -271,24 +290,11 @@
                         $('#pIme').text(data.Ime);
                         $('#pPrezime').text(data.Prezime);
                         $('#pJmbg').text(data.Jmbg);
-                        if (data.Pol == "0") {
-                            $('#pPol').text("Muski");
-                        }
-                        else {
-                            $('#pPol').text("Zenski");
-                        }
-                        if (data.Uloga == "0") {
-                            $('#pUloga').text("Musterija");
-                        }
-                        else if (data.Uloga == "1") {
-                            $('#pUloga').text("Vozac");
-                        }
-                        else {
-                            $('#pUloga').text("Dispcer");
-                        }
+                        $('#pPol').text(data.Pol);
+                        $('#pUloga').text(data.Uloga);
                         $('#pKontaktTelefon').text(data.KontaktTelefon);
                         $('#pEmail').text(data.Email);
-                        $('#pLozinka').text(data.Lozinka);
+                        $('#pLozinka').text(data.Password);
                         $('#DetailsModal').modal('show');
                     }
                 });

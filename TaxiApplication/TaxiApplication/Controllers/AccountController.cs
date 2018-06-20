@@ -109,8 +109,8 @@ namespace TaxiApplication.Controllers
             //string[] s = Roles.GetAllRoles();
 
             Polovi p; Enum.TryParse(model.Pol, out p);
-            TipoviAutomobila t; Enum.TryParse(model.tipAutomobila, out t);
-            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.godisteAutomobila), model.KorisnickoIme, model.BrojRegistarskeOznake, t);
+            TipoviAutomobila t; Enum.TryParse(model.TipAutomobila, out t);
+            Automobil automobil = new Automobil(int.Parse(model.BrojTaksiVozila), int.Parse(model.GodisteAutomobila), model.KorisnickoIme, model.BrojRegistarskeOznake, t);
             DataBase.automobili.Add(automobil.BrojTaksiVozila, automobil);
             Vozac m = new Vozac()
             {

@@ -88,6 +88,39 @@ namespace TaxiApplication.Models
         [Display(Name = "Potvrda Lozinke")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+    }
+
+    public class KorisnikBindingModel
+    {
+        public string KorisnickoIme { get; set; }
+   
+        public string Ime { get; set; }
+
+        public string Prezime { get; set; }
+
+        public string Pol { get; set; }
+
+        public string Jmbg { get; set; }
+
+        public string KontaktTelefon { get; set; }
+        public string Uloga { get; set; }
+
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        public string ConfirmPassword { get; set; }
+
+        public string Ulica { get; set; }
+        public string Broj { get; set; }
+        public string Grad { get; set; }
+        public string PostanskiBroj { get; set; }
+        public string BrojTaksiVozila { get; set; }
+        public string TipAutomobila { get; set; }
+        public string GodisteAutomobila { get; set; }
+        public string BrojRegistarskeOznake { get; set; }
     }
 
     public class EditKorisnikBindingModel
@@ -112,6 +145,40 @@ namespace TaxiApplication.Models
         public string Email { get; set; }
 
         
+    }
+
+    public class VozacVoznjaBindingModel
+    {
+        public string VoznjaID { get; set; }
+        public string Polaziste { get; set; }
+        public string Odrediste { get; set; }
+        public string KorisnikID { get; set; }
+        public string DispecerID { get; set; }
+        public string StatusVoznje { get; set; }
+        public string DatumIVreme { get; set; }
+        public string Ocena { get; set; }
+        public string Iznos { get; set; }
+
+    }
+
+    public class StatusVoznjeBindingModel
+    {
+        public string Id { get; set; }
+        public string Status { get; set; }
+        [Required]
+        [Display(Name = "Ulica")]
+        public string Ulica { get; set; }
+        [Required]
+        [Display(Name = "Broj Ulice")]
+        public int Broj { get; set; }
+        [Required]
+        [Display(Name = "Grad")]
+        public string Grad { get; set; }
+        [Required]
+        [Display(Name = "Postanski Broj")]
+        public int PostanskiBroj { get; set; }
+        public string Opis { get; set; }
+        public string Iznos { get; set; }
     }
 
     public class EditVozacBindingModel
@@ -193,10 +260,10 @@ namespace TaxiApplication.Models
         public string BrojTaksiVozila { get; set; }
         [Required]
         [Display(Name = "Godiste Automobila")]
-        public string godisteAutomobila { get; set; }
+        public string GodisteAutomobila { get; set; }
         [Required]
         [Display(Name = "Tip Automobila")]
-        public string tipAutomobila { get; set; }
+        public string TipAutomobila { get; set; }
         [Required]
         [Display(Name = "Broj Registarske Oznake")]
         public string BrojRegistarskeOznake { get; set; }

@@ -84,42 +84,26 @@
                         $('#pIme').text(data.Ime);
                         $('#pPrezime').text(data.Prezime);
                         $('#pJmbg').text(data.Jmbg);
-                        if (data.Pol == "0") {
-                            $('#pPol').text("Muski");
-                        }
-                        else {
-                            $('#pPol').text("Zenski");
-                        }
-                        if (data.Uloga == "0") {
-                            $('#pUloga').text("Musterija");
-                        }
-                        else if (data.Uloga == "1") {
-                            $('#pUloga').text("Vozac");
-                        }
-                        else {
-                            $('#pUloga').text("Dispcer");
-                        }
+                        $('#pPol').text(data.Pol);
+                        $('#pUloga').text(data.Uloga);
+                       
                         $('#pKontaktTelefon').text(data.KontaktTelefon);
                         $('#pEmail').text(data.Email);
-                        $('#pLozinka').text(data.Lozinka);
+                        $('#pLozinka').text(data.Password);
 
-                        $('#pXKoordinata').text(data.Lokacija.XKoordinata);
-                        $('#pYKoordinata').text(data.Lokacija.YKoordinata);
-                        $('#pUlica').text(data.Lokacija.Adresa.Ulica);
-                        $('#pBroj').text(data.Lokacija.Adresa.Broj);
-                        $('#pGrad').text(data.Lokacija.Adresa.Grad);
-                        $('#pPostanskiBroj').text(data.Lokacija.Adresa.PostanskiBroj);
+                        //$('#pXKoordinata').text(data.Lokacija.XKoordinata);
+                        //$('#pYKoordinata').text(data.Lokacija.YKoordinata);
+                        $('#pUlica').text(data.Ulica);
+                        $('#pBroj').text(data.Broj);
+                        $('#pGrad').text(data.Grad);
+                        $('#pPostanskiBroj').text(data.PostanskiBroj);
 
-                        $('#pBrojTaksiVozila').text(data.Automobil.BrojTaksiVozila);
-                        $('#pGodisteAutomobila').text(data.Automobil.Godiste);
-                        if (data.Automobil.TipAutomobila == "0") {
-                            $('#pTipAutomobila').text("Putnicki Automobil");
-                        }
-                        else {
-                            $('#pTipAutomobila').text("Kombi Vozilo");
-                        }
+                        $('#pBrojTaksiVozila').text(data.BrojTaksiVozila);
+                        $('#pGodisteAutomobila').text(data.GodisteAutomobila);
+                        $('#pTipAutomobila').text(data.TipAutomobila);
                         
-                        $('#pBrojRegistarskeOznake').text(data.Automobil.BrojRegistarskeOznake);
+                        
+                        $('#pBrojRegistarskeOznake').text(data.BrojRegistarskeOznake);
 
                         $('#DetailsModal').modal('show');
 
@@ -163,6 +147,126 @@
                 window.location.href = "Login.html";
             });
             
+            $('#btnRefreshStart').click(function () {
+                $.ajax({
+                    url: '/api/voznje/getmyd',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+                        $('#divData').removeClass('hidden');
+                        $('#tblBody').empty();
+                        $.each(data, function (index, value) {
+                            if (value.StatusVoznje != "Neuspesna" && value.StatusVoznje != "Uspesna") {
+                                var row = $('<tr><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.KorisnikID + '</td><td>'
+                                    + value.DispecerID + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    + value.Iznos + '</td><td>'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnUspesnaNeuspesna" class="btn btn-success"type = "button" value = "Uspesna" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnUspesnaNeuspesna" class="btn btn-success"type = "button" value = "Neuspesna" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                            else {
+                                var row = $('<tr><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.KorisnikID + '</td><td>'
+                                    + value.DispecerID + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    + value.Iznos + '</td><td>'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                        });
+                    },
+                    error: function (data) {
+                        alert(data + "fgdfdfdfd");
+                    }
+
+                });
+            });
+
+            $('body').on('click', "input[name='BbtnUspesnaNeuspesna']", function (data) {
+                id = data.target.id;
+                status = data.target.value;
+                $('#KomentarBody').empty();
+                var content;
+                if (status == "Uspesna") {
+                    content = '<tr>' +
+                        '<td>Ulica</td>' +
+                        '<td> <input type="text" id="ulica" name="ulica" placeholder="Ulica" /></td> ' +
+                        '</tr><tr> ' +
+                        '<td> Broj</td > ' +
+                        '<td> <input type="number" id="broj" name="broj" placeholder="Broj" /></td> ' +
+                        '</tr><tr> ' +
+                        '<td> Grad</td> ' +
+                        '<td> <input type="text" id="grad" name="grad" placeholder="Grad" /></td> ' +
+                        '</tr><tr> ' +
+                        '<td> Postanski Broj</td > ' +
+                        '<td> <input type="number" id="postanskiBroj" name="postanskiBroj" placeholder="Postanski Broj" /></td> ' +
+                        '</tr>< tr > ' +
+                        '<td> Iznos</td> ' +
+                        '<td> <input type="number" id="iznos" name="iznos" placeholder="Iznos" /></td> ' +
+                        '</tr><tr class="success">' +
+                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Post" /></td>' +
+                        '</tr>';
+                }
+                else {
+                    content = '<tr>' +
+                        '<td>Opis</td>'+
+                        '<td><textarea id="opis" name="opis" placeholder="Enter text here..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>' +
+                        '</tr>' +
+                        '</tr><tr class="success">' +
+                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Post" /></td>' +
+                        '</tr>';
+                }
+                $('#KomentarBody').append(content)
+                $('#PostKomentarModal').modal('show');
+                
+            });
+            $('body').on('click', "input[id='btnCommentPost']", function (data){
+                $.ajax({
+                    url: '/api/voznje/zavrsena/',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    data: {
+                        Id: id,
+                        Status: status,
+                        ulica: $('input[name="ulica"]').val(),
+                        broj: $('input[name="broj"]').val(),
+                        grad: $('input[name="grad"]').val(),
+                        postanskiBroj: $('input[name="postanskiBroj"]').val(),
+                        Iznos: $('input[name="iznos"]').val(),
+                        opis: $('input[name="opis"]').val()
+                    },
+                    success: function (data) {
+                        $('#PostKomentarModal').modal('hide');
+                        $('#btnRefreshStart').trigger('click');
+                        $('#successContent').text('Post Successful!')
+                        $('#successModal').modal('show');
+                        //$('#Dadresa1').val(data.Adresa1);
+                        //$('#Dadresa2').val(data.Adresa2);
+                        //$('#DkorisnickoIme').val(data.KorisnickoImeKorisnika);
+                        //$('#DbrojTaksija').val(data.BrojTaksija);
+                        //$('#DtipAutomobila').val(data.TipAutomobila);
+                        //$('#DstatusVoznje').val(data.StatusVoznje);
+                        //$('#Dopis').val(data.Opis);
+                        //$('#Docena').val(data.Ocena);
+                        //$('#VoznjaDetailsModel').modal('show');
+                    },
+                });
+            });
 
            
         });
@@ -175,17 +279,22 @@
             <input id="btnEditStart" class="btn btn-success" type="button" value="Edit Profile" />
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
             <input id="btnLocationStart" class="btn btn-success" type="button" value="Edit Location" />
+            <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
             <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
         </div>
         <div id="divData" class="well hidden">
             <table class="table table-bordered" id="tblData">
                 <thead>
                     <tr class="success">
-                        <td>ID</td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Gender</td>
-                        <td>Salary</td>
+                        <td>Polaziste</td>
+                        <td>Odrediste</td>
+                        <td>Korisnik</td>
+                        <td>Dispecer</td>
+                        <td>Status Voznje</td>
+                        <td>Datum I Vreme</td>
+                        <td>Ocena</td>
+                        <td>Iznos</td>
+                        <td>Opcije</td>
                     </tr>
                 </thead>
                 <tbody id="tblBody"></tbody>
@@ -538,6 +647,52 @@
                             </table>
                         </div>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="PostKomentarModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Post Comment</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="modal-content">
+                            <!--This table contains the fields that we want to capture to register a new user-->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="success">
+                                        <th colspan="2">
+                                            Fill in information
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="KomentarBody">
+                                    
+                                   
+                                    
+                                    
+                                       
+
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success"

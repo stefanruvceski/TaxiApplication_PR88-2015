@@ -225,7 +225,7 @@ namespace TaxiApplication.Models.Klase
                             tw.WriteLine(item.ToString());
                         }
                     }
-                    Thread.Sleep(5000);
+                    Thread.Sleep(10000);
                 }                
             }).Start();
         }

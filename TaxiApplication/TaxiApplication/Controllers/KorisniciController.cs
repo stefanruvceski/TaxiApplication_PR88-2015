@@ -30,10 +30,35 @@ namespace TaxiApplication.Controllers
 
         // GET: api/Korisnici
         [Route("api/korisnici/getme")]
-        public Korisnik GetMe()
+        public KorisnikBindingModel GetMe()
         {
-            var json = new JavaScriptSerializer().Serialize(DataBase.Korisnici[User.Identity.Name]);
-            return DataBase.Korisnici[User.Identity.Name];
+            KorisnikBindingModel model = new KorisnikBindingModel();
+            Korisnik k = DataBase.Korisnici[User.Identity.Name];
+            
+            model.KorisnickoIme = k.KorisnickoIme;
+            model.Ime = k.Ime;
+            model.Prezime = k.Prezime;
+            model.Jmbg = k.Jmbg;
+            model.KontaktTelefon = k.KontaktTelefon;
+            model.Password = k.Lozinka;
+            model.Pol = k.Pol.ToString();
+            model.Email = k.Email;
+            model.Uloga = k.Uloga.ToString();
+            if (User.IsInRole("Vozac"))
+            {
+                Automobil a = DataBase.automobili[((Vozac)k).AutomobilID];
+                Adresa aa = DataBase.adrese[DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID].AdresaID];
+                model.BrojTaksiVozila = a.BrojTaksiVozila.ToString();
+                model.BrojRegistarskeOznake = a.BrojRegistarskeOznake;
+                model.TipAutomobila = a.TipAutomobila.ToString();
+                model.GodisteAutomobila = a.Godiste.ToString();
+                model.Ulica = aa.Ulica;
+                model.Broj = aa.Broj.ToString();
+                model.Grad = aa.Grad;
+                model.PostanskiBroj = aa.PostanskiBroj.ToString();
+            }
+
+            return model;
         }
 
         // GET: api/Korisnici
@@ -80,10 +105,11 @@ namespace TaxiApplication.Controllers
         [Route("api/korisnici/editlocation")]
         public IHttpActionResult EditLocation([FromBody]LokacijaBindingModel model)
         {
-            Adresa adresa = new Adresa(User.Identity.Name,model.Broj, model.Ulica, model.Grad, model.PostanskiBroj);
-            
-            DataBase.adrese[User.Identity.Name] = adresa;
-            DataBase.lokacije[User.Identity.Name].AdresaID = adresa.Id;
+            Adresa adresa = new Adresa( model.Broj,model.Ulica, model.Grad, model.PostanskiBroj);
+            Lokacija lokacija = new Lokacija(adresa.Id);
+            DataBase.adrese.Add(adresa.Id,adresa);
+            DataBase.lokacije.Add(lokacija.Id, lokacija);
+            ((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID = lokacija.Id;
             return Ok();
         }
 

@@ -19,10 +19,10 @@ namespace TaxiApplication.Models.Klase
         int komentarID = -1;
         StatusiVoznje statusVoznje = StatusiVoznje.Kreirana_NaCekanju;
         
-        public Voznja() { this.id = DataBase.voznje.Count; }
+        public Voznja() { this.id = DataBase.voznje.Count+1; }
         public Voznja( string lokacija, double iznos, string vozac = "-1", TipoviAutomobila tipAutomobila = TipoviAutomobila.PutnickiAutomobil, string musterija = "-1",string dispecer = "-1",int komentar = -1,StatusiVoznje statusVoznje = StatusiVoznje.Kreirana_NaCekanju)
         {
-            this.id = DataBase.voznje.Count;
+            this.id = DataBase.voznje.Count+1;
             this.datumIVreme = DateTime.Now;
             this.lokacijaID = lokacija;
             this.tipAutomobila = tipAutomobila;

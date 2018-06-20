@@ -100,7 +100,7 @@
                         confirmPassword: $('#confirmPassword').val(),
                         brojTaksiVozila: $('#brojTaksiVozila').val(),
                         godisteAutomobila: $('#godisteAutomobila').val(),
-                        tipAutomobila: $("#tipAutomobila:checked").val(),
+                        tipAutomobila: $("#RtipAutomobila:checked").val(),
                         brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
@@ -135,7 +135,7 @@
             });
             $('#btnEdit').click(function () {
                 $.ajax({
-                    url: '/api/Account/EditD/',
+                    url: '/api/Account/Edit/',
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -176,24 +176,11 @@
                         $('#pIme').text(data.Ime);
                         $('#pPrezime').text(data.Prezime);
                         $('#pJmbg').text(data.Jmbg);
-                        if (data.Pol == "0") {
-                            $('#pPol').text("Muski");
-                        }
-                        else {
-                            $('#pPol').text("Zenski");
-                        }
-                        if (data.Uloga == "0") {
-                            $('#pUloga').text("Musterija");
-                        }
-                        else if (data.Uloga == "1") {
-                            $('#pUloga').text("Vozac");
-                        }
-                        else {
-                            $('#pUloga').text("Dispcer");
-                        }
+                        $('#pPol').text(data.Pol);
+                        $('#pUloga').text(data.Uloga);
                         $('#pKontaktTelefon').text(data.KontaktTelefon);
                         $('#pEmail').text(data.Email);
-                        $('#pLozinka').text(data.Lozinka);
+                        $('#pLozinka').text(data.Password);
                         $('#DetailsModal').modal('show');
                     }
                 });
@@ -306,7 +293,7 @@
                         grad: $('#grad').val(),
                         postanskiBroj: $('#postanskiBroj').val(),
                         VozacId : $('#vozaci').val(),
-                        tipAutomobila: $("#tipAutomobila:checked").val(),
+                        tipAutomobila: $("#OtipAutomobila:checked").val(),
                         VoznjaID: id
 
                         //brojTaksiVozila: $('#brojTaksiVozila').val(),
@@ -501,10 +488,10 @@
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-                                            <input type="radio" name="tipAutomobila" checked="checked" value="PutnickoVozilo" id="tipAutomobila">
+                                            <input type="radio" name="tipAutomobila" checked="checked" value="PutnickoVozilo" id="RtipAutomobila">
                                             <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
-                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="tipAutomobila">
+                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="RtipAutomobila">
                                             <label for="KombiVozilo">Kombi Vozilo</label>
                                         </td>
                                     </tr>
@@ -786,10 +773,10 @@
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-                                            <input type="radio" name="tipAutomobila" value="PutnickoVozilo" checked="checked" id="tipAutomobila">
+                                            <input type="radio" name="tipAutomobila" value="PutnickoVozilo" checked="checked" id="OtipAutomobila">
                                             <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
-                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="tipAutomobila">
+                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="OtipAutomobila">
                                             <label for="KombiVozilo">Kombi Vozilo</label>
                                         </td>
                                     </tr>
