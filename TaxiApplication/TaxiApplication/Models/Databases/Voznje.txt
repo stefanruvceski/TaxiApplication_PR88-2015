@@ -14,4 +14,6 @@
 14|6/20/2018 9:15:12 AM|Uspesna|PutnickiAutomobil|-1|vozac1|-1|stefanrrr|14|15|-1
 15|6/20/2018 9:19:50 AM|Uspesna|PutnickiAutomobil|-1|vozac9|teodorarrrr|stefanrrr|16|17|-1
 16|6/20/2018 9:47:10 AM|Uspesna|PutnickiAutomobil|-1|vozac3|teodorarrrr|stefanrrr|19|20|3
-17|6/20/2018 9:51:51 PM|Uspesna|PutnickiAutomobil|450|vozac3|-1|stefanrrr|21|25|-1
+17|6/20/2018 9:51:51 AM|Uspesna|PutnickiAutomobil|450|vozac3|-1|stefanrrr|21|25|-1
+18|6/21/2018 1:05:31 AM|Prihvacena|PutnickiAutomobil|-1|vozac1|teodorarrrr|-1|26|-1|-1
+19|6/21/2018 1:25:45 AM|Prihvacena|PutnickiAutomobil|-1|vozac1|teodorarrrr|-1|27|-1|-1

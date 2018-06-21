@@ -24,3 +24,5 @@
 23|kolo srpskih sestara|77|Novi Sad|21000
 24|kolo srpskih sestara|77|Novi Sad|21000
 25|kolo srpskih sestara|77|Novi Sad|21000
+26|Kolo Srpskih Sestara|17|Novi Sad|21000
+27|Mise Dimitrijevica|14|Novi Sad|21000

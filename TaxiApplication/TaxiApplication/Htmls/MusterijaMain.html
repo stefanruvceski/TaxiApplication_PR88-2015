@@ -208,8 +208,9 @@
             });
 
             $('#btnRefreshStart').click(function () {
+                var flag = $('#statusVoznje').val();
                 $.ajax({
-                    url: '/api/voznje/getmy',
+                    url: '/api/voznje/getmy/'+flag,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -311,6 +312,18 @@
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
             <input id="btnOrderStart" class="btn btn-success" type="button" value="Pozovi Taksi" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
+        
+                <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
+                    <option value="-1">Status Voznje</option>
+                    <option value="0">Kreirana</option>
+                    <option value="1">Formirana</option>
+                    <option value="2">Obradjena</option>
+                    <option value="3">Prihvacena</option>
+                    <option value="4">Otkazana</option>
+                    <option value="5">Neuspesna</option>
+                    <option value="6">Uspesna</option>
+                </select>
+           
             <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
         </div>
         <div id="divData" class="well hidden">

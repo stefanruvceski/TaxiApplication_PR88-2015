@@ -187,8 +187,9 @@
             });
 
             $('#btnRefreshStart').click(function () {
+                var flag = $('#view:checked').val();
                 $.ajax({
-                    url: '/api/voznje',
+                    url: '/api/voznje/getbyflag/'+flag,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -327,6 +328,9 @@
             <input id="btnFormOrderStart" class="btn btn-success" type="button" value="Formiraj voznju" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
             <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
+            <br />
+            <label class="radio-inline"><input type="radio" id="view"  value="1" name="view">Sve</label>
+            <label class="radio-inline"><input type="radio" id="view" checked value="-1" name="view">Moje</label>
         </div>
         <div id="divData" class="well hidden">
             <table class="table table-bordered " id="tblData">

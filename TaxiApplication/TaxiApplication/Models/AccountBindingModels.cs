@@ -158,6 +158,7 @@ namespace TaxiApplication.Models
         public string DatumIVreme { get; set; }
         public string Ocena { get; set; }
         public string Iznos { get; set; }
+        public string Flag { get; set; }
 
     }
 
