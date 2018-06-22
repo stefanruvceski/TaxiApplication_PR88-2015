@@ -315,6 +315,22 @@ namespace TaxiApplication.Controllers
             return voznja;
         }
 
+        // GET: api/Voznje/flag/datum/ocena/odDatum/doDatum/odOcena/doOcena/odCena/doCena
+        public KorisnikVoznjaBindingModel Gets(int flag,string datum,string ocena, DateTime odDatum, DateTime doDatum, int odOcena, int doOcena, int odCena, int doCena)
+        {
+            //Adresa a = DataBase.adrese[DataBase.lokacije[DataBase.voznje[id].LokacijaID].AdresaID];
+            //KorisnikVoznjaBindingModel voznja = new KorisnikVoznjaBindingModel()
+            //{
+            //    Broj = a.Broj,
+            //    Ulica = a.Ulica,
+            //    Grad = a.Grad,
+            //    PostanskiBroj = a.PostanskiBroj,
+            //    TipAutomobila = DataBase.voznje[id].TipAutomobila.ToString()
+            //};
+            //return voznja;
+            return new KorisnikVoznjaBindingModel();
+        }
+
         [Route("api/voznje/details/{id:int}")]
         [HttpGet]
 

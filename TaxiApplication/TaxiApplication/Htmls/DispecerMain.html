@@ -6,8 +6,46 @@
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .Btn {
+            display: inline-block;
+            border: none;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .btn-lg {
+            padding: 10px 16px;
+            font-size: 18px;
+            border-radius: 6px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+
+        .Btn-success {
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+            .btn-success:hover,
+            .btn-success:focus,
+            .btn-success:active {
+                color: #fff;
+                background-color: #449d44;
+                border-color: #398439;
+            }
+    </style>
     <script type="text/javascript">
-        
+
         $(document).ready(function () {
             var page = window.location.pathname.split('/');
             if (localStorage.getItem('accessToken') == null) {
@@ -40,7 +78,7 @@
                         $('#ProcessOrderModal').modal('show');
                     },
                 });
-            }); 
+            });
             $('#btnProcessOrder').click(function () {
 
                 $.ajax({
@@ -50,9 +88,9 @@
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
                     data: {
-                        VoznjaId:id,
+                        VoznjaId: id,
                         VozacId: $('#Pvozaci').val(),
-                       
+
 
                         //brojTaksiVozila: $('#brojTaksiVozila').val(),
                         //godisteAutomobila: $('#godisteAutomobila').val(),
@@ -219,11 +257,18 @@
 
             $('#btnRefreshStart').click(function () {
                 var flag = $('#view:checked').val();
-
+                var datum = $('#datum:checked').val();
+                var ocena = $('#ocena:checked').val();
+                var odDatum = $('#Dstart').val();
+                var doDatum = $('#Dend').val();
+                var odOcena = $('#Ostart').val();
+                var doOcena = $('#Oend').val();
+                var odCena = $('#Cstart').val();
+                var doCena = $('#Cend').val();
                 $('#username').text(localStorage.getItem('username'));
 
                 $.ajax({
-                    url: '/api/voznje/getbyflag/'+flag,
+                    url: '/api/voznje?flag='+ flag+'&datum='+datum+'&ocena='+ocena+'&odDatum='+odDatum+'&doDatum='+doDatum+'&odOcena='+odOcena+'&doOcena='+doOcena+'&odCena='+odCena+'&doCena='+doCena,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -231,7 +276,7 @@
                     success: function (data) {
                         $('#divData').removeClass('hidden');
                         $('#tblBody').empty();
-                        
+
                         $.each(data, function (index, value) {
                             if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
                                 var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
@@ -330,7 +375,7 @@
                         $('#OrderModal').modal('show');
                         var vozaci = '';
                         $.each(data, function (index, value) {
-                           vozaci += '<option value=' + value + '>'+value+'</option>'
+                            vozaci += '<option value=' + value + '>' + value + '</option>'
                         });
                         $('#vozaci').append(vozaci);
                         $('#FormOrderModal').modal('show');
@@ -350,7 +395,7 @@
                         broj: $('#broj').val(),
                         grad: $('#grad').val(),
                         postanskiBroj: $('#postanskiBroj').val(),
-                        VozacId : $('#vozaci').val(),
+                        VozacId: $('#vozaci').val(),
                         tipAutomobila: $("#OtipAutomobila:checked").val(),
                         VoznjaID: id
 
@@ -371,13 +416,14 @@
                     }
                 });
             });
+
         });
     </script>
 </head>
 <body style="padding-top:20px">
 
 
-    <div  class="col-md-10 col-md-offset-1">
+    <div  class="col-md-10 col-md-offset-1" style="text-align:center">
         <div id="Buttons" class="well">
             <div class="pull-right">
                 <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
@@ -390,60 +436,106 @@
             <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
 
-            <br />
-            <label class="radio-inline"><input type="radio" id="view" value="1" name="view">Sve</label>
-            <label class="radio-inline"><input type="radio" id="view" checked value="-1" name="view">Moje</label>
-        </div>
-        <div id="divData" class="well hidden">
-            <table class="table table-bordered" id="tblData">
-                <thead>
-                    <tr class="success">
-                        <td>Broj Taksija</td>
-                        <td>Vozac</td>
-                        <td>Musterija</td>
-                        <td>Dispecer</td>
-                        <td>Polaziste</td>
-                        <td>Odrediste</td>
-                        <td>Status Voznje</td>
-                        <td>Datum I Vreme</td>
-                        <td>Tip Automobila</td>
-                        <td>Ocena</td>
-                        <td>Opcije</td>
-                    </tr>
-                </thead>
-                <tbody id="tblBody"></tbody>
-            </table>
-        </div>
 
-        <div class="modal fade" tabindex="-1" id="errorModal"
-             data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Session Expired</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <h2 class="modal-title">Close this message to login again</h2>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger"
-                                data-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
+            <div id="Izbor" class="Btn-success Btn " style="display:inline-block;">
+                <label class="radio-inline"><input type="radio" id="view" value="1" name="view">Sve</label>
+                <label class="radio-inline"><input type="radio" id="view" checked value="-1" name="view">Moje</label>
+            </div>
+            <br /><br />
+            <div id="Sortiranje" class="Btn-success Btn " style="display:inline-block;padding-top:13px;padding-bottom:8px">
+                <label>Sortiranje</label>
+                <label class="checkbox-inline"><input  type="checkbox" id="datum" value="datum">Datum</label>
+                <label class="checkbox-inline"><input type="checkbox" id="ocena" value="ocena">Ocena</label>
+            </div>
+            <div id="Datum" class="Btn Btn-success " style="display:inline-block;">
+
+                <div style="display:inline-block">
+                    <label for="date">Datum</label>
+                    <input type="date" id="Dstart" class="Btn Btn-success"  name="search" value="2018-06-01" min="2018-01-01" max="2018-12-31" />
+                    <input type="date" id="Dend" class="Btn Btn-success"  name="search" value="2018-06-28" min="2018-01-01" max="2018-12-31" />
+                </div>
+            </div>
+            <div id="Ocena" class="Btn Btn-success " style="display:inline-block;padding-top:7px">
+                <div style="display:inline-block">
+                    <label for="date">Ocena</label>
+                    <select style="width:70px;display:inline-block" class="form-control btn btn-success" id="Ostart">
+                        <option selected value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <select style="width:70px;display:inline-block" class="form-control btn btn-success" id="Oend">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option selected value="5">5</option>
+                    </select>
+                </div>
+            </div>
+            <div id="Cena" class="Btn Btn-success " style="display:inline-block;padding-bottom:8px;padding-top:7px">
+                <div style="display:inline-block">
+                    <label for="date">Cena</label>
+                    <input type="number" class="Btn Btn-success" id="Cstart" style="width:70px";name="name" value="0" min="0" />
+                    <input type="number" class="Btn Btn-success" id="Cend" style="width:70px;" name="name" value="2000" min="0" />
                 </div>
             </div>
         </div>
-        <div id="divError" class="alert alert-danger collapse">
-            <a id="linkClose" href="#" class="close">&times;</a>
-            <div id="divErrorText"></div>
+   
+
+            <div id="divData" class="well hidden">
+                <table class="table table-bordered" id="tblData">
+                    <thead>
+                        <tr class="success">
+                            <td>Broj Taksija</td>
+                            <td>Vozac</td>
+                            <td>Musterija</td>
+                            <td>Dispecer</td>
+                            <td>Polaziste</td>
+                            <td>Odrediste</td>
+                            <td>Status Voznje</td>
+                            <td>Datum I Vreme</td>
+                            <td>Tip Automobila</td>
+                            <td>Ocena</td>
+                            <td>Opcije</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+
+            <div class="modal fade" tabindex="-1" id="errorModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Session Expired</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <h2 class="modal-title">Close this message to login again</h2>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger"
+                                    data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" href="#" class="close">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
         </div>
-    </div>
 
 
     <div class="modal fade" tabindex="-1" id="successModal"
