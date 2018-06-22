@@ -134,7 +134,7 @@ namespace TaxiApplication.Controllers
                     voznje.Add(v);
                 }
             }
-
+            
             if (flag == -1)
             {
                 return voznje;
@@ -244,14 +244,23 @@ namespace TaxiApplication.Controllers
                             DatumIVreme = DataBase.voznje[vv.Key].DatumIVreme.ToString(),
                             StatusVoznje = DataBase.voznje[vv.Key].StatusVoznje.ToString(),
                             Iznos = "Nepoznato"
+                            
                         };
 
                         voznje.Add(v);
                     }
                 }
             }
-
-
+            if (voznje.Count == 0)
+                voznje.Add(new VozacVoznjaBindingModel());
+            if (DataBase.voznje.Values.ToList().FindAll(x=>(x.VozacID == User.Identity.Name) && (x.StatusVoznje == StatusiVoznje.Obradjena || x.StatusVoznje == StatusiVoznje.Prihvacena || x.StatusVoznje == StatusiVoznje.Formirana)).Count > 0)
+            {
+                voznje[0].Flag = 1;
+            }
+            else
+            {
+                voznje[0].Flag = -1;
+            }
             return voznje;
 
         }

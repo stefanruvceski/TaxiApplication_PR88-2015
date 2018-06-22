@@ -109,6 +109,36 @@
                 });
             })
 
+            
+            $('#btnChangePasswordStart').click(function () {
+                $('#changePasswordModal').modal('show');
+            });
+            $('#btnChangePassword').click(function () {
+
+                $.ajax({
+                    url: '/api/Account/ChangePassword',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    data: {
+                        OldPassword: $('#lozinka1').val(),
+                        NewPassword: $('#lozinka2').val(),
+                        ConfirmPassword: $('#lozinka3').val()
+                    },
+                    success: function () {
+                        $('#changePasswordModal').modal('hide');
+                        $('#successContent').text('Promena je uspesno izvrsena!')
+                        $('#successModal').modal('show');
+                        $('#btnRefreshStart').trigger("click");
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
             $('#btnLogoff').click(function () {
                 localStorage.removeItem('accessToken');
                 window.location.href = "Login.html";
@@ -208,6 +238,7 @@
             });
 
             $('#btnRefreshStart').click(function () {
+                $('#username').text(localStorage.getItem('username'));
                 var flag = $('#statusVoznje').val();
                 $.ajax({
                     url: '/api/voznje/getmy/'+flag,
@@ -308,23 +339,28 @@
 
     <div class="col-md-11 col-md-offset-1">
         <div id="buttons" class="well">
-            <input id="btnEditStart" class="btn btn-success" type="button" value="Edit Profile" />
-            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
+            <div class="pull-right">
+                <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
+                <p style="text-align:center" id="username"></p>
+            </div>
+            <input id="btnEditStart" class="btn btn-success" type="button" value="Izmeni Podatke" />
+            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Prikaz Podataka" />
             <input id="btnOrderStart" class="btn btn-success" type="button" value="Pozovi Taksi" />
+            <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
-        
-                <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
-                    <option value="-1">Status Voznje</option>
-                    <option value="0">Kreirana</option>
-                    <option value="1">Formirana</option>
-                    <option value="2">Obradjena</option>
-                    <option value="3">Prihvacena</option>
-                    <option value="4">Otkazana</option>
-                    <option value="5">Neuspesna</option>
-                    <option value="6">Uspesna</option>
-                </select>
-           
-            <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
+
+            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
+                <option value="-1">Status Voznje</option>
+                <option value="0">Kreirana</option>
+                <option value="1">Formirana</option>
+                <option value="2">Obradjena</option>
+                <option value="3">Prihvacena</option>
+                <option value="4">Otkazana</option>
+                <option value="5">Neuspesna</option>
+                <option value="6">Uspesna</option>
+            </select>
+
+
         </div>
         <div id="divData" class="well hidden">
             <table class="table table-bordered" id="tblData">
@@ -601,7 +637,7 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                           
+
                                         </th>
                                     </tr>
                                 </thead>
@@ -609,11 +645,11 @@
 
                                     <tr>
                                         <td>Dolaziste</td>
-                                        <td><input type="text" id="Dadresa1" disabled /></td>
+                                        <td><input type="text" style="min-width: 70%" id="Dadresa1" disabled /></td>
                                     </tr>
                                     <tr>
                                         <td>Odrediste</td>
-                                        <td><input type="text" disabled id="Dadresa2" /></td>
+                                        <td><input type="text" style="min-width: 70%" disabled id="Dadresa2" /></td>
                                     </tr>
                                     <tr>
                                         <td>Tip Automobila</td>
@@ -634,14 +670,14 @@
 
                                     <tr>
                                         <td>Opis</td>
-                                        <td><textarea id="Dopis" name="opis" class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
+                                        <td><textarea id="Dopis" name="opis" disabled class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
 
                                     </tr>
                                     <tr>
                                         <td>Ocena</td>
                                         <td><input type="text" disabled id="Docena" /></td>
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -918,6 +954,63 @@
                         </div>
                     </form>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="changePasswordModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Promeni Lozinku</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="modal-content">
+                            <!--This table contains the fields that we want to capture to register a new user-->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="success">
+                                        <th colspan="2">
+                                            Fill in information
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>Trenutna Lozinka</td>
+                                        <td><input type="password" required id="lozinka1"  placeholder="Trenutna Lozinka" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nova Lozinka</td>
+                                        <td><input type="text" required id="lozinka2" placeholder="Nova Lozinka" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potvrda Nove Lozinke</td>
+                                        <td><input type="password" id="lozinka3" placeholder="Potvrda Nove Lozinke" /></td>
+                                    </tr>
+                                    
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <input id="btnChangePassword" class="btn btn-success"
+                                                   type="button" value="Promeni" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success"

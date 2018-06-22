@@ -32,10 +32,10 @@
                         $('#prezime').val(data.Prezime);
                         $('#kontaktTelefon').val(data.KontaktTelefon);
                         $('#email').val(data.Email);
-                        brojTaksiVozila: $('#brojTaksiVozila').val();
-                        godisteAutomobila: $('#godisteAutomobila').val();
-                        tipAutomobila: $('#tipAutomobila').val();
-                        brojRegistarskeOznake: $('#brojRegistarskeOznake').val();
+                        $('#brojTaksiVozila').val(data.BrojTaksiVozila);
+                        $('#godisteAutomobila').val(data.GodisteAutomobila);
+                        $('#tipAutomobila').val(data.TipAutomobila);
+                        $('#brojRegistarskeOznake').val(data.BrojRegistarskeOznake);
                         oldUsername = data.KorisnickoIme;
                         $('#EditModal').modal('show');
                     }
@@ -57,7 +57,7 @@
 
                         brojTaksiVozila: $('#brojTaksiVozila').val(),
                         godisteAutomobila: $('#godisteAutomobila').val(),
-                        tipAutomobila: $('#tipAutomobila').val(),
+                        tipAutomobila: $('#EtipAutomobila:checked').val(),
                         brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
@@ -142,13 +142,42 @@
                 });
             });
 
+            $('#btnChangePasswordStart').click(function () {
+                $('#changePasswordModal').modal('show');
+            });
+            $('#btnChangePassword').click(function () {
+
+                $.ajax({
+                    url: '/api/Account/ChangePassword',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    data: {
+                        OldPassword: $('#lozinka1').val(),
+                        NewPassword: $('#lozinka2').val(),
+                        ConfirmPassword: $('#lozinka3').val()
+                    },
+                    success: function () {
+                        $('#changePasswordModal').modal('hide');
+                        $('#successContent').text('Promena je uspesno izvrsena!')
+                        $('#successModal').modal('show');
+                        $('#btnRefreshStart').trigger("click");
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+
             $('#btnLogoff').click(function () {
                 localStorage.removeItem('accessToken');
                 window.location.href = "Login.html";
             });
             
             $('#btnRefreshStart').click(function () {
-                
+                $('#username').text(localStorage.getItem('username'));
                 var flag = $('#view:checked').val();
                
                 $.ajax({
@@ -160,6 +189,12 @@
                     success: function (data) {
                         $('#divData').removeClass('hidden');
                         $('#tblBody').empty();
+                        if (data[0].Flag == 1) {
+                            $('#btnLocationStart').hide();
+                        }
+                        else {
+                            $('#btnLocationStart').show();
+                        }
                         $.each(data, function (index, value) {
                             if (value.StatusVoznje == "Kreirana_NaCekanju") {
                                 var row = $('<tr><td>'
@@ -172,10 +207,11 @@
                                     + value.Ocena + '</td><td>'
                                     + value.Iznos + '</td><td>'
                                     + '<input id=' + value.VoznjaID + ' name="BbtnPreuzmi" class="btn btn-success"type = "button" value = "Preuzmi" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
-                            else if (value.StatusVoznje != "Neuspesna" && value.StatusVoznje != "Uspesna") {
+                            else if (value.StatusVoznje != "Neuspesna" && value.StatusVoznje != "Uspesna" && value.StatusVoznje != null) {
                                 var row = $('<tr><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
@@ -187,8 +223,12 @@
                                     + value.Iznos + '</td><td>'
                                     + '<input id=' + value.VoznjaID + ' name="BbtnUspesnaNeuspesna" class="btn btn-success"type = "button" value = "Uspesna" />'
                                     + '<input id=' + value.VoznjaID + ' name="BbtnUspesnaNeuspesna" class="btn btn-success"type = "button" value = "Neuspesna" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
+                            }
+                            else if (value.StatusVoznje == null) {
+
                             }
                             else {
                                 var row = $('<tr><td>'
@@ -200,6 +240,7 @@
                                     + value.DatumIVreme + '</td><td>'
                                     + value.Ocena + '</td><td>'
                                     + value.Iznos + '</td><td>'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
@@ -209,6 +250,29 @@
                         alert(data + "fgdfdfdfd");
                     }
 
+                });
+            });
+            $('body').on('click', "input[name='BbtnDetails']", function (data) {
+                id = data.target.id;
+
+                $.ajax({
+                    url: '/api/voznje/details/' + id,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+
+                        $('#Dadresa1').val(data.Adresa1);
+                        $('#Dadresa2').val(data.Adresa2);
+                        $('#DkorisnickoIme').val(data.KorisnickoImeKorisnika);
+                        $('#DbrojTaksija').val(data.BrojTaksija);
+                        $('#DtipAutomobila').val(data.TipAutomobila);
+                        $('#DstatusVoznje').val(data.StatusVoznje);
+                        $('#Dopis').val(data.Opis);
+                        $('#Docena').val(data.Ocena);
+                        $('#VoznjaDetailsModel').modal('show');
+                    },
                 });
             });
 
@@ -319,19 +383,24 @@
 
     <div class="col-md-10 col-md-offset-1">
         <div id="buttons" class="well">
+            <div class="pull-right">
+                <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
+                <p style="text-align:center" id="username"></p>
+            </div>
             <input id="btnEditStart" class="btn btn-success" type="button" value="Edit Profile" />
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
             <input id="btnLocationStart" class="btn btn-success" type="button" value="Edit Location" />
+            <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
             <br />
             <label class="radio-inline"><input type="radio" id="view" checked value="1" name="view">Moje</label>
             <label class="radio-inline"><input type="radio" id="view" value="-1" name="view">Na Cekanju</label>
             <!--<label class="checkbox-inline"><input type="checkbox" value="">Option 2</label>
     <label class="checkbox-inline"><input type="checkbox" value="">Option 3</label>-->
-            <input id="btnLogoff" class="btn btn-success pull-right" type="button" value="Log Off" />
+
         </div>
         <div id="divData" class="well hidden">
-            <table class="table table-bordered" id="tblData">
+            <table class="table table-bordered table-responsive-md" id="tblData">
                 <thead>
                     <tr class="success">
                         <td>Polaziste</td>
@@ -476,7 +545,7 @@
                                     </tr>-->
                                     <tr>
                                         <td>Broj Taksi Vozila</td>
-                                        <td><input type="text" id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
+                                        <td><input type="text" disabled id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Godiste Automobila</td>
@@ -485,10 +554,10 @@
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
+                                            <input type="radio" id="EtipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
                                             <label for="PutnickiAutomobil">Puticnki Automobil</label>
 
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" value="KombiVozilo" />
+                                            <input type="radio" id="EtipAutomobila" name="tipAutomobila" value="KombiVozilo" />
                                             <label for="KombiVozilo">Kombi Vozilo</label>
                                         </td>
                                     </tr>
@@ -705,7 +774,79 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="VoznjaDetailsModel"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="modal-content">
+                            <!--This table contains the fields that we want to capture to register a new user-->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="success">
+                                        <th colspan="2">
 
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>Dolaziste</td>
+                                        <td><input type="text" id="Dadresa1" style="min-width: 70%" disabled /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Odrediste</td>
+                                        <td><input type="text" disabled style="min-width: 70%" id="Dadresa2" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tip Automobila</td>
+                                        <td><input type="text" disabled id="DtipAutomobila" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Voznje</td>
+                                        <td><input type="text" disabled id="DstatusVoznje" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Broj Taksija</td>
+                                        <td><input type="text" disabled id="DbrojTaksija" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Korisnicko ime musterije</td>
+                                        <td><input type="text" disabled id="DkorisnickoIme" /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Opis</td>
+                                        <td><textarea id="Dopis" name="opis" disabled class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Ocena</td>
+                                        <td><input type="text" disabled id="Docena" /></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" tabindex="-1" id="PostKomentarModal"
          data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
@@ -728,15 +869,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody id="KomentarBody">
-                                    
-                                   
-                                    
-                                    
-                                       
-
-                                    
-                                </tbody>
+                                <tbody id="KomentarBody"></tbody>
                             </table>
                         </div>
                     </form>
@@ -751,5 +884,66 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="changePasswordModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Promeni Lozinku</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="modal-content">
+                            <!--This table contains the fields that we want to capture to register a new user-->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="success">
+                                        <th colspan="2">
+                                            Fill in information
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>Trenutna Lozinka</td>
+                                        <td><input type="password" required id="lozinka1" placeholder="Trenutna Lozinka" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nova Lozinka</td>
+                                        <td><input type="text" required id="lozinka2" placeholder="Nova Lozinka" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potvrda Nove Lozinke</td>
+                                        <td><input type="password" id="lozinka3" placeholder="Potvrda Nove Lozinke" /></td>
+                                    </tr>
+
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <input id="btnChangePassword" class="btn btn-success"
+                                                   type="button" value="Promeni" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" style="text-align:center;position:absolute; bottom:0;height:60px;" class="col-md-10 col-md-offset-1 well">
+        <p>Develop by Stefan Ruvceski</p>
+    </footer>
+
 </body>
 </html>

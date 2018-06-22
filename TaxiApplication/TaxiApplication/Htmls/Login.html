@@ -86,6 +86,7 @@
                             success: function (response) {
                                 window.location.href = response;
                                 localStorage.setItem("mainPage", response);
+                                localStorage.setItem("username", $('#username').val());
                             }
 
                         });

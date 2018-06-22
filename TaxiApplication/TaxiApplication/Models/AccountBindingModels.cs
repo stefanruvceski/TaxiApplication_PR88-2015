@@ -144,7 +144,20 @@ namespace TaxiApplication.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        
+        [Required]
+        [Display(Name = "Broj Taksi Vozila")]
+        public string BrojTaksiVozila { get; set; }
+        [Required]
+        [Display(Name = "Godiste Automobila")]
+        public string GodisteAutomobila { get; set; }
+        [Required]
+        [Display(Name = "Tip Automobila")]
+        public string TipAutomobila { get; set; }
+        [Required]
+        [Display(Name = "Broj Registarske Oznake")]
+        public string BrojRegistarskeOznake { get; set; }
+
+
     }
 
     public class VozacVoznjaBindingModel
@@ -158,7 +171,7 @@ namespace TaxiApplication.Models
         public string DatumIVreme { get; set; }
         public string Ocena { get; set; }
         public string Iznos { get; set; }
-        public string Flag { get; set; }
+        public int Flag { get; set; }
 
     }
 
@@ -420,7 +433,6 @@ namespace TaxiApplication.Models
         //[Required]
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
-
         public string VoznjaID { get; set; }
         public string Polaziste { get; set; }
         public string Odrediste { get; set; }

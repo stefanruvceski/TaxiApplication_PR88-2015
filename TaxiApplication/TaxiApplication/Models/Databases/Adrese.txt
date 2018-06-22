@@ -26,3 +26,11 @@
 25|kolo srpskih sestara|77|Novi Sad|21000
 26|Kolo Srpskih Sestara|17|Novi Sad|21000
 27|Mise Dimitrijevica|14|Novi Sad|21000
+28|Puskinova|56|Novi Sad|21000
+29|Mise Dimitrijevica|12|Novi Sad|21000
+30|Kolo Srpskih Sestara|21|Novi Sad|21000
+31|Pariskih Komuna|78|Novi Sad|21000
+32|Brace Jerkovica|25|Novi Sad|21000
+33|Mise Dimitrijevica|57|Novi Sad|21000
+34|Puskinova|16|Novi Sad|21000
+35|Puskinova|45|Novi Sad|21000
