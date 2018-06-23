@@ -4,6 +4,67 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var page = window.location.pathname.split('/');
+            if (localStorage.getItem('mainPage') == null) {
+                localStorage.setItem('mainPage', page[2]);
+            }
+            else if (localStorage.getItem('mainPage') != page[2]) {
+                window.location.href = localStorage.getItem('mainPage');
+            }
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+
+
+            $('#btnLogin').click(function () {
+                $.ajax({
+                    // Post username, password & the grant type to /token
+                    url: '/token',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: {
+                        username: $('#username').val(),
+                        password: $('#password').val(),
+                        grant_type: 'password'
+                    },
+                    // When the request completes successfully, save the
+                    // access token in the browser session storage and
+                    // redirect the user to Data.html page. We do not have
+                    // this page yet. So please add it to the
+                    // EmployeeService project before running it
+                    success: function (response) {
+                        localStorage.setItem("accessToken", response.access_token);
+
+                        $.ajax({
+                            // Post username, password & the grant type to /token
+                            url: '/api/korisnici/getpage/',
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                            },
+                            success: function (response) {
+                                window.location.href = response;
+                                localStorage.setItem("mainPage", response);
+                                localStorage.setItem("username", $('#username').val());
+                            }
+
+                        });
+                        //window.location.href = "Data.html";
+                    },
+                    // Display errors if any in the Bootstrap alert <div>
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body style="padding-top:20px">
     <div class="col-md-10 col-md-offset-1">
@@ -48,58 +109,6 @@
             </div>
         </div>
     </div>
-    <script src="../Scripts/jquery-3.3.1.min.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#linkClose').click(function () {
-                $('#divError').hide('fade');
-            });
-
-            $('#btnLogin').click(function () {
-                $.ajax({
-                    // Post username, password & the grant type to /token
-                    url: '/token',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: {
-                        username: $('#username').val(),
-                        password: $('#password').val(),
-                        grant_type: 'password'
-                    },
-                    // When the request completes successfully, save the
-                    // access token in the browser session storage and
-                    // redirect the user to Data.html page. We do not have
-                    // this page yet. So please add it to the
-                    // EmployeeService project before running it
-                    success: function (response) {
-                        localStorage.setItem("accessToken", response.access_token);
-                        
-                        $.ajax({
-                            // Post username, password & the grant type to /token
-                            url: '/api/korisnici/getpage/',
-                            method: 'GET',
-                            headers: {
-                                'Authorization': 'Bearer '+ localStorage.getItem("accessToken")
-                            },
-                            success: function (response) {
-                                window.location.href = response;
-                                localStorage.setItem("mainPage", response);
-                                localStorage.setItem("username", $('#username').val());
-                            }
-
-                        });
-                        //window.location.href = "Data.html";
-                    },
-                    // Display errors if any in the Bootstrap alert <div>
-                    error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
-                });
-            });
-        });
-    </script>
+    
 </body>
 </html>

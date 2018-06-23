@@ -317,7 +317,7 @@ namespace TaxiApplication.Models
         public string Ocena { get; set; }
         public string Opis { get; set; }
         public string StatusVoznje { get; set; }
-        
+        public string Iznos { get; set; }
         public string BrojTaksija { get; set; }
     }
 
@@ -440,7 +440,6 @@ namespace TaxiApplication.Models
         public string TipAutomobila { get; set; }
         public string Ocena { get; set; }
         public string StatusVoznje { get; set; }
-
         public string DatumIVreme { get; set; }
         public string BrojTaksija { get; set; }
 

@@ -4,6 +4,50 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var page = window.location.pathname.split('/');
+            if (localStorage.getItem('mainPage') == null) {
+                localStorage.setItem('mainPage', page[2]);
+            }
+            else if (localStorage.getItem('mainPage') != page[2]) {
+                window.location.href = localStorage.getItem('mainPage');
+            }
+            //Close the bootstrap alert
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+            // Save the new user details
+            $('#btnRegister').click(function () {
+                $.ajax({
+                    url: '/api/account/register',
+                    method: 'POST',
+                    data: {
+                        korisnickoIme: $('#korisnickoIme').val(),
+                        ime: $('#ime').val(),
+                        prezime: $('#prezime').val(),
+                        pol: $('#pol').val(),
+                        jmbg: $('#jmbg').val(),
+                        kontaktTelefon: $('#kontaktTelefon').val(),
+                        email: $('#email').val(),
+                        password: $('#password').val(),
+                        confirmPassword: $('#confirmPassword').val()
+                    },
+                    success: function () {
+                        $('#successModal').modal('show');
+                        window.location = "login.html";
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body style="padding-top:20px">
     <div class="col-md-10 col-md-offset-1">
@@ -108,43 +152,6 @@
         </div>
     </div>
 
-    <script src="../Scripts/jquery-3.3.1.min.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            //Close the bootstrap alert
-            $('#linkClose').click(function () {
-                $('#divError').hide('fade');
-            });
-
-            // Save the new user details
-            $('#btnRegister').click(function () {
-                $.ajax({
-                    url: '/api/account/register',
-                    method: 'POST',
-                    data: {
-                        korisnickoIme: $('#korisnickoIme').val(),
-                        ime: $('#ime').val(),
-                        prezime: $('#prezime').val(),
-                        pol: $('#pol').val(),
-                        jmbg: $('#jmbg').val(),
-                        kontaktTelefon: $('#kontaktTelefon').val(),
-                        email: $('#email').val(),
-                        password: $('#password').val(),
-                        confirmPassword: $('#confirmPassword').val()
-                    },
-                    success: function () {
-                        $('#successModal').modal('show');
-                        window.location = "login.html";
-                    },
-                    error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
-                    }
-                });
-            });
-        });
-    </script>
+    
 </body>
 </html>

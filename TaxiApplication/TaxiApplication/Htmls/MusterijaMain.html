@@ -5,11 +5,12 @@
     <title></title>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+    <link href="../Content/Site.css" rel="stylesheet" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script>
-      
+
         $(document).ready(function () {
-            var id ="-1";
+            var id = "-1";
             var oldUsername;
 
             var page = window.location.pathname.split('/');
@@ -24,7 +25,7 @@
                 id = data.target.id;
 
                 $.ajax({
-                    url: '/api/voznje/details/'+id,
+                    url: '/api/voznje/details/' + id,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -38,12 +39,13 @@
                         $('#DtipAutomobila').val(data.TipAutomobila);
                         $('#DstatusVoznje').val(data.StatusVoznje);
                         $('#Dopis').val(data.Opis);
+                        $('#Diznos').val(data.Iznos);
                         $('#Docena').val(data.Ocena);
                         $('#VoznjaDetailsModel').modal('show');
                     },
                 });
             });
-            
+
             $('body').on('click', "input[name='BbtnEdit']", function (data) {
                 id = data.target.id;
 
@@ -109,7 +111,7 @@
                 });
             })
 
-            
+
             $('#btnChangePasswordStart').click(function () {
                 $('#changePasswordModal').modal('show');
             });
@@ -238,10 +240,19 @@
             });
 
             $('#btnRefreshStart').click(function () {
+                var flag = $('#statusVoznje').val();
+                var datum = $('#datum:checked').val();
+                var ocena = $('#ocena:checked').val();
+                var odDatum = $('#Dstart').val();
+                var doDatum = $('#Dend').val();
+                var odOcena = $('#Ostart').val();
+                var doOcena = $('#Oend').val();
+                var odCena = $('#Cstart').val();
+                var doCena = $('#Cend').val();
                 $('#username').text(localStorage.getItem('username'));
                 var flag = $('#statusVoznje').val();
                 $.ajax({
-                    url: '/api/voznje/getmy/'+flag,
+                    url: '/api/voznje?flagg=' + flag + '&datum=' + datum + '&ocena=' + ocena + '&odDatum=' + odDatum + '&doDatum=' + doDatum + '&odOcena=' + odOcena + '&doOcena=' + doOcena + '&odCena=' + odCena + '&doCena=' + doCena,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -250,7 +261,7 @@
                         $('#divData').removeClass('hidden');
                         $('#tblBody').empty();
                         $.each(data, function (index, value) {
-                            if(value.StatusVoznje == "Uspesna") {
+                            if (value.StatusVoznje == "Uspesna") {
                                 var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
@@ -262,9 +273,9 @@
                                     + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success"type = "button" value = "Rate" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
-                            }  
-                            else if(value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
-                                    var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
+                            }
+                            else if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
+                                var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
                                     + value.StatusVoznje + '</td><td>'
@@ -282,7 +293,7 @@
                             //        + value.StatusVoznje + '</td><td>'
                             //        + value.DatumIVreme + '</td><td>'
                             //        + value.TipAutomobila + '</td><td>'
-                            //        + "Nedefinisano" + '</td><td>' 
+                            //        + "Nedefinisano" + '</td><td>'
                             //        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
                             //        + '</td></tr>');
                             //    $('#tblData').append(row);
@@ -303,13 +314,13 @@
                             }
                         });
                     },
-                    error:function(data){
-                        alert(data+"fgdfdfdfd");
+                    error: function (data) {
+                        alert(data + "fgdfdfdfd");
                     }
-                    
-                });  
+
+                });
             });
-            
+
             $('#btnDetailsStart').click(function () {
                 $.ajax({
                     url: '/api/korisnici/getme/',
@@ -337,7 +348,7 @@
 </head>
 <body style="padding-top:20px">
 
-    <div class="col-md-11 col-md-offset-1">
+    <div style="text-align:center" class="col-md-11 col-md-offset-1">
         <div id="buttons" class="well">
             <div class="pull-right">
                 <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
@@ -359,7 +370,48 @@
                 <option value="5">Neuspesna</option>
                 <option value="6">Uspesna</option>
             </select>
+            <br /><br />
+            <div id="Sortiranje" class="Btn-success Btn " style="display:inline-block;padding-top:13px;padding-bottom:8px">
+                <label>Sortiranje</label>
+                <label class="checkbox-inline"><input type="checkbox" id="datum" value="datum">Datum</label>
+                <label class="checkbox-inline"><input type="checkbox" id="ocena" value="ocena">Ocena</label>
+            </div>
+            <div id="Datum" class="Btn Btn-success " style="display:inline-block;">
 
+                <div style="display:inline-block">
+                    <label for="date">Datum</label>
+                    <input type="date" id="Dstart" class="Btn Btn-success" name="search" value="2018-06-01" min="2018-01-01" max="2018-12-31" />
+                    <input type="date" id="Dend" class="Btn Btn-success" name="search" value="2018-06-28" min="2018-01-01" max="2018-12-31" />
+                </div>
+            </div>
+            <div id="Ocena" class="Btn Btn-success " style="display:inline-block;padding-top:7px">
+                <div style="display:inline-block">
+                    <label for="date">Ocena</label>
+                    <select style="width:70px;display:inline-block" class="form-control btn btn-success" id="Ostart">
+                        <option selected value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <select style="width:70px;display:inline-block" class="form-control btn btn-success" id="Oend">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option selected value="5">5</option>
+                    </select>
+                </div>
+            </div>
+            <div id="Cena" class="Btn Btn-success " style="display:inline-block;padding-bottom:8px;padding-top:7px">
+                <div style="display:inline-block">
+                    <label for="date">Cena</label>
+                    <input type="number" class="Btn Btn-success" id="Cstart" style="width:70px" ;name="name" value="0" min="0" />
+                    <input type="number" class="Btn Btn-success" id="Cend" style="width:70px;" name="name" value="2000" min="0" />
+                </div>
+            </div>
 
         </div>
         <div id="divData" class="well hidden">
@@ -667,7 +719,10 @@
                                         <td>Korisnicko ime musterije</td>
                                         <td><input type="text" disabled id="DkorisnickoIme" /></td>
                                     </tr>
-
+                                    <tr>
+                                        <td>Iznos</td>
+                                        <td><input type="text" disabled id="Diznos" /></td>
+                                    </tr>
                                     <tr>
                                         <td>Opis</td>
                                         <td><textarea id="Dopis" name="opis" disabled class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
