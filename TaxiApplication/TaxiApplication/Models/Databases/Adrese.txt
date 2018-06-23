@@ -34,3 +34,10 @@
 33|Mise Dimitrijevica|57|Novi Sad|21000
 34|Puskinova|16|Novi Sad|21000
 35|Puskinova|45|Novi Sad|21000
+36|Kolo Srpskih Sestara|22|Novi Sad|21000
+37|Puskinova|21|Novi Sad|21000
+38|Lasla Gala|17|Novi Sad|21000
+39||0||0
+40|Futoska|48|Novi Sad|21000
+41||0||0
+42|Kolo Srpskih Sestara|56|Novi Sad|21000

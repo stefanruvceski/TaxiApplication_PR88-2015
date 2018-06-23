@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Prijava</title>
     <meta charset="utf-8" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
@@ -12,18 +12,24 @@
             if (localStorage.getItem('mainPage') == null) {
                 localStorage.setItem('mainPage', page[2]);
             }
+            else if (localStorage.getItem('mainPage') == "Register.html" || localStorage.getItem('mainPage') == "register.html") {
+                localStorage.setItem('mainPage', page[2]);
+            }
             else if (localStorage.getItem('mainPage') != page[2]) {
                 window.location.href = localStorage.getItem('mainPage');
             }
+
             $('#linkClose').click(function () {
                 $('#divError').hide('fade');
             });
 
-
-
             $('#btnLogin').click(function () {
+                if (!$('#loginForm')[0].checkValidity()) {
+                    $('#divErrorText').text('Unesite ispravne podatke za prijavu');
+                    $('#divError').show('fade');
+                    $(forma).submit();
+                }
                 $.ajax({
-                    // Post username, password & the grant type to /token
                     url: '/token',
                     method: 'POST',
                     contentType: 'application/json',
@@ -32,16 +38,9 @@
                         password: $('#password').val(),
                         grant_type: 'password'
                     },
-                    // When the request completes successfully, save the
-                    // access token in the browser session storage and
-                    // redirect the user to Data.html page. We do not have
-                    // this page yet. So please add it to the
-                    // EmployeeService project before running it
                     success: function (response) {
                         localStorage.setItem("accessToken", response.access_token);
-
                         $.ajax({
-                            // Post username, password & the grant type to /token
                             url: '/api/korisnici/getpage/',
                             method: 'GET',
                             headers: {
@@ -52,13 +51,10 @@
                                 localStorage.setItem("mainPage", response);
                                 localStorage.setItem("username", $('#username').val());
                             }
-
                         });
-                        //window.location.href = "Data.html";
                     },
-                    // Display errors if any in the Bootstrap alert <div>
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divErrorText').text(jqXHR.responseJSON.error_description);
                         $('#divError').show('fade');
                     }
                 });
@@ -69,46 +65,45 @@
 <body style="padding-top:20px">
     <div class="col-md-10 col-md-offset-1">
         <div class="well">
-            <!--Table to capture username and password-->
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="success">
-                        <th colspan="2">
-                            Existing User Login
-                            <a href="Register.html" class="btn btn-success pull-right">
-                                Register
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Usename</td>
-                        <td>
-                            <input type="text" id="username" placeholder="Username" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>
-                            <input type="password" id="password" placeholder="Password" />
-                        </td>
-                    </tr>
-                    <tr class="success">
-                        <td colspan="2">
-                            <input id="btnLogin" class="btn btn-success" type="button"
-                                   value="Login" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!--Bootstrap alert to display error message if the login fails-->
+            <form id="loginForm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="success">
+                            <th colspan="2">
+                                Prijava Korisnika
+                                <a href="Register.html" class="btn btn-success pull-right">
+                                    Registracija
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Korisnicko Ime</td>
+                            <td>
+                                <input type="text" required  id="username" placeholder="Korisnicko Ime" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lozinka</td>
+                            <td>
+                                <input type="password" required  id="password" placeholder="Lozinka" />
+                            </td>
+                        </tr>
+                        <tr class="success">
+                            <td colspan="2">
+                                <input id="btnLogin" class="btn btn-success" type="button" value="Prijava" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
             <div id="divError" class="alert alert-danger collapse">
                 <a id="linkClose" href="#" class="close">&times;</a>
                 <div id="divErrorText"></div>
             </div>
         </div>
     </div>
-    
 </body>
 </html>

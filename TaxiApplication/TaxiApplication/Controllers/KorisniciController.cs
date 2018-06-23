@@ -73,6 +73,28 @@ namespace TaxiApplication.Controllers
                 return DataBase.Korisnici.Values.ToList().FindAll(x => x.KorisnickoIme == User.Identity.Name);
             }
         }
+        // GET: api/Korisnici/id/flag
+        public List<string> GetVoznja(string flag)
+        {
+            List<string> lista = new List<string>();
+
+            bool isAvailable = true;
+            foreach (Korisnik k in DataBase.Korisnici.Values)
+            {
+                if (k.Uloga == Uloge.Vozac && k.KorisnickoIme != "-1")
+                {
+                    foreach (int i in k.VoznjeID)
+                        if (DataBase.voznje[i].StatusVoznje == StatusiVoznje.Prihvacena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Obradjena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Formirana)
+                            isAvailable = false;
+
+                    if (isAvailable && DataBase.automobili[((Vozac)k).AutomobilID].TipAutomobila.ToString() == flag)
+                        lista.Add(k.KorisnickoIme);
+                    isAvailable = true;
+                }
+            }
+
+            return lista;   
+        }
         [Route("api/korisnici/getavailabledrivers")]
         //[Authorize(Roles ="Dispecer")]
         [HttpGet]

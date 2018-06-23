@@ -20,5 +20,11 @@
 20|6/22/2018 4:45:53 AM|Neuspesna|PutnickiAutomobil|-1|vozac5|teodorarrrr|-1|28|-1|-1
 21|6/22/2018 6:51:29 AM|Formirana|PutnickiAutomobil|-1|vozac3|-1|stefanrrr|31|-1|-1
 22|6/22/2018 6:51:49 AM|Formirana|PutnickiAutomobil|-1|vozac5|-1|stefanrrr|32|-1|-1
-23|6/22/2018 6:52:08 AM|Formirana|PutnickiAutomobil|-1|vozac6|-1|stefanrrr|33|-1|-1
+23|6/22/2018 6:52:08 AM|Uspesna|PutnickiAutomobil|200|vozac6|-1|stefanrrr|33|36|-1
 24|6/22/2018 6:52:26 AM|Formirana|PutnickiAutomobil|-1|vozac8|-1|stefanrrr|34|-1|-1
+25|6/23/2018 7:23:59 AM|Kreirana_NaCekanju|KombiVozilo|-1|-1|musterija1|-1|37|-1|-1
+26|6/23/2018 7:30:23 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija2|-1|38|-1|-1
+27|6/23/2018 7:30:41 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija2|-1|39|-1|-1
+28|6/23/2018 7:34:22 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija2|-1|40|-1|-1
+29|6/23/2018 7:53:45 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija2|-1|41|-1|-1
+30|6/23/2018 7:55:02 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija2|-1|42|-1|-1

@@ -2,7 +2,7 @@
 <html onload="check()">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Musterija</title>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <link href="../Content/Site.css" rel="stylesheet" />
@@ -12,6 +12,7 @@
         $(document).ready(function () {
             var id = "-1";
             var oldUsername;
+            var modal;
 
             var page = window.location.pathname.split('/');
             if (localStorage.getItem('accessToken') == null) {
@@ -20,6 +21,11 @@
             else if (localStorage.getItem('mainPage') != page[2]) {
                 window.location.href = localStorage.getItem('mainPage');
             }
+            
+            $('#bntError').click(function () {
+                $('#errorModal').modal('hide');
+                $('#' + modal).modal('show');
+            });
 
             $('body').on('click', "input[name='BbtnDetails']", function (data) {
                 id = data.target.id;
@@ -45,7 +51,6 @@
                     },
                 });
             });
-
             $('body').on('click', "input[name='BbtnEdit']", function (data) {
                 id = data.target.id;
 
@@ -67,7 +72,6 @@
                     },
                 });
             });
-
             $('body').on('click', "input[name='BbtnDelete']", function (data) {
                 id = data.target.id;
                 $.ajax({
@@ -83,7 +87,6 @@
                     }
                 });
             });
-
             $('body').on('click', "input[name='BbtnRate']", function (data) {
                 id = data.target.id;
                 $('#ocena').removeAttr("disabled");
@@ -111,12 +114,17 @@
                 });
             })
 
-
             $('#btnChangePasswordStart').click(function () {
                 $('#changePasswordModal').modal('show');
             });
             $('#btnChangePassword').click(function () {
-
+                if (!$('#change_Form')[0].checkValidity()) {
+                    modal = 'changePasswordModal';
+                    $('#changePasswordModal').modal('hide');
+                    $('#errorContent').text('Unesite ispravne podatke za menjanje lozinke');
+                    $('#errorModal').modal('show');
+                    $(forma).submit();
+                }
                 $.ajax({
                     url: '/api/Account/ChangePassword',
                     method: 'POST',
@@ -135,14 +143,15 @@
                         $('#btnRefreshStart').trigger("click");
                     },
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
+                        $('#errorContent').text(jqXHR.responseText);
+                        $('#errorModal').modal('show');
                     }
                 });
             });
 
             $('#btnLogoff').click(function () {
                 localStorage.removeItem('accessToken');
+                localStorage.removeItem('mainPage');
                 window.location.href = "Login.html";
             });
 
@@ -176,11 +185,6 @@
                         prezime: $('#prezime').val(),
                         kontaktTelefon: $('#kontaktTelefon').val(),
                         email: $('#email').val(),
-
-                        //brojTaksiVozila: $('#brojTaksiVozila').val(),
-                        //godisteAutomobila: $('#godisteAutomobila').val(),
-                        //tipAutomobila: $('#tipAutomobila').val(),
-                        //brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
                         $('#EditModal').modal('hide');
@@ -205,7 +209,13 @@
                 $('#OrderModal').modal('show');
             });
             $('#btnOrder').click(function () {
-
+                if (!$('#order_Form')[0].checkValidity()) {
+                    modal = 'OrderModal';
+                    $('#OrderModal').modal('hide');
+                    $('#errorContent').text('Unesite ispravne podatke za narucivanje vozila');
+                    $('#errorModal').modal('show');
+                    $(forma).submit();
+                }
                 $.ajax({
                     url: '/api/voznje/',
                     method: 'POST',
@@ -215,16 +225,13 @@
                     data: {
                         ulica: $('#ulica').val(),
                         broj: $('#broj').val(),
+                        broj: $('#broj').val(),
+                        broj: $('#broj').val(),
+                        broj: $('#broj').val(),
                         grad: $('#grad').val(),
                         postanskiBroj: $('#postanskiBroj').val(),
-
                         tipAutomobila: $("input:checked").val(),
                         VoznjaID: id
-
-                        //brojTaksiVozila: $('#brojTaksiVozila').val(),
-                        //godisteAutomobila: $('#godisteAutomobila').val(),
-                        //tipAutomobila: $('#tipAutomobila').val(),
-                        //brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
                         $('#OrderModal').modal('hide');
@@ -233,8 +240,8 @@
                         $('#btnRefreshStart').trigger("click");
                     },
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
+                        $('#errorContent').text(jqXHR.responseText);
+                        $('#errorModal').modal('show');
                     }
                 });
             });
@@ -342,13 +349,11 @@
                     }
                 });
             });
-
         });
     </script>
 </head>
 <body style="padding-top:20px">
-
-    <div style="text-align:center" class="col-md-11 col-md-offset-1">
+    <div id="Buttons&Data" style="text-align:center" class="col-md-11 col-md-offset-1">
         <div id="buttons" class="well">
             <div class="pull-right">
                 <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
@@ -432,30 +437,7 @@
             </table>
         </div>
 
-        <div class="modal fade" tabindex="-1" id="errorModal"
-             data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Session Expired</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <h2 class="modal-title">Close this message to login again</h2>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger"
-                                data-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div id="divError" class="alert alert-danger collapse">
             <a id="linkClose" href="#" class="close">&times;</a>
             <div id="divErrorText"></div>
@@ -470,7 +452,7 @@
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Success</h4>
+                    <h4 class="modal-title">Uspeh</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -480,12 +462,36 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success"
                             data-dismiss="modal">
-                        Close
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="errorModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Greska</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <h4 id="errorContent" class="modal-title"></h4>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="bntError" type="button" class="btn btn-danger" data-dismiss="modal">
+                        Zatvori
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" tabindex="-1" id="EditModal"
          data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
@@ -494,7 +500,7 @@
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Driver Registration</h4>
+                    <h4 class="modal-title">Promena Korisnickih Podataka</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -504,16 +510,11 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            New Driver Registration
-
+                                            Trenutni Podaci
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!--<tr>
-                                        <td>Korisnicko Ime</td>
-                                        <td><input type="text" id="korisnickoIme" placeholder="Korisnicko Ime" /> </td>
-                                    </tr>-->
                                     <tr>
                                         <td>Ime</td>
                                         <td><input type="text" id="ime" placeholder="Ime" /> </td>
@@ -522,20 +523,6 @@
                                         <td>Prezime</td>
                                         <td><input type="text" id="prezime" placeholder="Prezime" /> </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td>Pol</td>
-                                        <td>
-                                            <input type="radio" id="pol" name="pol" checked="checked" value="Muski" />
-                                            <label for="pol">M</label>
-
-                                            <input type="radio" id="pol" name="pol" value="Zenski" />
-                                            <label for="pol">Z</label>
-                                        </td>
-                                    </tr>-->
-                                    <!--<tr>
-                                        <td>JMBG</td>
-                                        <td><input type="text" id="jmbg" placeholder="JMBG" /> </td>
-                                    </tr>-->
                                     <tr>
                                         <td>Kontakt Telefon</td>
                                         <td><input type="text" id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
@@ -544,44 +531,9 @@
                                         <td>Email</td>
                                         <td><input type="text" id="email" placeholder="Email" /> </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td>Password</td>
-                                        <td>
-                                            <input type="password" id="password" placeholder="Password" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Confirm Password</td>
-                                        <td>
-                                            <input type="password" id="confirmPassword" placeholder="Confirm Password" />
-                                        </td>
-                                    </tr>-->
-                                    <!--<tr>
-                                        <td>Broj Taksi Vozila</td>
-                                        <td><input type="text" id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Godiste Automobila</td>
-                                        <td><input type="text" id="godisteAutomobila" placeholder="Godiste Automobila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tip Automobila</td>
-                                        <td>
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
-                                            <label for="PutnickiAutomobil">Puticnki Automobil</label>
-
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" value="KombiVozilo" />
-                                            <label for="KombiVozilo">Kombi Vozilo</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Broj Registarske Oznake</td>
-                                        <td><input type="text" id="brojRegistarskeOznake" placeholder="Broj Registarske Oznake" /> </td>
-                                    </tr>-->
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnEdit" class="btn btn-success"
-                                                   type="button" value="Edit" />
+                                            <input id="btnEdit" class="btn btn-success" type="button" value="Edit" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -590,71 +542,63 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-success"data-dismiss="modal">
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="OrderModal"
-         data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" tabindex="-1" id="OrderModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Order Taxi</h4>
+                    <h4 class="modal-title">Narucite Taksi</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="orderForm">
+                    <form id="order_Form">
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Fill in information
+                                            Popunite polja za poziv taksija
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr>
                                         <td>Ulica</td>
-                                        <td><input type="text" id="ulica" placeholder="Ulica" /></td>
+                                        <td><input type="text" required id="ulica" placeholder="Ulica" /></td>
                                     </tr>
                                     <tr>
                                         <td>Broj</td>
-                                        <td><input type="number" id="broj" placeholder="Broj" /></td>
+                                        <td><input type="number" required id="broj" placeholder="Broj" /></td>
                                     </tr>
                                     <tr>
                                         <td>Grad</td>
-                                        <td><input type="text" id="grad" placeholder="Grad" /></td>
+                                        <td><input type="text" required id="grad" placeholder="Grad" /></td>
                                     </tr>
                                     <tr>
                                         <td>Postanski Broj</td>
-                                        <td><input type="number" id="postanskiBroj" placeholder="Postanski Broj" /></td>
+                                        <td><input type="number" required id="postanskiBroj" placeholder="Postanski Broj" /></td>
                                     </tr>
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-
                                             <input type="radio" name="tipAutomobila" checked="checked" value="PutnickoVozilo" id="PutnickoVozilo">
                                             <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
                                             <input type="radio" name="tipAutomobila" value="KombiVozilo" id="KombiVozilo">
                                             <label for="KombiVozilo">Kombi Vozilo</label>
-
-
                                         </td>
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnOrder" class="btn btn-success"
-                                                   type="button" value="Order" />
+                                            <input id="btnOrder" class="btn btn-success"type="button" value="Order" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -663,38 +607,34 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="VoznjaDetailsModel"
-         data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" tabindex="-1" id="VoznjaDetailsModel" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Details</h4>
+                    <h4 class="modal-title">Detalji</h4>
                 </div>
                 <div class="modal-body">
                     <form id="orderForm">
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-
+                                            Detalji voznje
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr>
                                         <td>Dolaziste</td>
                                         <td><input type="text" style="min-width: 70%" id="Dadresa1" disabled /></td>
@@ -726,13 +666,11 @@
                                     <tr>
                                         <td>Opis</td>
                                         <td><textarea id="Dopis" name="opis" disabled class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
-
                                     </tr>
                                     <tr>
                                         <td>Ocena</td>
                                         <td><input type="text" disabled id="Docena" /></td>
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -741,144 +679,29 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success"
                             data-dismiss="modal">
-                        Close
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="EditModal"
-         data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" tabindex="-1" id="DetailsModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Driver Registration</h4>
+                    <h4 class="modal-title">Korisnicke Informacije</h4>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            New Driver Registration
-
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!--<tr>
-                                        <td>Korisnicko Ime</td>
-                                        <td><input type="text" id="korisnickoIme" placeholder="Korisnicko Ime" /> </td>
-                                    </tr>-->
-                                    <tr>
-                                        <td>Ime</td>
-                                        <td><input type="text" id="ime" placeholder="Ime" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Prezime</td>
-                                        <td><input type="text" id="prezime" placeholder="Prezime" /> </td>
-                                    </tr>
-                                    <!--<tr>
-                                        <td>Pol</td>
-                                        <td>
-                                            <input type="radio" id="pol" name="pol" checked="checked" value="Muski" />
-                                            <label for="pol">M</label>
-
-                                            <input type="radio" id="pol" name="pol" value="Zenski" />
-                                            <label for="pol">Z</label>
-                                        </td>
-                                    </tr>-->
-                                    <!--<tr>
-                                        <td>JMBG</td>
-                                        <td><input type="text" id="jmbg" placeholder="JMBG" /> </td>
-                                    </tr>-->
-                                    <tr>
-                                        <td>Kontakt Telefon</td>
-                                        <td><input type="text" id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><input type="text" id="email" placeholder="Email" /> </td>
-                                    </tr>
-                                    <!--<tr>
-                                        <td>Password</td>
-                                        <td>
-                                            <input type="password" id="password" placeholder="Password" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Confirm Password</td>
-                                        <td>
-                                            <input type="password" id="confirmPassword" placeholder="Confirm Password" />
-                                        </td>
-                                    </tr>-->
-                                    <tr>
-                                        <td>Broj Taksi Vozila</td>
-                                        <td><input type="text" id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Godiste Automobila</td>
-                                        <td><input type="text" id="godisteAutomobila" placeholder="Godiste Automobila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tip Automobila</td>
-                                        <td>
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
-                                            <label for="PutnickiAutomobil">Puticnki Automobil</label>
-
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" value="KombiVozilo" />
-                                            <label for="KombiVozilo">Kombi Vozilo</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Broj Registarske Oznake</td>
-                                        <td><input type="text" id="brojRegistarskeOznake" placeholder="Broj Registarske Oznake" /> </td>
-                                    </tr>
-                                    <tr class="success">
-                                        <td colspan="2">
-                                            <input id="btnEdit" class="btn btn-success"
-                                                   type="button" value="Edit" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" id="DetailsModal"
-         data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;
-                    </button>
-                    <h4 class="modal-title">Profil Informations</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="success">
-                                        <th colspan="2">
-                                            New Driver Registration
-
+                                            Detaljne Informacije
                                         </th>
                                     </tr>
                                 </thead>
@@ -919,53 +742,27 @@
                                         <td>Lozinka</td>
                                         <td><p id="pLozinka"></p></td>
                                     </tr>
-
-                                    <!--<tr>
-                                        <td>Broj Taksi Vozila</td>
-                                        <td><input type="text" id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Godiste Automobila</td>
-                                        <td><input type="text" id="godisteAutomobila" placeholder="Godiste Automobila" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tip Automobila</td>
-                                        <td>
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" checked="checked" value="PutnickiAutomobil" />
-                                            <label for="PutnickiAutomobil">Puticnki Automobil</label>
-
-                                            <input type="radio" id="tipAutomobila" name="tipAutomobila" value="KombiVozilo" />
-                                            <label for="KombiVozilo">Kombi Vozilo</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Broj Registarske Oznake</td>
-                                        <td><input type="text" id="brojRegistarskeOznake" placeholder="Broj Registarske Oznake" /> </td>
-                                    </tr>-->
-
                                 </tbody>
                             </table>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-success"data-dismiss="modal">
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="PostKomentarModal"
-         data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" tabindex="-1" id="PostKomentarModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h4 class="modal-title">Post Comment</h4>
+                    <h4 class="modal-title">Postavite Komentar</h4>
                 </div>
                 <div class="modal-body">
                     <form id="orderForm">
@@ -975,12 +772,11 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Fill in information
+                                            Unesite informacije za postavljanje komentara
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr>
                                         <td>Opis</td>
                                         <td><textarea id="opis" name="comment" placeholder="Enter text here..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
@@ -997,11 +793,9 @@
                                                 <option value="Pet">5</option>
                                             </select>
                                         </td>
-
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnCommentPost" class="btn btn-success"
-                                                   type="button" value="Post" />
+                                            <input id="btnCommentPost" class="btn btn-success" type="button" value="Post" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -1011,16 +805,14 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                        Zatvori
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="changePasswordModal"
-         data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" tabindex="-1" id="changePasswordModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1030,22 +822,21 @@
                     <h4 class="modal-title">Promeni Lozinku</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="orderForm">
+                    <form id="change_Form">
                         <div class="modal-content">
                             <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Fill in information
+                                            Unesite podatke za promenu lozinke
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr>
                                         <td>Trenutna Lozinka</td>
-                                        <td><input type="password" required id="lozinka1"  placeholder="Trenutna Lozinka" /></td>
+                                        <td><input type="password" required id="lozinka1" placeholder="Trenutna Lozinka" /></td>
                                     </tr>
                                     <tr>
                                         <td>Nova Lozinka</td>
@@ -1053,13 +844,12 @@
                                     </tr>
                                     <tr>
                                         <td>Potvrda Nove Lozinke</td>
-                                        <td><input type="password" id="lozinka3" placeholder="Potvrda Nove Lozinke" /></td>
+                                        <td><input type="password" required id="lozinka3" placeholder="Potvrda Nove Lozinke" /></td>
                                     </tr>
-                                    
+
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnChangePassword" class="btn btn-success"
-                                                   type="button" value="Promeni" />
+                                            <input id="btnChangePassword" class="btn btn-success" type="button" value="Promeni" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -1068,9 +858,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"
-                            data-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                        Zatvori
                     </button>
                 </div>
             </div>

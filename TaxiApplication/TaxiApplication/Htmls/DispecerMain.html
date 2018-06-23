@@ -22,7 +22,7 @@
                 id = data.target.id;
                 $('#Pvozaci').html('')
                 $.ajax({
-                    url: '/api/voznje/process/' + id + '/',
+                    url: '/api/voznje/process/' + id,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -215,6 +215,28 @@
                         $('#pLozinka').text(data.Password);
                         $('#DetailsModal').modal('show');
                     }
+                });
+            });
+
+            $('body').on('click', "input[name='OtipAutomobila']", function (data) {
+                id = data.target.id;
+                $('#vozaci').html('');
+                $.ajax({
+                    url: '/api/Korisnici?flag=' + $('#OtipAutomobila:checked').val(),
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+
+                       
+                        var vozaci = '';
+                        $.each(data, function (index, value) {
+                            vozaci += '<option value=' + value + '>' + value + '</option>';
+                        });
+                        $('#vozaci').html(vozaci);
+                      
+                    },
                 });
             });
 
@@ -567,15 +589,15 @@
                                 <tbody>
                                     <tr>
                                         <td>Korisnicko Ime</td>
-                                        <td><input type="text" id="korisnickoIme" placeholder="Korisnicko Ime" /> </td>
+                                        <td><input type="text" id="korisnickoIme" required  placeholder="Korisnicko Ime" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Ime</td>
-                                        <td><input type="text" id="ime" placeholder="Ime" /> </td>
+                                        <td><input type="text" id="ime" required  placeholder="Ime" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Prezime</td>
-                                        <td><input type="text" id="prezime" placeholder="Prezime" /> </td>
+                                        <td><input type="text" id="prezime" required  placeholder="Prezime" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Pol</td>
@@ -589,35 +611,35 @@
                                     </tr>
                                     <tr>
                                         <td>JMBG</td>
-                                        <td><input type="text" id="jmbg" placeholder="JMBG" /> </td>
+                                        <td><input type="number" required  id="jmbg" placeholder="JMBG" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Kontakt Telefon</td>
-                                        <td><input type="text" id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
+                                        <td><input type="text" required  id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Email</td>
-                                        <td><input type="text" id="email" placeholder="Email" /> </td>
+                                        <td><input type="text" required  id="email" placeholder="Email" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Password</td>
                                         <td>
-                                            <input type="password" id="password" placeholder="Password" />
+                                            <input type="password" required  id="password" placeholder="Password" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Confirm Password</td>
                                         <td>
-                                            <input type="password" id="confirmPassword" placeholder="Confirm Password" />
+                                            <input type="password" required  id="confirmPassword" placeholder="Confirm Password" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Broj Taksi Vozila</td>
-                                        <td><input type="text" id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
+                                        <td><input type="text" required  id="brojTaksiVozila" placeholder="Broj Taksi Vozila" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Godiste Automobila</td>
-                                        <td><input type="text" id="godisteAutomobila" placeholder="Godiste Automobila" /> </td>
+                                        <td><input type="text" required  id="godisteAutomobila" placeholder="Godiste Automobila" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Tip Automobila</td>
@@ -631,7 +653,7 @@
                                     </tr>
                                     <tr>
                                         <td>Broj Registarske Oznake</td>
-                                        <td><input type="text" id="brojRegistarskeOznake" placeholder="Broj Registarske Oznake" /> </td>
+                                        <td><input type="text" required  id="brojRegistarskeOznake" placeholder="Broj Registarske Oznake" /> </td>
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
@@ -965,34 +987,34 @@
 
                                     <tr>
                                         <td>Ulica</td>
-                                        <td><input type="text" id="ulica" placeholder="Ulica" /></td>
+                                        <td><input type="text" required  id="ulica" placeholder="Ulica" /></td>
                                     </tr>
                                     <tr>
                                         <td>Broj</td>
-                                        <td><input type="number" id="broj" placeholder="Broj" /></td>
+                                        <td><input type="number" required  id="broj" placeholder="Broj" /></td>
                                     </tr>
                                     <tr>
                                         <td>Grad</td>
-                                        <td><input type="text" id="grad" placeholder="Grad" /></td>
+                                        <td><input type="text" required  id="grad" placeholder="Grad" /></td>
                                     </tr>
                                     <tr>
                                         <td>Postanski Broj</td>
-                                        <td><input type="number" id="postanskiBroj" placeholder="Postanski Broj" /></td>
+                                        <td><input type="number" required  id="postanskiBroj" placeholder="Postanski Broj" /></td>
                                     </tr>
                                     <tr>
                                         <td>Tip Automobila</td>
                                         <td>
-                                            <input type="radio" name="tipAutomobila" value="PutnickoVozilo" checked="checked" id="OtipAutomobila">
+                                            <input type="radio" name="OtipAutomobila" value="PutnickiAutomobil" checked="checked" id="OtipAutomobila">
                                             <label for="PutnickoVozilo">Putnicko Vozilo</label>
 
-                                            <input type="radio" name="tipAutomobila" value="KombiVozilo" id="OtipAutomobila">
+                                            <input type="radio" name="OtipAutomobila" value="KombiVozilo" id="OtipAutomobila">
                                             <label for="KombiVozilo">Kombi Vozilo</label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Vozac</td>
                                         <td>
-                                            <select id="vozaci"></select>
+                                            <select required  id="vozaci"></select>
                                         </td>
                                     </tr>
                                     <tr class="success">
@@ -1049,7 +1071,7 @@
                                     </tr>
                                     <tr>
                                         <td>Potvrda Nove Lozinke</td>
-                                        <td><input type="password" id="lozinka3" placeholder="Potvrda Nove Lozinke" /></td>
+                                        <td><input type="password" id="lozinka3" required  placeholder="Potvrda Nove Lozinke" /></td>
                                     </tr>
 
                                     <tr class="success">
@@ -1114,7 +1136,7 @@
                                     <tr>
                                         <td>Vozac</td>
                                         <td>
-                                            <select id="Pvozaci"></select>
+                                            <select required  id="Pvozaci"></select>
                                         </td>
                                     </tr>
                                     <tr class="success">

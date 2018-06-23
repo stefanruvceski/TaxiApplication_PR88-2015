@@ -144,18 +144,18 @@ namespace TaxiApplication.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "Broj Taksi Vozila")]
-        public string BrojTaksiVozila { get; set; }
-        [Required]
-        [Display(Name = "Godiste Automobila")]
-        public string GodisteAutomobila { get; set; }
-        [Required]
-        [Display(Name = "Tip Automobila")]
-        public string TipAutomobila { get; set; }
-        [Required]
-        [Display(Name = "Broj Registarske Oznake")]
-        public string BrojRegistarskeOznake { get; set; }
+        //[Required]
+        //[Display(Name = "Broj Taksi Vozila")]
+        //public string BrojTaksiVozila { get; set; }
+        //[Required]
+        //[Display(Name = "Godiste Automobila")]
+        //public string GodisteAutomobila { get; set; }
+        //[Required]
+        //[Display(Name = "Tip Automobila")]
+        //public string TipAutomobila { get; set; }
+        //[Required]
+        //[Display(Name = "Broj Registarske Oznake")]
+        //public string BrojRegistarskeOznake { get; set; }
 
 
     }

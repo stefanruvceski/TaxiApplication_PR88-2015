@@ -158,13 +158,13 @@ namespace TaxiApplication.Controllers
             DataBase.Korisnici[model.KorisnickoIme].Prezime = model.Prezime;
             DataBase.Korisnici[model.KorisnickoIme].Email = model.Email;
             DataBase.Korisnici[model.KorisnickoIme].KontaktTelefon = model.KontaktTelefon;
-            if(DataBase.Korisnici[User.Identity.Name].Uloga == Uloge.Vozac)
-            {
-                DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].BrojRegistarskeOznake = model.BrojRegistarskeOznake;
-                DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].Godiste = int.Parse(model.GodisteAutomobila);
-                TipoviAutomobila t; Enum.TryParse(model.TipAutomobila, out t);
-                DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].TipAutomobila = t;
-            }
+            //if(DataBase.Korisnici[User.Identity.Name].Uloga == Uloge.Vozac)
+            //{
+            //    DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].BrojRegistarskeOznake = model.BrojRegistarskeOznake;
+            //    DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].Godiste = int.Parse(model.GodisteAutomobila);
+            //    TipoviAutomobila t; Enum.TryParse(model.TipAutomobila, out t);
+            //    DataBase.automobili[((Vozac)DataBase.Korisnici[model.KorisnickoIme]).AutomobilID].TipAutomobila = t;
+            //}
             ApplicationUser applicationUser = await UserManager.FindAsync(model.KorisnickoIme, DataBase.Korisnici[model.KorisnickoIme].Lozinka);
 
             IdentityResult result1 = UserManager.SetEmail(applicationUser.Id, model.Email);

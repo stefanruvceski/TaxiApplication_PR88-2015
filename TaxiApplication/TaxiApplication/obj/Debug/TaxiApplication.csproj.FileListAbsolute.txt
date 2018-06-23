@@ -123,8 +123,8 @@ D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiA
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\bin\Microsoft.AI.WindowsServer.xml
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\bin\Microsoft.AI.Web.xml
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csprojAssemblyReference.cache
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csproj.CoreCompileInputs.cache
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csproj.CopyComplete
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.dll
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.pdb
+D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csprojAssemblyReference.cache
