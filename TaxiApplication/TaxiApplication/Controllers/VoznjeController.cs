@@ -225,10 +225,11 @@ namespace TaxiApplication.Controllers
         #endregion
 
         #region Lista voznji za vozaca po flag-u ->treba napraviti za filtere
-        // GET: api/Voznje/flag/datum/ocena/odDatum/doDatum/odOcena/doOcena/odCena/doCena
+        // GET: api/Voznje/flag/statusVoznje/datum/ocena/odDatum/doDatum/odOcena/doOcena/odCena/doCena
         [Authorize(Roles = "Vozac")]
-        public List<VozacVoznjaBindingModel> GetV(int flaggg, string datum, string ocena, DateTime odDatum, DateTime doDatum, int odOcena, int doOcena, int odCena, int doCena)
+        public List<VozacVoznjaBindingModel> GetV(int flaggg,int statusVoznje, string datum, string ocena, DateTime odDatum, DateTime doDatum, int odOcena, int doOcena, int odCena, int doCena)
         {
+            List<VozacVoznjaBindingModel> l = new List<VozacVoznjaBindingModel>();
             List<VozacVoznjaBindingModel> pom2 = new List<VozacVoznjaBindingModel>();
             List<VozacVoznjaBindingModel> lista = new List<VozacVoznjaBindingModel>();
             //voznje.Add(new Voznja());
@@ -355,17 +356,36 @@ namespace TaxiApplication.Controllers
                         catch { }
                     }
                 }
+                
+                if (statusVoznje == -1)
+                {
+                    pom2.ForEach(x => l.Add(x));
+                }
+                else
+                {
+                    StatusiVoznje s = (StatusiVoznje)statusVoznje;
+                    
+
+                    foreach (var item in pom2)
+                    {
+                        if (s.ToString() == item.StatusVoznje)
+                            l.Add(item);
+                    }
+
+                    
+                }
+
                 if (datum == "datum" && ocena == "ocena")
                 {
-                    pom2 = pom2.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ThenByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
+                    l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ThenByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
                 }
                 else if (datum == "datum")
                 {
-                    pom2 = pom2.OrderByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
+                    l = l.OrderByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
                 }
                 else if (ocena == "ocena")
                 {
-                    pom2 = pom2.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
+                    l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
                 }
 
                 
@@ -373,14 +393,14 @@ namespace TaxiApplication.Controllers
 
             if (DataBase.voznje.Values.ToList().FindAll(x=>(x.VozacID == User.Identity.Name) && (x.StatusVoznje == StatusiVoznje.Obradjena || x.StatusVoznje == StatusiVoznje.Prihvacena || x.StatusVoznje == StatusiVoznje.Formirana)).Count > 0)
             {
-                pom2[0].Flag = 1;
+                l[0].Flag = 1;
             }
             else
             {
-                pom2[0].Flag = -1;
+                l[0].Flag = -1;
             }
 
-            return pom2;
+            return l;
 
 
 
@@ -441,10 +461,11 @@ namespace TaxiApplication.Controllers
         }
         #endregion
         #region Lista voznji za dispecere po svim pretragama i filterima
-        // GET: api/Voznje/flag/datum/ocena/odDatum/doDatum/odOcena/doOcena/odCena/doCena/vIme/vPrezime/mIme/mPrezime
-        public List<GetDispecerVoznjaBindingModel> GetD(int flag,string datum,string ocena, DateTime odDatum, DateTime doDatum, int odOcena, int doOcena, int odCena, int doCena,string mIme,string mPrezime, string vIme, string vPrezime)
+        // GET: api/Voznje/flag/statusVoznje/datum/ocena/odDatum/doDatum/odOcena/doOcena/odCena/doCena/vIme/vPrezime/mIme/mPrezime
+        public List<GetDispecerVoznjaBindingModel> GetD(int flag,int statusVoznje,string datum,string ocena, DateTime odDatum, DateTime doDatum, int odOcena, int doOcena, int odCena, int doCena,string mIme,string mPrezime, string vIme, string vPrezime)
         {
             List<GetDispecerVoznjaBindingModel> lista = new List<GetDispecerVoznjaBindingModel>();
+            List<GetDispecerVoznjaBindingModel> l = new List<GetDispecerVoznjaBindingModel>();
             GetDispecerVoznjaBindingModel model;
             foreach (KeyValuePair<int, Voznja> voznja in DataBase.voznje)
             {
@@ -568,20 +589,39 @@ namespace TaxiApplication.Controllers
             }
 
 
-            if (datum == "datum" && ocena == "ocena")
+            if (statusVoznje == -1)
             {
-                pom2 = pom2.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ThenByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
+                pom2.ForEach(x => l.Add(x));
             }
-            else if(datum == "datum")
+            else
             {
-                pom2 = pom2.OrderByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
-            }
-            else if(ocena == "ocena")
-            {
-                pom2 = pom2.OrderByDescending(z=>Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
+                StatusiVoznje s = (StatusiVoznje)statusVoznje;
+
+
+                foreach (var item in pom2)
+                {
+                    if (s.ToString() == item.StatusVoznje)
+                        l.Add(item);
+                }
+
+
             }
 
-            return pom2;
+            if (datum == "datum" && ocena == "ocena")
+            {
+                l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ThenByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
+            }
+            else if (datum == "datum")
+            {
+                l = l.OrderByDescending(x => DateTime.Parse(x.DatumIVreme)).ToList();
+            }
+            else if (ocena == "ocena")
+            {
+                l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
+            }
+
+            
+            return l;
         }
         #endregion
         #region Detalji o voznji

@@ -4,7 +4,7 @@
 4|6/24/2018 12:21:31 PM|Uspesna|KombiVozilo|400|vozac6|-1|stefanrrr|5|6|-1
 5|6/24/2018 12:22:51 PM|Uspesna|PutnickiAutomobil|350|vozac2|teodorarrrr|-1|7|8|3
 6|6/24/2018 12:26:05 PM|Uspesna|PutnickiAutomobil|440|vozac9|musterija1|stefanrrr|9|10|4
-7|6/24/2018 12:52:48 AM|Uspesna|PutnickiAutomobil|450|vozac1|-1|stefanrrr|11|12|-1
+7|6/24/2018 12:52:48 PM|Uspesna|PutnickiAutomobil|450|vozac1|-1|stefanrrr|11|12|-1
 8|6/24/2018 1:10:19 AM|Formirana|KombiVozilo|-1|vozac1|-1|stefanrrr|13|-1|-1
 9|6/24/2018 1:10:46 AM|Uspesna|PutnickiAutomobil|550|vozac2|musterija1|-1|14|15|-1
 10|6/24/2018 1:40:04 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija1|-1|16|-1|-1

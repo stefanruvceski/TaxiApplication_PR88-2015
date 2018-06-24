@@ -271,6 +271,7 @@
 
             $('#btnRefreshStart').click(function () {
                 var flag = $('#view:checked').val();
+                var statusVoznje = $('#statusVoznje').val();
                 var datum = $('#datum:checked').val();
                 var ocena = $('#ocena:checked').val();
                 var odDatum = $('#Dstart').val();
@@ -286,7 +287,7 @@
                 $('#username').text(localStorage.getItem('username'));
 
                 $.ajax({
-                    url: '/api/voznje?flag=' + flag + '&datum=' + datum + '&ocena=' + ocena + '&odDatum=' + odDatum + '&doDatum=' + doDatum + '&odOcena=' + odOcena + '&doOcena=' + doOcena + '&odCena=' + odCena + '&doCena=' + doCena + '&vIme=' + Vime + '&vPrezime=' + Vprezime + '&mIme=' + Mime + '&mPrezime=' + Mprezime,
+                    url: '/api/voznje?flag=' + flag + '&statusVoznje=' + statusVoznje + '&datum=' + datum + '&ocena=' + ocena + '&odDatum=' + odDatum + '&doDatum=' + doDatum + '&odOcena=' + odOcena + '&doOcena=' + doOcena + '&odCena=' + odCena + '&doCena=' + doCena + '&vIme=' + Vime + '&vPrezime=' + Vprezime + '&mIme=' + Mime + '&mPrezime=' + Mprezime,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -521,6 +522,16 @@
                 <label class="checkbox-inline"><input type="checkbox" id="datum" value="datum">Datum</label>
                 <label class="checkbox-inline"><input type="checkbox" id="ocena" value="ocena">Ocena</label>
             </div>
+            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
+                <option value="-1">Status Voznje</option>
+                <option value="0">Kreirana</option>
+                <option value="1">Formirana</option>
+                <option value="2">Obradjena</option>
+                <option value="3">Prihvacena</option>
+                <option value="4">Otkazana</option>
+                <option value="5">Neuspesna</option>
+                <option value="6">Uspesna</option>
+            </select>
         </div>
         <div id="divData" class="well hidden">
             <table class="table table-bordered" id="tblData">
