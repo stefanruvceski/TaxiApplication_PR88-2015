@@ -12,13 +12,14 @@
             if (localStorage.getItem('mainPage') == null) {
                 localStorage.setItem('mainPage', page[2]);
             }
-            else if (localStorage.getItem('mainPage') == "Register.html" || localStorage.getItem('mainPage') == "register.html") {
+            else if (localStorage.getItem('mainPage') == "Register.html" || localStorage.getItem('mainPage') == "register.html") {   
                 localStorage.setItem('mainPage', page[2]);
             }
-            else if (localStorage.getItem('mainPage') != page[2]) {
+            else if (localStorage.getItem('mainPage') != page[2]) {               
                 window.location.href = localStorage.getItem('mainPage');
-            }
 
+            }
+            
             $('#linkClose').click(function () {
                 $('#divError').hide('fade');
             });

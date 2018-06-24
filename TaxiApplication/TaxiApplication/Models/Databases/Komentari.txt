@@ -1,5 +1,5 @@
 -1|-1|Nula|6/18/2018 10:55:20 AM|-1|-1
-1|sjajno|Pet|6/23/2018 2:37:11 AM|3|teodorarrrr
-2|sjajno|Cetiri|6/23/2018 2:37:26 AM|15|teodorarrrr
-3|sjajno|Cetiri|6/23/2018 2:37:50 AM|3|teodorarrrr
-4|sjajno|Tri|6/23/2018 2:38:04 AM|16|teodorarrrr
+1|Odlicna voznja|Pet|6/24/2018 12:10:02 PM|2|teodorarrrr
+2|Solidna voznja|Cetiri|6/24/2018 12:12:56 PM|3|teodorarrrr
+3|Nisam bas zadovoljan|Tri|6/24/2018 12:24:36 PM|5|teodorarrrr
+4|Odlican taksista,oclican usluga|Pet|6/24/2018 12:27:30 PM|6|musterija1

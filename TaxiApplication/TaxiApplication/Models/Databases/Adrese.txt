@@ -1,43 +1,17 @@
 -1|-1|-1|-1|-1
-1|Kolo Srpskih Sestara|22|Novi Sad|21000
-2|Puskinova|21|Novi Sad|21000
-3|Kolo Srpskih Sestara|22|Novi Sad|21000
-4|Puskinova|21|Novi Sad|21000
-5|Mise Dimitrijevica|7|Novi Sad|21000
-6|Brace Jerkovica|43|Novi Sad|21000
-7|Pariskih Komuna|2|Novi Sad|21000
-8|Alekse Santica|56|Novi Sad|21000
-9|Brace Ribnikara|16|Novi Sad|21000
-10|Bulevar Evrope|132|Novi Sad|21000
-11|Puskinova|21|Novi Sad|21000
-12|Bulevar Cara Lazara|131|Novi Sad|21000
-13|Alekse Santica |22|Novi Sad|21000
-14|Mise Dimitrijevica|15|Novi Sad|21000
-15|Alekse santica |44|Novi Sad|21000
-16|Bulevar Cara Dusana|56|Novi Sad|21000
-17|kolo srpskih sestara |7|Novi Sad|21000
-18|Narodnog Fronta|122|Novi Sad|21000
-19|Narodnog Fronta|90|Novi Sad|21000
-20|Modene|31|Novi Sad|21000
-21|Brace Ribnikara|12|Novi Sad|21000
-22|kolo srpskih sestara|77|Novi Sad|21000
-23|kolo srpskih sestara|77|Novi Sad|21000
-24|kolo srpskih sestara|77|Novi Sad|21000
-25|kolo srpskih sestara|77|Novi Sad|21000
-26|Kolo Srpskih Sestara|17|Novi Sad|21000
-27|Mise Dimitrijevica|14|Novi Sad|21000
-28|Puskinova|56|Novi Sad|21000
-29|Mise Dimitrijevica|12|Novi Sad|21000
-30|Kolo Srpskih Sestara|21|Novi Sad|21000
-31|Pariskih Komuna|78|Novi Sad|21000
-32|Brace Jerkovica|25|Novi Sad|21000
-33|Mise Dimitrijevica|57|Novi Sad|21000
-34|Puskinova|16|Novi Sad|21000
-35|Puskinova|45|Novi Sad|21000
-36|Kolo Srpskih Sestara|22|Novi Sad|21000
-37|Puskinova|21|Novi Sad|21000
-38|Lasla Gala|17|Novi Sad|21000
-39||0||0
-40|Futoska|48|Novi Sad|21000
-41||0||0
-42|Kolo Srpskih Sestara|56|Novi Sad|21000
+1|kolo srpskih sestara|22|Novi Sad|21000
+2|Modene|7|Novi Sad|21000
+3|Alekse santica|44|Novi Sad|21000
+4|Bulevar Evrope|76|Novi Sad|21000
+5|Puskinova|21|Novi Sad|21000
+6|Heroja Pinkija|8|Novi Sad|21000
+7|Marko Kraljevica|45|Novi Sad|21000
+8|Kolo Srpskih Sestara|9|Novi Sad|21000
+9|Balzakova|11|Novi Sad|21000
+10|Dunavska|8|Novi Sad|21000
+11|Gogoljeva|9|Novi Sad|21000
+12|Modene|5|Novi Sad|21000
+13|Puskinova|67|Novi Sad|21000
+14|Dunavska|9|Novi Sad|21000
+15|Kolo Srpskih Sestara|22|Novi Sad|21000
+16|Alekse santica |66|Novi Sad|21000

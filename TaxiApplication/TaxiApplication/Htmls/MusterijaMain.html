@@ -5,6 +5,7 @@
     <title>Musterija</title>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/jquery.shortcuts.min.js"></script>
     <link href="../Content/Site.css" rel="stylesheet" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script>
@@ -21,7 +22,11 @@
             else if (localStorage.getItem('mainPage') != page[2]) {
                 window.location.href = localStorage.getItem('mainPage');
             }
-            
+
+            Mousetrap.bind('shift+r', function () {
+                $('#btnRefreshStart').trigger('click');
+            });
+
             $('#bntError').click(function () {
                 $('#errorModal').modal('hide');
                 $('#' + modal).modal('show');
@@ -89,6 +94,7 @@
             });
             $('body').on('click', "input[name='BbtnRate']", function (data) {
                 id = data.target.id;
+                $('#opis').val('');
                 $('#ocena').removeAttr("disabled");
                 $('#PostKomentarModal').modal('show');
             });
@@ -101,7 +107,7 @@
                     },
                     data: {
                         Opis: $('#opis').val(),
-                        Ocena: $('#ocena').val(),
+                        Ocena: $('#Kocena').val(),
                         VoznjaID: id
                     },
                     success: function () {
@@ -143,8 +149,9 @@
                         $('#btnRefreshStart').trigger("click");
                     },
                     error: function (jqXHR) {
-                        $('#errorContent').text(jqXHR.responseText);
+                        $('#errorContent').text(jqXHR.responseJSON.Message);
                         $('#errorModal').modal('show');
+                        $('#changePasswordModal').modal('hide');
                     }
                 });
             });
@@ -173,6 +180,13 @@
                 });
             });
             $('#btnEdit').click(function () {
+                if (!$('#editForm')[0].checkValidity()) {
+                    modal = 'EditModal';
+                    $('#EditModal').modal('hide');
+                    $('#errorContent').text('Unesite ispravne podatke za menjanje podataka');
+                    $('#errorModal').modal('show');
+                    $(forma).submit();
+                }
                 $.ajax({
                     url: '/api/Account/Edit/',
                     method: 'POST',
@@ -192,8 +206,9 @@
                         $('#successModal').modal('show');
                     },
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
+                        $('#errorContent').text(jqXHR.responseJSON.Message);
+                        $('#errorModal').modal('show');
+                        $('#EditModal').modal('hide');
                     }
                 });
             });
@@ -245,7 +260,8 @@
                     }
                 });
             });
-
+            
+           
             $('#btnRefreshStart').click(function () {
                 var flag = $('#statusVoznje').val();
                 var datum = $('#datum:checked').val();
@@ -268,7 +284,7 @@
                         $('#divData').removeClass('hidden');
                         $('#tblBody').empty();
                         $.each(data, function (index, value) {
-                            if (value.StatusVoznje == "Uspesna") {
+                            if (value.StatusVoznje == "Uspesna" && value.Ocena == "Nedefinisano") {
                                 var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
@@ -276,8 +292,20 @@
                                     + value.DatumIVreme + '</td><td>'
                                     + value.TipAutomobila + '</td><td>'
                                     + value.Ocena + '</td><td>'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success"type = "button" value = "Rate" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success "type = "button" value = "&#128221;" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                            else if (value.StatusVoznje == "Uspesna" && value.Ocena != "Nedefinisano") {
+                                var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
@@ -289,22 +317,10 @@
                                     + value.DatumIVreme + '</td><td>'
                                     + value.TipAutomobila + '</td><td>'
                                     + value.Ocena + '</td><td>'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
-                            //else if (value.StatusVoznje == "Otkazana") {
-                            //    var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
-                            //        + value.Polaziste + '</td><td>'
-                            //        + "Nedefinisano" + '</td><td>'
-                            //        + value.StatusVoznje + '</td><td>'
-                            //        + value.DatumIVreme + '</td><td>'
-                            //        + value.TipAutomobila + '</td><td>'
-                            //        + "Nedefinisano" + '</td><td>'
-                            //        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
-                            //        + '</td></tr>');
-                            //    $('#tblData').append(row);
-                            //}
                             else {
                                 var row = $('<tr><td>' + "Nedefinisano" + '</td><td>'
                                     + value.Polaziste + '</td><td>'
@@ -313,9 +329,9 @@
                                     + value.DatumIVreme + '</td><td>'
                                     + value.TipAutomobila + '</td><td>'
                                     + "Nedefinisano" + '</td><td>'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnEdit" class="btn btn-success"type = "button" value = "Edit" />'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDelete" class="btn btn-success"type = "button" value = "Delete" />'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "Details" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnEdit" class="btn btn-success"type = "button" value = "&#9998;" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDelete"  class="btn btn-success"type = "button" value = "&#x1F5D1;" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
@@ -353,29 +369,13 @@
     </script>
 </head>
 <body style="padding-top:20px">
-    <div id="Buttons&Data" style="text-align:center" class="col-md-11 col-md-offset-1">
+    <div id="Buttons&Data" style="text-align:center" class="col-md-12 ">
         <div id="buttons" class="well">
             <div class="pull-right">
                 <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
                 <p style="text-align:center" id="username"></p>
             </div>
-            <input id="btnEditStart" class="btn btn-success" type="button" value="Izmeni Podatke" />
-            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Prikaz Podataka" />
-            <input id="btnOrderStart" class="btn btn-success" type="button" value="Pozovi Taksi" />
-            <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
-            <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
 
-            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
-                <option value="-1">Status Voznje</option>
-                <option value="0">Kreirana</option>
-                <option value="1">Formirana</option>
-                <option value="2">Obradjena</option>
-                <option value="3">Prihvacena</option>
-                <option value="4">Otkazana</option>
-                <option value="5">Neuspesna</option>
-                <option value="6">Uspesna</option>
-            </select>
-            <br /><br />
             <div id="Sortiranje" class="Btn-success Btn " style="display:inline-block;padding-top:13px;padding-bottom:8px">
                 <label>Sortiranje</label>
                 <label class="checkbox-inline"><input type="checkbox" id="datum" value="datum">Datum</label>
@@ -417,6 +417,23 @@
                     <input type="number" class="Btn Btn-success" id="Cend" style="width:70px;" name="name" value="2000" min="0" />
                 </div>
             </div>
+            <br /><br />
+            <input id="btnEditStart" class="btn btn-success" type="button" value="Izmeni Podatke" />
+            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Prikaz Podataka" />
+            <input id="btnOrderStart" class="btn btn-success" type="button" value="Pozovi Taksi" />
+            <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
+            <input id="btnRefreshStart" class="btn btn-success" type="button"  value="Osvezi Voznje" />
+
+            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
+                <option value="-1">Status Voznje</option>
+                <option value="0">Kreirana</option>
+                <option value="1">Formirana</option>
+                <option value="2">Obradjena</option>
+                <option value="3">Prihvacena</option>
+                <option value="4">Otkazana</option>
+                <option value="5">Neuspesna</option>
+                <option value="6">Uspesna</option>
+            </select>
 
         </div>
         <div id="divData" class="well hidden">
@@ -436,7 +453,6 @@
                 <tbody id="tblBody"></tbody>
             </table>
         </div>
-
 
         <div id="divError" class="alert alert-danger collapse">
             <a id="linkClose" href="#" class="close">&times;</a>
@@ -503,9 +519,8 @@
                     <h4 class="modal-title">Promena Korisnickih Podataka</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="editForm">
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
@@ -517,19 +532,19 @@
                                 <tbody>
                                     <tr>
                                         <td>Ime</td>
-                                        <td><input type="text" id="ime" placeholder="Ime" /> </td>
+                                        <td><input type="text" id="ime" required placeholder="Ime" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Prezime</td>
-                                        <td><input type="text" id="prezime" placeholder="Prezime" /> </td>
+                                        <td><input type="text" id="prezime" required placeholder="Prezime" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Kontakt Telefon</td>
-                                        <td><input type="text" id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
+                                        <td><input type="text" required id="kontaktTelefon" placeholder="Kontakt Telefon" /> </td>
                                     </tr>
                                     <tr>
                                         <td>Email</td>
-                                        <td><input type="text" id="email" placeholder="Email" /> </td>
+                                        <td><input type="text" required id="email" placeholder="Email" /> </td>
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
@@ -542,7 +557,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"data-dismiss="modal">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
                         Zatvori
                     </button>
                 </div>
@@ -598,7 +613,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnOrder" class="btn btn-success"type="button" value="Order" />
+                                            <input id="btnOrder" class="btn btn-success" type="button" value="Order" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -748,7 +763,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success"data-dismiss="modal">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
                         Zatvori
                     </button>
                 </div>
@@ -767,7 +782,6 @@
                 <div class="modal-body">
                     <form id="orderForm">
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
@@ -784,7 +798,7 @@
                                     <tr>
                                         <td>Ocena</td>
                                         <td>
-                                            <select id="ocena" disabled class="selectpicker" data-style="btn-success">
+                                            <select id="Kocena" class="selectpicker" data-style="btn-success">
                                                 <option value="Nula">0</option>
                                                 <option value="Jedan">1</option>
                                                 <option value="Dva">2</option>
@@ -824,7 +838,6 @@
                 <div class="modal-body">
                     <form id="change_Form">
                         <div class="modal-content">
-                            <!--This table contains the fields that we want to capture to register a new user-->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="success">
