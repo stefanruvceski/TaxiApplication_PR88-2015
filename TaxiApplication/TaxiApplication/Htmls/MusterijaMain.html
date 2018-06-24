@@ -5,10 +5,83 @@
     <title>Musterija</title>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+    <link href="../Content/Mapa.css" rel="stylesheet" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALxjn6ZLM3qKDKm_pQ9YuW2P3S9U_c-lg"></script>
     <script src="../Scripts/jquery.shortcuts.min.js"></script>
     <link href="../Content/Site.css" rel="stylesheet" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script>
+        var adresaa;
+        var geocoder = new google.maps.Geocoder();
+
+        function geocodePosition(pos) {
+            geocoder.geocode({
+                latLng: pos
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    updateMarkerAddress(responses[0].formatted_address);
+                } else {
+                    updateMarkerAddress('Cannot determine address at this location.');
+                }
+            });
+        }
+
+        function updateMarkerStatus(str) {}
+
+        function updateMarkerPosition(latLng) {
+            document.getElementById('info').innerHTML = [
+                latLng.lat(),
+                latLng.lng()
+            ].join(', ');
+        }
+
+        function updateMarkerAddress(str) {
+            document.getElementById('address').innerHTML = str;
+            adresaa = str;
+        }
+
+        function initialize() {
+            var latLng = new google.maps.LatLng(45.2407607, 19.8269764);
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: 16,
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+        var marker = new google.maps.Marker({
+            position: latLng,
+            title: 'Point A',
+            map: map,
+            draggable: true
+            });
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+            });
+
+        // Update current position info.
+        updateMarkerPosition(latLng);
+        geocodePosition(latLng);
+
+        // Add dragging event listeners.
+        google.maps.event.addListener(marker, 'dragstart', function () {
+            updateMarkerAddress('Dragging...');
+        });
+
+        google.maps.event.addListener(marker, 'drag', function () {
+            updateMarkerStatus('Dragging...');
+            updateMarkerPosition(marker.getPosition());
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function () {
+            updateMarkerStatus('Drag ended');
+            geocodePosition(marker.getPosition());
+        });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
 
         $(document).ready(function () {
             var id = "-1";
@@ -22,6 +95,8 @@
             else if (localStorage.getItem('mainPage') != page[2]) {
                 window.location.href = localStorage.getItem('mainPage');
             }
+
+            
 
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
@@ -221,6 +296,7 @@
             });
 
             $('#btnOrderStart').click(function () {
+                $('#UnosLokacije').hide();
                 id = -1;
                 $('#btnOrder').val('Naruci');
                 $('#ulica').val('');
@@ -247,9 +323,6 @@
                     data: {
                         ulica: $('#ulica').val(),
                         broj: $('#broj').val(),
-                        broj: $('#broj').val(),
-                        broj: $('#broj').val(),
-                        broj: $('#broj').val(),
                         grad: $('#grad').val(),
                         postanskiBroj: $('#postanskiBroj').val(),
                         tipAutomobila: $("input:checked").val(),
@@ -267,7 +340,46 @@
                     }
                 });
             });
-            
+            $('#btnOrder2').click(function () {
+                var broj;
+                var ulica ="";
+                var grad = "";
+                var postanskiBroj;
+
+                var delovi = adresaa.split(',');
+                var delovi1 = delovi[0].split(' ');
+                for (var i = 0; i < delovi1.length-1; i++) {
+                    ulica += delovi1[i] + " ";
+                }
+                broj = delovi1[delovi1.length - 1]; 
+
+                var delovi2 = delovi[1].split(' ');
+                for (var i = 1; i < delovi2.length - 1; i++) {
+                    grad += delovi2[i] + " ";
+                }
+                postanskiBroj = delovi2[delovi2.length - 1];
+
+                $('#ulica').val(ulica.trim());
+                $('#broj').val(parseInt(broj.trim()));
+                $('#grad').val(grad.trim());
+                $('#postanskiBroj').val(parseInt(postanskiBroj.trim()));
+                $("input:checked").val($("input[name='LtipAutomobila']:checked").val());
+                id = -1;
+                $('#btnOrder').trigger('click');
+            });
+            $('body').on('click', "input[name='tipUnosa']", function (data) {
+                id = data.target.id;
+                
+                if (id == "unosAdrese") {
+                    $('#UnosAdrese').show();
+                    $('#UnosLokacije').hide();
+                }
+                else if (id == "unosLokacije") {
+                    $('#UnosLokacije').show();
+                    $('#UnosAdrese').hide();
+                }
+            });
+
             $('#btnRefreshStart').click(function () {
                 var flag = $('#statusVoznje').val();
                 var datum = $('#datum:checked').val();
@@ -440,7 +552,7 @@
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Prikaz Podataka" />
             <input id="btnOrderStart" class="btn btn-success" type="button" value="Pozovi Taksi" />
             <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
-            <input id="btnRefreshStart" class="btn btn-success" type="button"  value="Osvezi Voznje" />
+            <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
 
             <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
                 <option value="-1">Status Voznje</option>
@@ -598,11 +710,45 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Popunite polja za poziv taksija
+                                            Popunite polja za poziv taksija&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="tipUnosa" checked="checked" value="Unos Adrese" id="unosAdrese">
+                                            <label for="PutnickoVozilo">Unos Adrese</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="tipUnosa" value="Unos lokacije" id="unosLokacije">
+                                            <label for="KombiVozilo">Unos Lokacije</label>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="UnosLokacije">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div id="mapCanvas"></div>
+                                            <div id="infoPanel">
+                                                <b>Current position:</b>
+                                                <div id="info"></div>
+                                                <b>Closest matching address:</b>
+                                                <div id="address">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tip Automobila</td>
+                                        <td>
+                                            <input type="radio" name="LtipAutomobila" checked="checked" value="PutnickoVozilo" id="PutnickoVozilo">
+                                            <label for="PutnickoVozilo">Putnicko Vozilo</label>
+
+                                            <input type="radio" name="LtipAutomobila" value="KombiVozilo" id="KombiVozilo">
+                                            <label for="KombiVozilo">Kombi Vozilo</label>
+                                        </td>
+                                    </tr>
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <input id="btnOrder2" class="btn btn-success" type="button" value="Naruci" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody id="UnosAdrese">
                                     <tr>
                                         <td>Ulica</td>
                                         <td><input type="text" required id="ulica" placeholder="Ulica" /></td>
@@ -896,5 +1042,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>

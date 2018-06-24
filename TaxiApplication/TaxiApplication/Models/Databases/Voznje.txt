@@ -21,3 +21,5 @@
 21|6/24/2018 5:15:44 AM|Neuspesna|PutnickiAutomobil|-1|vozac5|-1|stefanrrr|30|-1|12
 22|6/24/2018 5:17:28 AM|Neuspesna|PutnickiAutomobil|-1|vozac5|-1|stefanrrr|31|-1|13
 23|6/24/2018 5:19:01 AM|Uspesna|PutnickiAutomobil|430|vozac5|musterija1|-1|32|33|16
+24|6/24/2018 10:39:08 PM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija1|-1|34|-1|-1
+25|6/24/2018 10:39:58 PM|Kreirana_NaCekanju|KombiVozilo|-1|-1|musterija1|-1|35|-1|-1

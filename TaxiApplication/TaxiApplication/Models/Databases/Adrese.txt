@@ -32,3 +32,5 @@
 31|Brace Jerkovica|21|Novi Sad|21000
 32|Gunduliceva|16|Novi Sad|21000
 33|Alekse santica |43|Novi Sad|21000
+34|Balzakova|22|Novi Sad|21102
+35|Pavla Simića|6|Novi Sad|21000

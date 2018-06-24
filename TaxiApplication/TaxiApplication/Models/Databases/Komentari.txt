@@ -12,6 +12,6 @@
 11||Nula|6/24/2018 5:12:39 AM|19|vozac5
 12||Nula|6/24/2018 5:17:05 AM|21|vozac5
 13|ni ovaj se nije pojavio|Nula|6/24/2018 5:17:48 AM|22|vozac5
-14|Nekulturan vozac|Jedan|6/24/2018 5:22:27 PM|9|musterija1
-15|Savrsena Voznja uvek bih se vozila sa vasom sluzbom|Pet|6/24/2018 5:22:49 PM|10|musterija1
-16|Vozac pristojan i brz|Pet|6/24/2018 5:23:32 PM|23|musterija1
+14|Nekulturan vozac|Jedan|6/24/2018 5:22:27 AM|9|musterija1
+15|Savrsena Voznja uvek bih se vozila sa vasom sluzbom|Pet|6/24/2018 5:22:49 AM|10|musterija1
+16|Vozac pristojan i brz|Pet|6/24/2018 5:23:32 AM|23|musterija1

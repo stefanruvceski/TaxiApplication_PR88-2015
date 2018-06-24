@@ -12,7 +12,7 @@ vozac6|vozac6|vozic6|Terminator_96|123321123|Zenski|321123321|vozac6@gmail.com|V
 vozac7|vozac7|vozic7|Terminator_96|998877|Zenski|778899|vozac7@gmail.com|Vozac|-1|777|[]
 vozac8|vozac8|vozic8|Terminator_96|8889988|Muski|998899|vozac8@gmail.com|Vozac|-1|888|[]
 vozac9|vozac9|vozic9|Terminator_96|9999999|Muski|9999999|vozac9@gmail.com|Vozac|10|999|[6-]
-musterija1|musterija1|musterijic1|Terminator_96|123123123|Muski|3333333|musterija1@gmail.com|Musterija|[6-9-10-23-]
+musterija1|musterija1|musterijic1|Terminator_96|123123123|Muski|3333333|musterija1@gmail.com|Musterija|[6-9-10-23-24-25-]
 musterija2|musterija2|musterijic2|Terminator_96|222111222|Muski|123123123|musterija2@gmail.com|Musterija|[]
 musterija3|musterija3|musterijic3|Terminator_96|3333111333|Muski|3333112323|musterija3@gmail.com|Musterija|[]
 musterija4|musterija4|musterijic4|Terminator_96|454533344|Muski|444555444|musterija4@gmail.com|Musterija|[]
