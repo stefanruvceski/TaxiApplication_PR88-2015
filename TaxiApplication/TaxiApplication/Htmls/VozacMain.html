@@ -7,7 +7,6 @@
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/jquery.shortcuts.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <link href="../Content/Site.css" rel="stylesheet" />
     <script type="text/javascript">
@@ -25,6 +24,12 @@
 
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
+            });
+            Mousetrap.bind('shift+e', function () {
+                $('#btnLogoff').trigger('click');
+            });
+            Mousetrap.bind('shift+w', function () {
+                $('#btnLocationStart').trigger('click');
             });
 
             $('#bntError').click(function () {
@@ -62,7 +67,7 @@
                     $(forma).submit();
                 }
                 $.ajax({
-                    url: '/api/Account/Edit/',
+                    url: '/api/Account/EditVozac/',
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -348,7 +353,7 @@
                 else {
                     content = '<tr>' +
                         '<td>Opis</td>' +
-                        '<td><textarea id="opis" name="opis" placeholder="Enter text here..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>' +
+                        '<td><textarea id="opis" name="Vopis" placeholder="Unesite razlog..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>' +
                         '</tr>' +
                         '</tr><tr class="success">' +
                         '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Post" /></td>' +
@@ -373,22 +378,13 @@
                         grad: $('input[name="grad"]').val(),
                         postanskiBroj: $('input[name="postanskiBroj"]').val(),
                         Iznos: $('input[name="iznos"]').val(),
-                        opis: $('input[name="opis"]').val()
+                        opis: $('textarea[name="Vopis"]').val()
                     },
                     success: function (data) {
                         $('#PostKomentarModal').modal('hide');
                         $('#btnRefreshStart').trigger('click');
                         $('#successContent').text('Post Successful!')
                         $('#successModal').modal('show');
-                        //$('#Dadresa1').val(data.Adresa1);
-                        //$('#Dadresa2').val(data.Adresa2);
-                        //$('#DkorisnickoIme').val(data.KorisnickoImeKorisnika);
-                        //$('#DbrojTaksija').val(data.BrojTaksija);
-                        //$('#DtipAutomobila').val(data.TipAutomobila);
-                        //$('#DstatusVoznje').val(data.StatusVoznje);
-                        //$('#Dopis').val(data.Opis);
-                        //$('#Docena').val(data.Ocena);
-                        //$('#VoznjaDetailsModel').modal('show');
                     },
                 });
             });
@@ -428,7 +424,7 @@
     <div id="Buttons&Data" style="text-align:center" class="col-md-12 ">
         <div id="buttons" class="well">
             <div class="pull-right">
-                <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
+                <input id="btnLogoff" class="btn btn-success" type="button" value="Odjava" />
                 <p style="text-align:center" id="username"></p>
             </div>
             <div id="Sortiranje" class="Btn-success Btn " style="display:inline-block;padding-top:13px;padding-bottom:8px">
@@ -543,7 +539,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" tabindex="-1" id="successModal"
          data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-sm">
@@ -567,6 +562,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" tabindex="-1" id="EditModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -644,7 +640,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" tabindex="-1" id="DetailsModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

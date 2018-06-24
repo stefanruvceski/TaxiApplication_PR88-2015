@@ -12,6 +12,7 @@
 
         $(document).ready(function () {
             var modal;
+            var Vid;
             var page = window.location.pathname.split('/');
             if (localStorage.getItem('accessToken') == null) {
                 window.location.href = "Login.html";
@@ -23,6 +24,15 @@
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
             });
+            Mousetrap.bind('shift+e', function () {
+                $('#btnLogoff').trigger('click');
+            });
+            Mousetrap.bind('shift+q', function () {
+                $('#btnFormOrderStart').trigger('click');
+            });
+            Mousetrap.bind('shift+w', function () {
+                $('#btnRegisterStart').trigger('click');
+            });
 
             $('#bntError').click(function () {
                 $('#errorModal').modal('hide');
@@ -30,10 +40,10 @@
             });
 
             $('body').on('click', "input[name='BbtnProcess']", function (data) {
-                id = data.target.id;
+                Vid = data.target.id;
                 $('#Pvozaci').html('')
                 $.ajax({
-                    url: '/api/voznje/process/' + id,
+                    url: '/api/voznje/process/' + Vid,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -68,7 +78,7 @@
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
                     data: {
-                        VoznjaId: id,
+                        VoznjaId: Vid,
                         VozacId: $('#Pvozaci').val(),
                     },
                     success: function () {
@@ -271,7 +281,7 @@
 
             $('#btnRefreshStart').click(function () {
                 var flag = $('#view:checked').val();
-                var statusVoznje = $('#statusVoznje').val();
+                var statusVoznje = $('#statusiVoznje').val();
                 var datum = $('#datum:checked').val();
                 var ocena = $('#ocena:checked').val();
                 var odDatum = $('#Dstart').val();
@@ -377,7 +387,7 @@
             });
 
             $('#btnFormOrderStart').click(function () {
-                id = -1;
+    
                 $.ajax({
                     url: '/api/korisnici/getavailabledrivers',
                     method: 'GET',
@@ -446,10 +456,10 @@
 <body style="padding-top:20px">
 
 
-    <div class="col-md-12 " style="text-align:center">
+    <div id=" Buttons&Data" class="col-md-12 " style="text-align:center">
         <div id="Buttons" class="well">
             <div class="pull-right">
-                <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
+                <input id="btnLogoff" class="btn btn-success" type="button" value="Odjava" />
                 <p style="text-align:center" id="username"></p>
             </div>
             <div id="Datum" class="Btn Btn-success " style="display:inline-block;">
@@ -522,7 +532,7 @@
                 <label class="checkbox-inline"><input type="checkbox" id="datum" value="datum">Datum</label>
                 <label class="checkbox-inline"><input type="checkbox" id="ocena" value="ocena">Ocena</label>
             </div>
-            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusVoznje">
+            <select style="width:140px;display:inline-block" class="form-control btn btn-success" id="statusiVoznje">
                 <option value="-1">Status Voznje</option>
                 <option value="0">Kreirana</option>
                 <option value="1">Formirana</option>
@@ -607,6 +617,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" tabindex="-1" id="VozacRegistrationModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

@@ -15,3 +15,20 @@
 14|Dunavska|9|Novi Sad|21000
 15|Kolo Srpskih Sestara|22|Novi Sad|21000
 16|Alekse santica |66|Novi Sad|21000
+17|Puskinova|13|Novi Sad|21000
+18|Bulevar Evrope|45|Novi Sad|21000
+19|kolo srpskih sestara |22|Novi Sad|21000
+20|Puskinova|22|Novi Sad|21000
+21|Modene|9|Novi Sad|21000
+22|Brace Jerkovica|12|Novi Sad|21000
+23|Lasla Gala|56|Novi Sad|21000
+24|Danila Kisa|18|Novi Sad|21000
+25|Kolo Srpskih Sestara|22|Novi Sad|21000
+26|Puskinova|21|Novi Sad|21000
+27|Modene|9|Novi Sad|21000
+28|Pariskih Komuna|16|Novi Sad|21000
+29|Mise Dimitrijevica|7|Novi Sad|21000
+30|Kolo Srpskih Sestara|22|Novi Sad|21000
+31|Brace Jerkovica|21|Novi Sad|21000
+32|Gunduliceva|16|Novi Sad|21000
+33|Alekse santica |43|Novi Sad|21000

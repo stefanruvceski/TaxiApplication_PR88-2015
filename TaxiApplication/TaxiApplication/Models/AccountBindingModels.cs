@@ -2,90 +2,68 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using TaxiApplication.Models.Klase;
 
 namespace TaxiApplication.Models
 {
-    // Models used as parameters to AccountController actions.
-
-    public class AddExternalLoginBindingModel
-    {
-        [Required]
-        [Display(Name = "External access token")]
-        public string ExternalAccessToken { get; set; }
-    }
-
+    #region Lozinka
     public class ChangePasswordBindingModel
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    #endregion
 
-    public class RegisterBindingModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-    }
-
-    #region MOJE
+    #region Korisnik
     public class MusterijaBindingModel
     {
         [Required]
-        [Display(Name = "Korisnicko Ime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoIme { get; set; }
-        [Required]
-        [Display(Name = "Ime")]
-        public string Ime { get; set; }
-        [Required]
-        [Display(Name = "Prezime")]
-        public string Prezime { get; set; }
-        [Required]
-        [Display(Name = "Pol")]
-        public string Pol { get; set; }
-        [Required]
-        [Display(Name = "JMBG")]
-        public string Jmbg { get; set; }
-        [Required]
-        [Display(Name = "Kontakt Telefon")]
-        public string KontaktTelefon { get; set; }
-        
 
         [Required]
-        [Display(Name = "Email")]
+        [MinLength(4)]
+        [MaxLength(50)]
+        public string Ime { get; set; }
+
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
+        public string Prezime { get; set; }
+
+        [Required]
+        public string Pol { get; set; }
+
+        [Required]
+        [MinLength(13,ErrorMessage ="JMBG mora imati 13 cifara")]
+        [MaxLength(13, ErrorMessage = "JMBG mora imati 13 cifara")]
+        
+        public string Jmbg { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string KontaktTelefon { get; set; }
+        
+        [Required]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Lozinka")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Potvrda Lozinke")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
@@ -93,196 +71,195 @@ namespace TaxiApplication.Models
 
     public class KorisnikBindingModel
     {
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoIme { get; set; }
-   
+
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string Ime { get; set; }
 
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string Prezime { get; set; }
 
+        [Required]
         public string Pol { get; set; }
 
+        [Required]
+        [MinLength(13, ErrorMessage = "JMBG mora imati 13 cifara")]
+        [MaxLength(13, ErrorMessage = "JMBG mora imati 13 cifara")]
         public string Jmbg { get; set; }
 
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string KontaktTelefon { get; set; }
+
+        [Required]
         public string Uloga { get; set; }
 
 
+        [Required]
         public string Email { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ulica { get; set; }
+
+        [Required]
         public string Broj { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Grad { get; set; }
+
+        [Required]
         public string PostanskiBroj { get; set; }
+
+        [Required]
         public string BrojTaksiVozila { get; set; }
+
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string GodisteAutomobila { get; set; }
+
+        [Required]
         public string BrojRegistarskeOznake { get; set; }
     }
 
     public class EditKorisnikBindingModel
     {
         [Required]
-        [Display(Name = "Korisnicko Ime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoIme { get; set; }
+
         [Required]
-        [Display(Name = "Ime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string Ime { get; set; }
+
         [Required]
-        [Display(Name = "Prezime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string Prezime { get; set; }
-       
+        
         [Required]
-        [Display(Name = "Kontakt Telefon")]
+        [DataType(DataType.PhoneNumber)]
         public string KontaktTelefon { get; set; }
 
-
         [Required]
-        [Display(Name = "Email")]
         public string Email { get; set; }
-
-        //[Required]
-        //[Display(Name = "Broj Taksi Vozila")]
-        //public string BrojTaksiVozila { get; set; }
-        //[Required]
-        //[Display(Name = "Godiste Automobila")]
-        //public string GodisteAutomobila { get; set; }
-        //[Required]
-        //[Display(Name = "Tip Automobila")]
-        //public string TipAutomobila { get; set; }
-        //[Required]
-        //[Display(Name = "Broj Registarske Oznake")]
-        //public string BrojRegistarskeOznake { get; set; }
-
-
     }
-
-    public class VozacVoznjaBindingModel
-    {
-        public string VoznjaID { get; set; }
-        public string Polaziste { get; set; }
-        public string Odrediste { get; set; }
-        public string KorisnikID { get; set; }
-        public string DispecerID { get; set; }
-        public string StatusVoznje { get; set; }
-        public string DatumIVreme { get; set; }
-        public string Ocena { get; set; }
-        public string Iznos { get; set; }
-        public int Flag { get; set; }
-
-    }
-
-    public class StatusVoznjeBindingModel
-    {
-        public string Id { get; set; }
-        public string Status { get; set; }
-        [Required]
-        [Display(Name = "Ulica")]
-        public string Ulica { get; set; }
-        [Required]
-        [Display(Name = "Broj Ulice")]
-        public int Broj { get; set; }
-        [Required]
-        [Display(Name = "Grad")]
-        public string Grad { get; set; }
-        [Required]
-        [Display(Name = "Postanski Broj")]
-        public int PostanskiBroj { get; set; }
-        public string Opis { get; set; }
-        public string Iznos { get; set; }
-    }
-
+    
     public class EditVozacBindingModel
     {
         [Required]
-        [Display(Name = "Korisnicko Ime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoIme { get; set; }
+
         [Required]
-        [Display(Name = "Ime")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ime { get; set; }
+
         [Required]
-        [Display(Name = "Prezime")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Prezime { get; set; }
-
+        
         [Required]
-        [Display(Name = "Kontakt Telefon")]
         public string KontaktTelefon { get; set; }
-
-
+        
         [Required]
-        [Display(Name = "Email")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Email { get; set; }
-
+        
         [Required]
-        [Display(Name = "Broj Taksi Vozila")]
         public string BrojTaksiVozila { get; set; }
+
         [Required]
-        [Display(Name = "Godiste Automobila")]
         public string godisteAutomobila { get; set; }
+
         [Required]
-        [Display(Name = "Tip Automobila")]
         public string tipAutomobila { get; set; }
+
         [Required]
-        [Display(Name = "Broj Registarske Oznake")]
+        [MinLength(2)]
+        [MaxLength(12)]
         public string BrojRegistarskeOznake { get; set; }
-
-
     }
 
     public class VozacBindingModel
     {
         [Required]
-        [Display(Name = "Korisnicko Ime")]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoIme { get; set; }
+
         [Required]
-        [Display(Name = "Ime")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ime { get; set; }
+
         [Required]
-        [Display(Name = "Prezime")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Prezime { get; set; }
+
         [Required]
-        [Display(Name = "Pol")]
         public string Pol { get; set; }
+
         [Required]
-        [Display(Name = "JMBG")]
+        [MinLength(13, ErrorMessage = "JMBG mora imati 13 cifara")]
+        [MaxLength(13, ErrorMessage = "JMBG mora imati 13 cifara")]
         public string Jmbg { get; set; }
+
         [Required]
-        [Display(Name = "Kontakt Telefon")]
+        [DataType(DataType.PhoneNumber)]
         public string KontaktTelefon { get; set; }
-
-
+        
         [Required]
-        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Lozinka")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Potvrda Lozinke")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Broj Taksi Vozila")]
         public string BrojTaksiVozila { get; set; }
         [Required]
-        [Display(Name = "Godiste Automobila")]
         public string GodisteAutomobila { get; set; }
         [Required]
-        [Display(Name = "Tip Automobila")]
         public string TipAutomobila { get; set; }
         [Required]
-        [Display(Name = "Broj Registarske Oznake")]
         public string BrojRegistarskeOznake { get; set; }
     }
+    #endregion
 
+    #region Lokacija
     public class LokacijaBindingModel
     {
         //[Required]
@@ -293,31 +270,131 @@ namespace TaxiApplication.Models
         //public double YKoordinata { get; set; }
         
         [Required]
-        [Display(Name = "Ulica")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ulica { get; set; }
         [Required]
-        [Display(Name = "Broj Ulice")]
         public int Broj { get; set; }
         [Required]
-        [Display(Name = "Grad")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Grad { get; set; }
         [Required]
-        [Display(Name = "Postanski Broj")]
         public int PostanskiBroj { get; set; }
+    }
+    #endregion
+
+    #region Voznja
+    public class VozacVoznjaBindingModel
+    {
+        [Required]
+        public string VoznjaID { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string Polaziste { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string Odrediste { get; set; }
+
+        [Required]
+        public string KorisnikID { get; set; }
+
+        [Required]
+        public string DispecerID { get; set; }
+
+        [Required]
+        public string StatusVoznje { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        public string DatumIVreme { get; set; }
+
+        [Required]
+        public string Ocena { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(5)]
+        public string Iznos { get; set; }
+
+        [Required]
+        public int Flag { get; set; }
+
+    }
+
+    public class StatusVoznjeBindingModel
+    {
+        [Required]
+        public string Id { get; set; }
+
+        [Required]
+        public string Status { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string Ulica { get; set; }
+
+        [Required]
+        public int Broj { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string Grad { get; set; }
+
+        [Required]
+        public int PostanskiBroj { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(300)]
+        public string Opis { get; set; }
+
+        [Required]
+        public string Iznos { get; set; }
     }
 
     public class VoznjaDetailsBindingModel
     {
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Adresa1 { get; set; }
-
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Adresa2 { get; set; }
 
+        [Required]
         public string TipAutomobila { get; set; }
+
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
         public string KorisnickoImeKorisnika { get; set; }
+
+        [Required]
         public string Ocena { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(350)]
         public string Opis { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string StatusVoznje { get; set; }
+
+        [Required]
         public string Iznos { get; set; }
+
+        [Required]
         public string BrojTaksija { get; set; }
     }
 
@@ -330,20 +407,25 @@ namespace TaxiApplication.Models
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
         [Required]
-        [Display(Name = "Ulica")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ulica { get; set; }
+
         [Required]
-        [Display(Name = "Broj Ulice")]
         public int Broj { get; set; }
+
         [Required]
-        [Display(Name = "Grad")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Grad { get; set; }
+
         [Required]
-        [Display(Name = "Postanski Broj")]
         public int PostanskiBroj { get; set; }
+
         [Required]
-        [Display(Name = "TipAutomobila")]
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string VoznjaID { get; set; }
     }
     public class DispecerVoznjaBindingModel
@@ -355,21 +437,29 @@ namespace TaxiApplication.Models
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
         [Required]
-        [Display(Name = "Ulica")]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Ulica { get; set; }
+
         [Required]
-        [Display(Name = "Broj Ulice")]
         public int Broj { get; set; }
+
         [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         [Display(Name = "Grad")]
         public string Grad { get; set; }
+
         [Required]
-        [Display(Name = "Postanski Broj")]
         public int PostanskiBroj { get; set; }
+
         [Required]
-        [Display(Name = "TipAutomobila")]
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string VoznjaID { get; set; }
+
+        [Required]
         public string VozacID { get; set; }
     }
 
@@ -382,21 +472,49 @@ namespace TaxiApplication.Models
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
 
+        [Required]
         public string VoznjaID { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Vozac { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Musterija { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Dispecer { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Polaziste { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Odrediste { get; set; }
 
+        [Required]
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string Ocena { get; set; }
+
+        [Required]
         public string StatusVoznje { get; set; }
 
+        [Required]
+        [DataType(DataType.DateTime)]
         public string DatumIVreme { get; set; }
+
+        [Required]
         public string BrojTaksija { get; set; }
-
-
     }
 
     public class ProcessDispecerVoznjaBindingModel
@@ -408,20 +526,39 @@ namespace TaxiApplication.Models
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
 
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Vozac { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Musterija { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Adresa { get; set; }
+
+        [Required]
         public List<string> Vozaci { get; set; }
+
+        [Required]
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string StatusVoznje { get; set; }
-
-
-
     }
 
     public class ProcessVoznjaBindingModel
     {
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string VozacID { get; set; }
+
+        [Required]
         public string VoznjaID { get; set; }
     }
 
@@ -433,56 +570,53 @@ namespace TaxiApplication.Models
         //[Required]
         //[Display(Name = "Y Koordinata")]
         //public double YKoordinata { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string VoznjaID { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Polaziste { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Odrediste { get; set; }
- 
+
+        [Required]
         public string TipAutomobila { get; set; }
+
+        [Required]
         public string Ocena { get; set; }
+
+        [Required]
         public string StatusVoznje { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
         public string DatumIVreme { get; set; }
+
+        [Required]
         public string BrojTaksija { get; set; }
 
         
     }
+    #endregion
 
+    #region Komentar
     public class KomentarBindingModel
     {
+        [Required]
+        [MinLength(2)]
+        [MaxLength(350)]
         public string Opis { get; set; }
+        [Required]
         public string VoznjaID { get; set; }
+        [Required]
         public string Ocena { get; set; }
     }
     #endregion
-
-    public class RegisterExternalBindingModel
-    {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
-
-    public class RemoveLoginBindingModel
-    {
-        [Required]
-        [Display(Name = "Login provider")]
-        public string LoginProvider { get; set; }
-
-        [Required]
-        [Display(Name = "Provider key")]
-        public string ProviderKey { get; set; }
-    }
-
-    public class SetPasswordBindingModel
-    {
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "New password")]
-        public string NewPassword { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-    }
 }

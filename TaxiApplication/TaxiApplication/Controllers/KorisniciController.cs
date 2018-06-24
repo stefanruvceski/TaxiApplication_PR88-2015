@@ -15,7 +15,7 @@ namespace TaxiApplication.Controllers
     [Authorize]
     public class KorisniciController : ApiController
     {
-
+        #region Stranica-Proveriti zasto ne radi
         [Route("api/korisnici/getpage")]
         public string GetPage()
         {
@@ -25,9 +25,10 @@ namespace TaxiApplication.Controllers
                 return "VozacMain.html";
             else
                 return "MusterijaMain.html";
-            
         }
+        #endregion
 
+        #region Korisnik po sesiji
         // GET: api/Korisnici
         [Route("api/korisnici/getme")]
         public KorisnikBindingModel GetMe()
@@ -60,7 +61,9 @@ namespace TaxiApplication.Controllers
 
             return model;
         }
+        #endregion
 
+        #region Svi korisnici 
         // GET: api/Korisnici
         public IEnumerable<Korisnik> Get()
         {
@@ -73,8 +76,12 @@ namespace TaxiApplication.Controllers
                 return DataBase.Korisnici.Values.ToList().FindAll(x => x.KorisnickoIme == User.Identity.Name);
             }
         }
-        // GET: api/Korisnici/id/flag
-        public List<string> GetVoznja(string flag)
+        #endregion
+
+        #region Svi slobodni vozaci odredjene kategorije vozila za proces
+        // GET: api/Korisnici/flag
+        
+        public List<string> GetAvailableDrivers(string flag)
         {
             List<string> lista = new List<string>();
 
@@ -95,22 +102,25 @@ namespace TaxiApplication.Controllers
 
             return lista;   
         }
+        #endregion
+
+        #region slobodni korisnici za formiranje
         [Route("api/korisnici/getavailabledrivers")]
-        //[Authorize(Roles ="Dispecer")]
+        [Authorize(Roles = "Dispecer")]
         [HttpGet]
         public List<string> DriversGet()
         {
             bool isAvailable = true;
             List<string> lista = new List<string>();
-            foreach(Korisnik k in DataBase.Korisnici.Values)
+            foreach (Korisnik k in DataBase.Korisnici.Values)
             {
                 if (k.Uloga == Uloge.Vozac && k.KorisnickoIme != "-1")
                 {
                     foreach (int i in k.VoznjeID)
                         if (DataBase.voznje[i].StatusVoznje == StatusiVoznje.Prihvacena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Obradjena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Formirana)
                             isAvailable = false;
-                        
-                    if(isAvailable)
+
+                    if (isAvailable && DataBase.automobili[((Vozac)k).AutomobilID].TipAutomobila == TipoviAutomobila.PutnickiAutomobil)
                         lista.Add(k.KorisnickoIme);
                     isAvailable = true;
                 }
@@ -118,38 +128,41 @@ namespace TaxiApplication.Controllers
 
             return lista;
         }
+        #endregion
 
+        #region Korisnik po ID
         // GET: api/Korisnici/5
         public Korisnik Get(string id)
         {
             return DataBase.Korisnici[id];
         }
         [Route("api/korisnici/editlocation")]
+        #endregion
+
+        #region Promena Lokacije Vozaca
         public IHttpActionResult EditLocation([FromBody]LokacijaBindingModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             Adresa adresa = new Adresa( model.Broj,model.Ulica, model.Grad, model.PostanskiBroj);
             Lokacija lokacija = new Lokacija(adresa.Id);
             DataBase.adrese.Add(adresa.Id,adresa);
             DataBase.lokacije.Add(lokacija.Id, lokacija);
             ((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID = lokacija.Id;
+
             return Ok();
         }
+        #endregion
 
-        // POST: api/Korisnici
-        public  void Post([FromBody]Korisnik value)
-        {
-        }
-
-        // PUT: api/Korisnici/5
-        public  void Put(string id, [FromBody]Korisnik value)
-        {
-           
-        }
-
+        #region Brisanje Korisnika po ID
         // DELETE: api/Korisnici/5
         public void Delete(string id)
         {
             DataBase.Korisnici.Remove(id);
         }
+        #endregion
     }
 }

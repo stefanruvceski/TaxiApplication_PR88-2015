@@ -26,6 +26,12 @@
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
             });
+            Mousetrap.bind('shift+e', function () {
+                $('#btnLogoff').trigger('click');
+            });
+            Mousetrap.bind('shift+q', function () {
+                $('#btnOrderStart').trigger('click');
+            });
 
             $('#bntError').click(function () {
                 $('#errorModal').modal('hide');
@@ -72,13 +78,14 @@
                         $('#grad').val(data.Grad);
                         $('#postanskiBroj').val(data.PostanskiBroj);
                         $('#tipAutomobila').val(data.TipAutomobila);
-                        $("#btnOrder").val('Edit');
+                        $("#btnOrder").val('Izmeni');
                         $('#OrderModal').modal('show');
                     },
                 });
             });
             $('body').on('click', "input[name='BbtnDelete']", function (data) {
                 id = data.target.id;
+                $("#Kocena").attr('disabled', 'disabled');
                 $.ajax({
                     url: '/api/voznje/' + id + '/',
                     method: 'DELETE',
@@ -95,7 +102,7 @@
             $('body').on('click', "input[name='BbtnRate']", function (data) {
                 id = data.target.id;
                 $('#opis').val('');
-                $('#ocena').removeAttr("disabled");
+                $('#Kocena').removeAttr("disabled");
                 $('#PostKomentarModal').modal('show');
             });
             $('#btnCommentPost').click(function () {
@@ -215,7 +222,7 @@
 
             $('#btnOrderStart').click(function () {
                 id = -1;
-                $('#btnOrder').val('Order');
+                $('#btnOrder').val('Naruci');
                 $('#ulica').val('');
                 $('#broj').val('');
                 $('#grad').val('');
@@ -250,7 +257,7 @@
                     },
                     success: function () {
                         $('#OrderModal').modal('hide');
-                        $('#successContent').text('Order Successful!')
+                        $('#successContent').text('Uspesna porudzbina!')
                         $('#successModal').modal('show');
                         $('#btnRefreshStart').trigger("click");
                     },
@@ -261,7 +268,6 @@
                 });
             });
             
-           
             $('#btnRefreshStart').click(function () {
                 var flag = $('#statusVoznje').val();
                 var datum = $('#datum:checked').val();
@@ -292,8 +298,8 @@
                                     + value.DatumIVreme + '</td><td>'
                                     + value.TipAutomobila + '</td><td>'
                                     + value.Ocena + '</td><td>'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success "type = "button" value = "&#128221;" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success" type="button" value = "&#128270;" />'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnRate" class="btn btn-success " type="button" value = "&#128221;" />'
                                     + '</td></tr>');
                                 $('#tblData').append(row);
                             }
@@ -310,6 +316,18 @@
                                 $('#tblData').append(row);
                             }
                             else if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
+                                var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
+                                    + value.Polaziste + '</td><td>'
+                                    + value.Odrediste + '</td><td>'
+                                    + value.StatusVoznje + '</td><td>'
+                                    + value.DatumIVreme + '</td><td>'
+                                    + value.TipAutomobila + '</td><td>'
+                                    + value.Ocena + '</td><td>'
+                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                    + '</td></tr>');
+                                $('#tblData').append(row);
+                            }
+                            else if (value.StatusVoznje == "Otkazana") {
                                 var row = $('<tr><td>' + value.BrojTaksija + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
@@ -372,7 +390,7 @@
     <div id="Buttons&Data" style="text-align:center" class="col-md-12 ">
         <div id="buttons" class="well">
             <div class="pull-right">
-                <input id="btnLogoff" class="btn btn-success" type="button" value="Log Off" />
+                <input id="btnLogoff" class="btn btn-success" type="button" value="Odjava" />
                 <p style="text-align:center" id="username"></p>
             </div>
 
@@ -548,7 +566,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnEdit" class="btn btn-success" type="button" value="Edit" />
+                                            <input id="btnEdit" class="btn btn-success" type="button" value="Izmeni" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -613,7 +631,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnOrder" class="btn btn-success" type="button" value="Order" />
+                                            <input id="btnOrder" class="btn btn-success" type="button" value="Naruci" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -798,7 +816,7 @@
                                     <tr>
                                         <td>Ocena</td>
                                         <td>
-                                            <select id="Kocena" class="selectpicker" data-style="btn-success">
+                                            <select id="Kocena" class="selectpicker" disabled data-style="btn-success">
                                                 <option value="Nula">0</option>
                                                 <option value="Jedan">1</option>
                                                 <option value="Dva">2</option>

@@ -5,6 +5,6 @@
 777|NS-070-LE|2011|KombiVozilo|vozac7
 888|NS-080-LE|2018|KombiVozilo|vozac8
 111|NS-010-LE|2011|KombiVozilo|vozac1
-222|NS-020-LE|2012|PutnickiAutomobil|vozac2
+222|vozac2|2012|PutnickiAutomobil|vozac2
 333|NS-030-LE|2013|PutnickiAutomobil|vozac3
 999|NS-090-LE|1999|PutnickiAutomobil|vozac9
