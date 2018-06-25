@@ -45,44 +45,20 @@ namespace TaxiApplication.Models.Klase
 
         public static Dictionary<string, Korisnik> Korisnici = new Dictionary<string, Korisnik>()
         {
-            //{ defaultKorisnik.KorisnickoIme,defaultKorisnik},
-            //{"stefanrrr", new Dispecer("stefanrrr","Terminator_96","Stefan","Ruvceski","Muski","0606996800011","0658601731","stefanruvceski@gmail.com") },
-            //{"teodorarrrr", new Musterija("reodorarrrr","Teodora_96","Teodora","Ruvceski","Zenski","1234555","0653103123","teodoraruvceski@gmail.com") },
-            //{"musterija1", new Musterija("musterija1","lozinka1","Ime1","Prezime1","Muski","12345","065111111","email11@gmail.com") },
-            //{"musterija2", new Musterija("musterija2","lozinka2","Ime2","Prezime2","Muski","123456","065111112","email12@gmail.com") },
-            //{"musterija3", new Musterija("musterija3","lozinka3","Ime3","Prezime3","Muski","123457","065111113","email13@gmail.com") },
-            //{"musterija4", new Musterija("musterija4","lozinka4","Ime4","Prezime4","Zenski","123458","065111114","email14@gmail.com") },
-            //{"musterija5", new Musterija("musterija5","lozinka5","Ime5","Prezime5","Muski","123459","065111115","email15@gmail.com") },
-            // {"dispecer1", new Dispecer("dispecer1","lozinka1","Ime1","Prezime1","Muski","123455","065111111","email21@gmail.com") },
-            //{"dispecer2", new Dispecer("dispecer2","lozinka2","Ime2","Prezime2","Zenski","1234556","065111112","email22@gmail.com") },
-            //{"dispecer3", new Dispecer("dispecer3","lozinka3","Ime3","Prezime3","Muski","1234557","065111113","email23@gmail.com") },
-            //{"vozac1", new Vozac("vozac1","Vozac_96","Vozac","Vozic","Muski","123456","065111111","email31@gmail.com",111) },
-            //{"Vozac2", new Vozac("vozac2","Vozac2_96","Ime2","Prezime2","Zenski","1234566","065111112","email32@gmail.com",222)},
-            //{"vozac3", new Vozac("vozac3","lozinka3","Ime3","Prezime3","Muski","1234567","065111113","email33@gmail.com",333) }
+            
 
         };
 
-        //static Automobil a1 = new Automobil(111, 2011, "vozac1", "NS-010-LE", TipoviAutomobila.KombiVozilo);
-        //static Automobil a2 = new Automobil(222, 2012, "vozac2", "NS-020-LE", TipoviAutomobila.KombiVozilo);
-        //static Automobil a3 = new Automobil(333, 2013, "vozac3", "NS-030-LE", TipoviAutomobila.PutnickiAutomobil);
-        public static Dictionary<int, Voznja> voznje = new Dictionary<int, Voznja>() {/* { defaultVoznja.Id, defaultVoznja }*/ };
-        public static Dictionary<string, Lokacija> lokacije = new Dictionary<string, Lokacija>() { /*{ defaultLokacija.Id,defaultLokacija} */};
-        public static Dictionary<string, Adresa> adrese = new Dictionary<string, Adresa>() { /*{ defaultAdresa.Id,defaultAdresa}*/ };
-        public static Dictionary<int, Automobil> automobili = new Dictionary<int, Automobil>()
-        {
-            //{ defualtAutomobil.BrojTaksiVozila,defualtAutomobil},
-            //{a1.BrojTaksiVozila,a1 },
-            // {a2.BrojTaksiVozila,a2 },
-            //  {a3.BrojTaksiVozila,a3 },
 
-        };
-        public static Dictionary<int, Komentar> komentari = new Dictionary<int, Komentar>() { /*{ defaultKomentar.Id,defaultKomentar}*/ };
+        public static Dictionary<int, Voznja> voznje = new Dictionary<int, Voznja>();
+        public static Dictionary<string, Lokacija> lokacije = new Dictionary<string, Lokacija>();
+        public static Dictionary<string, Adresa> adrese = new Dictionary<string, Adresa>();
+        public static Dictionary<int, Automobil> automobili = new Dictionary<int, Automobil>();
+        public static Dictionary<int, Komentar> komentari = new Dictionary<int, Komentar>();
         
 
         public static void Run()
         {
-
-
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
@@ -100,8 +76,11 @@ namespace TaxiApplication.Models.Klase
                         }
                         if (line.Split('|')[8] == "Vozac")
                             k = Vozac.FromString(line);
+                        else if (line.Split('|')[8] == "Musterija")
+                            k = Musterija.FromString(line);
                         else
-                            k= Korisnik.FromString(line);
+                            k = Korisnik.FromString(line);
+
                         Korisnici.Add(k.KorisnickoIme, k);
                     }
                 }

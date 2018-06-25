@@ -9,6 +9,7 @@ namespace TaxiApplication.Models.Klase
     {
         string lokacijaID = "-1";
         int automobilID = -1;
+        bool dozvoljenPristup = true;
 
         public Vozac() { }
         public Vozac(string korisnikoIme, string lozinka, string ime, string prezime, string pol, string jmbg, string kontaktTelefon, string email,int automobil)
@@ -33,11 +34,12 @@ namespace TaxiApplication.Models.Klase
 
         public string LokacijaID { get => lokacijaID; set => lokacijaID = value; }
         public int AutomobilID { get => automobilID; set => automobilID = value; }
+        public bool DozvoljenPristup { get => dozvoljenPristup; set => dozvoljenPristup = value; }
 
         public override string ToString()
         {
             string retVal = "";
-            retVal += $"{KorisnickoIme}|{Ime}|{Prezime}|{Lozinka}|{Jmbg}|{Pol.ToString()}|{KontaktTelefon}|{Email}|{Uloga.ToString()}|{lokacijaID}|{automobilID}|[";
+            retVal += $"{KorisnickoIme}|{Ime}|{Prezime}|{Lozinka}|{Jmbg}|{Pol.ToString()}|{KontaktTelefon}|{Email}|{Uloga.ToString()}|{lokacijaID}|{automobilID}|{dozvoljenPristup}|[";
             foreach (int item in VoznjeID)
             {
                 retVal += $"{item}-";
@@ -67,8 +69,8 @@ namespace TaxiApplication.Models.Klase
             k.KontaktTelefon = s[6];
             k.Email = s[7];
             k.Uloga = u;
-
-            string[] ss = s[11].Split(']', '-', '[');
+            k.dozvoljenPristup = bool.Parse(s[11]);
+            string[] ss = s[12].Split(']', '-', '[');
             for (int i = 1; i < ss.Length - 1; i++)
             {
                 if (ss[i] != "")

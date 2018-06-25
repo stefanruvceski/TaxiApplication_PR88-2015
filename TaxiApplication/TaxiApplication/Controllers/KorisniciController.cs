@@ -66,6 +66,44 @@ namespace TaxiApplication.Controllers
         }
         #endregion
 
+        // GET: api/Korisnici
+        [Route("api/korisnici/changeAccess/{korisnik}")]
+        [HttpGet]
+        public IHttpActionResult ChangeAccess(string korisnik)
+        {
+            try
+            {
+                if(DataBase.Korisnici[korisnik].Uloga == Uloge.Musterija)
+                    ((Musterija)DataBase.Korisnici[korisnik]).DozvoljenPristup = !(((Musterija)DataBase.Korisnici[korisnik]).DozvoljenPristup);
+                else if(DataBase.Korisnici[korisnik].Uloga == Uloge.Vozac)
+                     ((Vozac)DataBase.Korisnici[korisnik]).DozvoljenPristup = !(((Vozac)DataBase.Korisnici[korisnik]).DozvoljenPristup);
+
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest("Ne postoji korisnik sa datim korisnickim imenom");
+            }
+        }
+
+        // GET: api/Korisnici
+        [Route("api/korisnici/getAccess/")]
+        [HttpGet]
+        public IHttpActionResult GetAccess()
+        {
+            if(DataBase.Korisnici[User.Identity.Name].Uloga == Uloge.Dispecer)
+            {
+                return Ok();
+            }
+            else if (DataBase.Korisnici[User.Identity.Name].Uloga == Uloge.Musterija && ((Musterija)DataBase.Korisnici[User.Identity.Name]).DozvoljenPristup)
+                return Ok();
+            else if (DataBase.Korisnici[User.Identity.Name].Uloga == Uloge.Vozac && ((Vozac)DataBase.Korisnici[User.Identity.Name]).DozvoljenPristup)
+                return Ok();
+            else
+                return InternalServerError(new Exception("Pristup sajtu vam je zabranjen"));
+
+        }
+
         #region Svi korisnici 
         // GET: api/Korisnici
         public IEnumerable<Korisnik> Get()

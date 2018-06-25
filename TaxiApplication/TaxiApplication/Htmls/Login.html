@@ -47,15 +47,29 @@
                     success: function (response) {
                         localStorage.setItem("accessToken", response.access_token);
                         $.ajax({
-                            url: '/api/korisnici/getpage/',
+                            url: '/api/korisnici/getaccess/',
                             method: 'GET',
                             headers: {
                                 'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                             },
                             success: function (response) {
-                                window.location.href = response;
-                                localStorage.setItem("mainPage", response);
-                                localStorage.setItem("username", $('#username').val());
+                              
+                                $.ajax({
+                                    url: '/api/korisnici/getpage/',
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                                    },
+                                    success: function (response) {
+                                        window.location.href = response;
+                                        localStorage.setItem("mainPage", response);
+                                        localStorage.setItem("username", $('#username').val());
+                                    }
+                                });
+                            },
+                            error: function (jqXHR){
+                                $('#divErrorText').text(jqXHR.responseJSON.ExceptionMessage);
+                                $('#divError').show('fade');
                             }
                         });
                     },

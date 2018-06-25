@@ -56,8 +56,7 @@ namespace TaxiApplication.Models.Klase
             Enum.TryParse(s[8], out u);
             if (u == Uloge.Dispecer)
                 k = new Dispecer();
-            else if (u == Uloge.Musterija)
-                k = new Musterija();
+           
 
             k.voznjeID = new List<int>();
             k.korisnickoIme = s[0];

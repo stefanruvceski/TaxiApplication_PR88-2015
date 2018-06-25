@@ -407,29 +407,83 @@
                         $('#tblBody').empty();
 
                         $.each(data, function (index, value) {
-                            if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana") {
-                                var row = $('<tr><td>'
-                                    + (index + 1) + '</td><td>'
-                                    + value.BrojTaksija + '</td><td>'
-                                    + value.Vozac + '</td><td>'
-                                    + value.Musterija + '</td><td>'
-                                    + value.Dispecer + '</td><td>'
-                                    + value.Polaziste + '</td><td>'
-                                    + value.Odrediste + '</td><td>'
-                                    + value.StatusVoznje + '</td><td>'
-                                    + value.DatumIVreme + '</td><td>'
-                                    + value.TipAutomobila + '</td><td>'
-                                    + value.Ocena + '</td><td>'
-                                    + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
-                                    + '</td></tr>');
-                                $('#tblData').append(row);
+                            if (value.StatusVoznje != "Kreirana_NaCekanju" && value.StatusVoznje != "Otkazana" ) {
+                                if (value.Vozac == "Nedefinisano" && value.Musterija == "Nedefinisano") {
+                                    var row = $('<tr><td>'
+                                        + (index + 1) + '</td><td>'
+                                        + value.BrojTaksija + '</td><td>'
+                                        + value.Vozac + '</td><td>'
+                                        + value.Musterija + '</td><td>'
+                                        + value.Dispecer + '</td><td>'
+                                        + value.Polaziste + '</td><td>'
+                                        + value.Odrediste + '</td><td>'
+                                        + value.StatusVoznje + '</td><td>'
+                                        + value.DatumIVreme + '</td><td>'
+                                        + value.TipAutomobila + '</td><td>'
+                                        + value.Ocena + '</td><td>'
+                                        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                        + '</td></tr>');
+                                    $('#tblData').append(row);
+                                }
+                                else if (value.Vozac == "Nedefinisano") {
+                                    var row = $('<tr><td>'
+                                        + (index + 1) + '</td><td>'
+                                        + value.BrojTaksija + '</td><td>'
+                                        + value.Vozac + '</td><td>'
+                                        + value.Musterija + '<br/><input id=' + value.Musterija + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
+                                        + value.Dispecer + '</td><td>'
+                                        + value.Polaziste + '</td><td>'
+                                        + value.Odrediste + '</td><td>'
+                                        + value.StatusVoznje + '</td><td>'
+                                        + value.DatumIVreme + '</td><td>'
+                                        + value.TipAutomobila + '</td><td>'
+                                        + value.Ocena + '</td><td>'
+                                        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                        + '</td></tr>');
+                                    $('#tblData').append(row);
+                                }
+                                else if (value.Musterija == "Nedefinisano") {
+                                    var row = $('<tr><td>'
+                                        + (index + 1) + '</td><td>'
+                                        + value.BrojTaksija + '</td><td>'
+                                        + value.Vozac + '<br/><input id=' + value.Vozac + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
+                                        + value.Musterija + '</td><td>'
+                                        + value.Dispecer + '</td><td>'
+                                        + value.Polaziste + '</td><td>'
+                                        + value.Odrediste + '</td><td>'
+                                        + value.StatusVoznje + '</td><td>'
+                                        + value.DatumIVreme + '</td><td>'
+                                        + value.TipAutomobila + '</td><td>'
+                                        + value.Ocena + '</td><td>'
+                                        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                        + '</td></tr>');
+                                    $('#tblData').append(row);
+                                }
+                                else {
+                                    var row = $('<tr><td>'
+                                        + (index + 1) + '</td><td>'
+                                        + "Nedefinisano" + '</td><td>'
+                                        + value.Vozac + '<br/><input id=' + value.Vozac + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
+                                        + value.Musterija + '<br/><input id=' + value.Musterija + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
+                                        + value.Dispecer + '</td><td>'
+                                        + value.Polaziste + '</td><td>'
+                                        + "Nedefinisano" + '</td><td>'
+                                        + value.StatusVoznje + '</td><td>'
+                                        + value.DatumIVreme + '</td><td>'
+                                        + value.TipAutomobila + '</td><td>'
+                                        + value.Ocena + '</td><td>'
+                                        + '<input id=' + value.VoznjaID + ' name="BbtnDetails" class="btn btn-success"type = "button" value = "&#128270;" />'
+                                        + '</td></tr>');
+                                    $('#tblData').append(row);
+                                }
+                                
                             }
                             else if (value.StatusVoznje == "Otkazana") {
                                 var row = $('<tr><td>'
                                     + (index + 1) + '</td><td>'
                                     + "Nedefinisano" + '</td><td>'
                                     + value.Vozac + '</td><td>'
-                                    + value.Musterija + '</td><td>'
+                                    + value.Musterija + '<br/><input id=' + value.Musterija + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
                                     + value.Dispecer + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + "Nedefinisano" + '</td><td>'
@@ -446,7 +500,7 @@
                                     + (index + 1) + '</td><td>'
                                     + "Nedefinisano" + '</td><td>'
                                     + value.Vozac + '</td><td>'
-                                    + value.Musterija + '</td><td>'
+                                    + value.Musterija + '<br/><input id=' + value.Musterija + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
                                     + value.Dispecer + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + "Nedefinisano" + '</td><td>'
@@ -491,6 +545,24 @@
                     },
                 });
             });
+            $('body').on('click', "input[name = 'btnDozvola']", function (data) {
+                id = data.target.id;
+
+                $.ajax({
+                    url: '/api/korisnici/changeaccess/' + id,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (data) {
+                        $('#successContent').text('Promena prava pristupa promenjena')
+                        $('#successModal').modal('show');
+                        $('#btnRefreshStart').trigger("click");
+                     
+                    },
+                });
+            });
+            
 
             $('#btnFormOrderStart').click(function () {
                 $('#UnosLokacije').show();
@@ -607,7 +679,7 @@
     <div id=" Buttons&Data" class="col-md-12 " style="text-align:center">
         <div id="Buttons" class="well">
             <div class="pull-right">
-                <input id="btnLogoff" class="btn btn-success" type="button" value="Odjava" />
+                <input id="btnLogoff" class="btn btn-success " type="button"  value="Odjava" />
                 <p style="text-align:center" id="username"></p>
             </div>
             <div id="Datum" class="Btn Btn-success " style="display:inline-block;">
