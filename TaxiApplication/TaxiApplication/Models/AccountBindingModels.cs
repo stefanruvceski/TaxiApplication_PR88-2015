@@ -140,6 +140,10 @@ namespace TaxiApplication.Models
 
         [Required]
         public string BrojRegistarskeOznake { get; set; }
+        [Required]
+        public double XKoordinata { get; set; }
+        [Required]
+        public double YKoordinata { get; set; }
     }
 
     public class EditKorisnikBindingModel
@@ -262,13 +266,9 @@ namespace TaxiApplication.Models
     #region Lokacija
     public class LokacijaBindingModel
     {
-        //[Required]
-        //[Display(Name = "X Koordinata")]
-        //public double XKoordinata { get; set; }
-        //[Required]
-        //[Display(Name = "Y Koordinata")]
-        //public double YKoordinata { get; set; }
-        
+        public double XKoordinata { get; set; }
+        public double YKoordinata { get; set; }
+
         [Required]
         [MinLength(2)]
         [MaxLength(50)]
@@ -357,6 +357,8 @@ namespace TaxiApplication.Models
 
         [Required]
         public string Iznos { get; set; }
+        public double XKoordinata { get; set; }
+        public double YKoordinata { get; set; }
     }
 
     public class VoznjaDetailsBindingModel

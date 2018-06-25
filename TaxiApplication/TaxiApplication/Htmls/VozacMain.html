@@ -7,11 +7,169 @@
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/jquery.shortcuts.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+    <link href="../Content/Mapa.css" rel="stylesheet" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALxjn6ZLM3qKDKm_pQ9YuW2P3S9U_c-lg"></script>
     <link href="../Content/Site.css" rel="stylesheet" />
     <script type="text/javascript">
-        $(document).ready(function () {
+        ////////////////////////////////////////////////////////////////////////////////
+        var adresaa;
+        var koordinate;
+        var adresaa2;
+        var koordinate2;
 
+        ///////////////////////////////
+        var geocoder = new google.maps.Geocoder();
+
+        function geocodePosition(pos) {
+            geocoder.geocode({
+                latLng: pos
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    updateMarkerAddress(responses[0].formatted_address);
+                } else {
+                    updateMarkerAddress('Cannot determine address at this location.');
+                }
+            });
+        }
+
+        function updateMarkerStatus(str) { }
+
+        function updateMarkerPosition(latLng) {
+            document.getElementById('info').innerHTML = [
+                latLng.lat(),
+                latLng.lng()
+            ].join(', ');
+            koordinate = document.getElementById('info').innerHTML;
+        }
+
+        function updateMarkerAddress(str) {
+            document.getElementById('address').innerHTML = str;
+            adresaa = str;
+        }
+
+        function initialize() {
+            var latLng = new google.maps.LatLng(45.2407607, 19.8269764);
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: 16,
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+           
+
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: 'Point A',
+                map: map,
+                draggable: true
+            });
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                
+            });
+
+            // Update current position info.
+            updateMarkerPosition(latLng);
+            geocodePosition(latLng);
+
+            // Add dragging event listeners.
+            google.maps.event.addListener(marker, 'dragstart', function () {
+                updateMarkerAddress('Dragging...');
+            });
+
+            google.maps.event.addListener(marker, 'drag', function () {
+                updateMarkerStatus('Dragging...');
+                updateMarkerPosition(marker.getPosition());
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function () {
+                updateMarkerStatus('Drag ended');
+                geocodePosition(marker.getPosition());
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+        /////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////
+        var geocoder2 = new google.maps.Geocoder();
+
+        function geocodePosition2(pos) {
+            geocoder2.geocode({
+                latLng: pos
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    updateMarkerAddress2(responses[0].formatted_address);
+                } else {
+                    updateMarkerAddress2('Cannot determine address at this location.');
+                }
+            });
+        }
+
+        function updateMarkerStatus2(str) { }
+
+        function updateMarkerPosition2(latLng) {
+            document.getElementById('info2').innerHTML = [
+                latLng.lat(),
+                latLng.lng()
+            ].join(', ');
+            koordinate2 = document.getElementById('info2').innerHTML;
+        }
+
+        function updateMarkerAddress2(str) {
+            document.getElementById('address2').innerHTML = str;
+            adresaa2 = str;
+        }
+
+        function initialize2() {
+            var latLng2 = new google.maps.LatLng(45.2407607, 19.8269764);
+            var map2 = new google.maps.Map(document.getElementById('mapCanvas2'), {
+                zoom: 16,
+                center: latLng2,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+
+            var marker2 = new google.maps.Marker({
+                position: latLng2,
+                title: 'Point A',
+                map: map2,
+                draggable: true
+            });
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+            });
+
+            // Update current position info.
+            updateMarkerPosition2(latLng2);
+            geocodePosition2(latLng2);
+
+            // Add dragging event listeners.
+            google.maps.event.addListener(marker2, 'dragstart', function () {
+                updateMarkerAddress('Dragging...');
+            });
+
+            google.maps.event.addListener(marker2, 'drag', function () {
+                updateMarkerStatus2('Dragging...');
+                updateMarkerPosition2(marker2.getPosition());
+            });
+
+            google.maps.event.addListener(marker2, 'dragend', function () {
+                updateMarkerStatus2('Drag ended');
+                geocodePosition2(marker2.getPosition());
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize2);
+        /////////////////////////////////////////////////////////////////////////
+        $(document).ready(function () {
+            var id;
             var oldUsername;
             var modal;
             var page = window.location.pathname.split('/');
@@ -116,8 +274,8 @@
                         $('#pEmail').text(data.Email);
                         $('#pLozinka').text(data.Password);
 
-                        //$('#pXKoordinata').text(data.Lokacija.XKoordinata);
-                        //$('#pYKoordinata').text(data.Lokacija.YKoordinata);
+                        $('#pXKoordinata').text(data.XKoordinata);
+                        $('#pYKoordinata').text(data.YKoordinata);
                         $('#pUlica').text(data.Ulica);
                         $('#pBroj').text(data.Broj);
                         $('#pGrad').text(data.Grad);
@@ -138,6 +296,50 @@
 
             $('#btnLocationStart').click(function () {
                 $('#LocationModal').modal('show');
+                $('#UnosLokacije').show();
+                $('#UnosAdrese').hide();
+
+            });
+            $('body').on('click', "input[name='LtipUnosa']", function (data) {
+                id = data.target.id;
+
+                if (id == "LunosAdrese") {
+                    $('#UnosAdrese').show();
+                    $('#UnosLokacije').hide();
+                }
+                else if (id == "LunosLokacije") {
+                    $('#UnosLokacije').show();
+                    $('#UnosAdrese').hide();
+                }
+            });
+            $('#btnLocation2').click(function () {
+                var broj;
+                var ulica = "";
+                var grad = "";
+                var postanskiBroj;
+
+                var koord = koordinate2.split(',');
+                $('#xKoordinata').val(koord[0]);
+                $('#yKoordinata').val(koord[1]);
+
+                var delovi = adresaa2.split(',');
+                var delovi1 = delovi[0].split(' ');
+                for (var i = 0; i < delovi1.length - 1; i++) {
+                    ulica += delovi1[i] + " ";
+                }
+                broj = delovi1[delovi1.length - 1];
+
+                var delovi2 = delovi[1].split(' ');
+                for (var i = 1; i < delovi2.length - 1; i++) {
+                    grad += delovi2[i] + " ";
+                }
+                postanskiBroj = delovi2[delovi2.length - 1];
+
+                $('#ulica').val(ulica.trim());
+                $('#broj').val(parseInt(broj.trim()));
+                $('#grad').val(grad.trim());
+                $('#postanskiBroj').val(parseInt(postanskiBroj.trim()));
+                $('#btnLocation').trigger('click');
             });
             $('#btnLocation').click(function () {
                 if (!$('#locationForm')[0].checkValidity()) {
@@ -229,7 +431,7 @@
                 var odCena = $('#Cstart').val();
                 var doCena = $('#Cend').val();
                 $.ajax({
-                    url: '/api/voznje?flaggg=' + flag+'&statusVoznje='+statusVoznje + '&datum=' + datum + '&ocena=' + ocena + '&odDatum=' + odDatum + '&doDatum=' + doDatum + '&odOcena=' + odOcena + '&doOcena=' + doOcena + '&odCena=' + odCena + '&doCena=' + doCena,
+                    url: '/api/voznje?flaggg=' + flag + '&statusVoznje=' + statusVoznje + '&datum=' + datum + '&ocena=' + ocena + '&odDatum=' + odDatum + '&doDatum=' + doDatum + '&odOcena=' + odOcena + '&doOcena=' + doOcena + '&odCena=' + odCena + '&doCena=' + doCena,
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -246,6 +448,7 @@
                         $.each(data, function (index, value) {
                             if (value.StatusVoznje == "Kreirana_NaCekanju") {
                                 var row = $('<tr><td>'
+                                    + (index + 1) + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
                                     + value.KorisnikID + '</td><td>'
@@ -261,6 +464,7 @@
                             }
                             else if (value.StatusVoznje != "Neuspesna" && value.StatusVoznje != "Uspesna" && value.StatusVoznje != null) {
                                 var row = $('<tr><td>'
+                                    + (index + 1) + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
                                     + value.KorisnikID + '</td><td>'
@@ -280,6 +484,7 @@
                             }
                             else {
                                 var row = $('<tr><td>'
+                                    + (index + 1) + '</td><td>'
                                     + value.Polaziste + '</td><td>'
                                     + value.Odrediste + '</td><td>'
                                     + value.KorisnikID + '</td><td>'
@@ -325,12 +530,34 @@
                 });
             });
 
+            $('body').on('click', "input[name='tipUnosa']", function (data) {
+                Tid = data.target.id;
+
+                if (Tid == "unosAdrese") {
+                    $('#KomentarBody').show();
+                    $('#LokacijaBody').hide();
+                }
+                else if (Tid == "unosLokacije") {
+                    $('#LokacijaBody').show();
+                    $('#KomentarBody').hide();
+                }
+            });
             $('body').on('click', "input[name='BbtnUspesnaNeuspesna']", function (data) {
                 id = data.target.id;
+                $('#unosAdrese').hide();
+                $('#unosLokacije').hide();
+                $('#LokacijaBody').show();
+                $('#KomentarBody').hide();
                 status = data.target.placeholder;
                 $('#KomentarBody').empty();
                 var content;
                 if (status == "Uspesna") {
+                    $('#LokacijaBody').show();
+                    $('#KomentarBody').hide();
+                    $('#unosAdrese').show();
+                    $('#unosLokacije').show();
+                    $('#LabelUnosVoznje').show();
+                    $('#LabelUnosLokacije').show();
                     content = '<tr>' +
                         '<td>Ulica</td>' +
                         '<td> <input type="text" id="ulica" name="ulica" placeholder="Ulica" /></td> ' +
@@ -351,12 +578,19 @@
                         '</tr>';
                 }
                 else {
+                    $('#LokacijaBody').hide();
+                    $('#KomentarBody').show();
+                    $('#unosAdrese').hide();
+                    $('#unosLokacije').hide();
+                    $('#LabelUnosVoznje').hide();
+                    $('#LabelUnosLokacije').hide();
+                    
                     content = '<tr>' +
                         '<td>Opis</td>' +
                         '<td><textarea id="opis" name="Vopis" placeholder="Unesite razlog..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>' +
                         '</tr>' +
                         '</tr><tr class="success">' +
-                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Post" /></td>' +
+                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Postavi" /></td>' +
                         '</tr>';
                 }
                 $('#KomentarBody').append(content)
@@ -378,17 +612,49 @@
                         grad: $('input[name="grad"]').val(),
                         postanskiBroj: $('input[name="postanskiBroj"]').val(),
                         Iznos: $('input[name="iznos"]').val(),
-                        opis: $('textarea[name="Vopis"]').val()
+                        opis: $('textarea[name="Vopis"]').val(),
+                        XKoordinata: $('#xKoordinata').val(),
+                        YKoordinata: $('#yKoordinata').val(),
                     },
                     success: function (data) {
                         $('#PostKomentarModal').modal('hide');
                         $('#btnRefreshStart').trigger('click');
-                        $('#successContent').text('Post Successful!')
+                        $('#successContent').text('Voznja zavrsena!')
                         $('#successModal').modal('show');
                     },
                 });
             });
+            
+            $('#btnCommentPost2').click(function () {
+                var broj;
+                var ulica = "";
+                var grad = "";
+                var postanskiBroj;
 
+                var koord = koordinate.split(',');
+                $('#xKoordinata').val(koord[0]);
+                $('#yKoordinata').val(koord[1]);
+                var delovi = adresaa.split(',');
+                var delovi1 = delovi[0].split(' ');
+                for (var i = 0; i < delovi1.length - 1; i++) {
+                    ulica += delovi1[i] + " ";
+                }
+                broj = delovi1[delovi1.length - 1];
+
+                var delovi2 = delovi[1].split(' ');
+                for (var i = 1; i < delovi2.length - 1; i++) {
+                    grad += delovi2[i] + " ";
+                }
+                postanskiBroj = delovi2[delovi2.length - 1];
+
+                $('input[name="ulica"]').val(ulica.trim());
+                $('input[name="broj"]').val(parseInt(broj.trim()));
+                $('input[name="grad"]').val(grad.trim());
+                $('input[name="postanskiBroj"]').val(parseInt(postanskiBroj.trim()));
+     
+                $('input[name="iznos"]').val($('input[name="iznos2"]').val());
+                $('#btnCommentPost').trigger('click');
+            });
             $('body').on('click', "input[name='BbtnPreuzmi']", function (data) {
                 id = data.target.id;
                 $.ajax({
@@ -400,17 +666,9 @@
                     success: function (data) {
 
                         $('#btnRefreshStart').trigger('click');
-                        $('#successContent').text('Take Successful!')
+                        $('#successContent').text('Voznja Uspesno Preuzeta!')
                         $('#successModal').modal('show');
-                        //$('#Dadresa1').val(data.Adresa1);
-                        //$('#Dadresa2').val(data.Adresa2);
-                        //$('#DkorisnickoIme').val(data.KorisnickoImeKorisnika);
-                        //$('#DbrojTaksija').val(data.BrojTaksija);
-                        //$('#DtipAutomobila').val(data.TipAutomobila);
-                        //$('#DstatusVoznje').val(data.StatusVoznje);
-                        //$('#Dopis').val(data.Opis);
-                        //$('#Docena').val(data.Ocena);
-                        //$('#VoznjaDetailsModel').modal('show');
+                       
                     },
                 });
 
@@ -470,9 +728,9 @@
             </div>
             <br /><br />
 
-            <input id="btnEditStart" class="btn btn-success" type="button" value="Edit Profile" />
-            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Profile Info" />
-            <input id="btnLocationStart" class="btn btn-success" type="button" value="Edit Location" />
+            <input id="btnEditStart" class="btn btn-success" type="button" value="Promeni Podatke" />
+            <input id="btnDetailsStart" class="btn btn-success" type="button" value="Korisnicki Podaci" />
+            <input id="btnLocationStart" class="btn btn-success" type="button" value="Promeni Lokaciju" />
             <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
             <input id="btnRefreshStart" class="btn btn-success" type="button" value="Osvezi Voznje" />
             <div id="Izbor" class="Btn-success Btn " style="display:inline-block;">
@@ -495,6 +753,7 @@
             <table class="table table-bordered table-responsive-md" id="tblData">
                 <thead>
                     <tr class="success">
+                        <td>#</td>
                         <td>Polaziste</td>
                         <td>Odrediste</td>
                         <td>Korisnik</td>
@@ -775,18 +1034,23 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Trenutna Lokacija
+                                            Trenutna Lokacija&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="LtipUnosa" value="Unos Adrese" id="LunosAdrese">
+                                            <label for="PutnickoVozilo">Unos Adrese</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="LtipUnosa" checked="checked" value="Unos lokacije" id="LunosLokacije">
+                                            <label for="KombiVozilo">Trenutna Lokacija</label>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody id="UnosAdrese">
+                                    <tr hidden>
                                         <td>X Koordinata</td>
-                                        <td><input type="number" required id="xKoordinata" placeholder="X Koordinata" /></td>
+                                        <td><input type="text" required id="xKoordinata" placeholder="X Koordinata" value="-1" /></td>
                                     </tr>
-                                    <tr>
+                                    <tr hidden>
                                         <td>Y Koordinata</td>
-                                        <td><input type="number" required id="yKoordinata" placeholder="Y Koordinata" /></td>
+                                        <td><input type="text" required id="yKoordinata" placeholder="Y Koordinata" value="-1" /></td>
                                     </tr>
                                     <tr>
                                         <td>Ulica</td>
@@ -806,7 +1070,26 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnLocation" class="btn btn-success" type="button" value="Edit" />
+                                            <input id="btnLocation" class="btn btn-success" type="button" value="Promeni" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody id="UnosLokacije">
+                                    <tr>
+                                        <td colspan="2" id="premape">
+                                            <div id="mapCanvas2"></div>
+                                            <div id="infoPanel2">
+                                                <b hidden>Current position:</b>
+                                                <div hidden id="info2"></div>
+                                                <b>Najbliza Adresa:</b>
+                                                <div id="address2">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="success">
+                                        <td colspan="2">
+                                            <input id="btnLocation2" class="btn btn-success" type="button" value="Promeni" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -909,11 +1192,40 @@
                                 <thead>
                                     <tr class="success">
                                         <th colspan="2">
-                                            Unesite informacije za postavljanje komentara
+                                            Unesite informacije za postavljanje komentara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="tipUnosa" value="Unos Adrese" id="unosAdrese">
+                                            <label id="LabelUnosVoznje" for="PutnickoVozilo">Unos Adrese</label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name="tipUnosa" checked="checked" value="Unos lokacije" id="unosLokacije">
+                                            <label id="LabelUnosLokacije" for="KombiVozilo">Unos Lokacije</label>
+                                            <input type="text" value="-1" id="xKoordinata" hidden>
+                                            <input type="text" value="-1" id="yKoordinata" hidden>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody id="KomentarBody"></tbody>
+                                <tbody id="LokacijaBody" >
+                                    <tr>
+                                        <td colspan="2">
+                                            <div id="mapCanvas" ></div>
+                                            <div id="infoPanel">
+                                                <b hidden>Current position:</b>
+                                                <div hidden id="info"></div>
+                                                <b>Najbliza Adresa:</b>
+                                                <div id="address">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr> 
+                                        <td> Iznos</td> 
+                                        <td> <input type="number" id="iznos2" name="iznos2" placeholder="Iznos" /></td> 
+                                    </tr>
+                                    <tr class="success">
+                                        <td colspan="2"><input id="btnCommentPost2" class="btn btn-success" type="button" value="Postavi" /></td>
+                                    </tr>
+                                </tbody>
+
                             </table>
                         </div>
                     </form>

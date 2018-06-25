@@ -570,7 +570,11 @@ namespace TaxiApplication.Controllers
                 {
                     Adresa a = new Adresa(model.Broj, model.Ulica, model.Grad, model.PostanskiBroj);
                     DataBase.adrese.Add(a.Id,a);
-                    Lokacija l = new Lokacija(a.Id);
+                    Lokacija l;
+                    if (model.XKoordinata != -1 && model.YKoordinata!= -1)
+                        l = new Lokacija(model.XKoordinata,model.YKoordinata,a.Id);
+                    else
+                        l = new Lokacija( a.Id);
                     DataBase.lokacije.Add(l.Id, l);
                     DataBase.voznje[int.Parse(model.Id)].OdredisteID = l.Id;
                     ((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID = l.Id;

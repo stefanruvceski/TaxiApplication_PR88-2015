@@ -48,6 +48,7 @@ namespace TaxiApplication.Controllers
             if (User.IsInRole("Vozac"))
             {
                 Automobil a = DataBase.automobili[((Vozac)k).AutomobilID];
+                Lokacija l = DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID];
                 Adresa aa = DataBase.adrese[DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID].AdresaID];
                 model.BrojTaksiVozila = a.BrojTaksiVozila.ToString();
                 model.BrojRegistarskeOznake = a.BrojRegistarskeOznake;
@@ -57,6 +58,8 @@ namespace TaxiApplication.Controllers
                 model.Broj = aa.Broj.ToString();
                 model.Grad = aa.Grad;
                 model.PostanskiBroj = aa.PostanskiBroj.ToString();
+                model.XKoordinata = l.XKoordinata;
+                model.YKoordinata= l.YKoordinata;
             }
 
             return model;
@@ -146,9 +149,12 @@ namespace TaxiApplication.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            Lokacija lokacija;
             Adresa adresa = new Adresa( model.Broj,model.Ulica, model.Grad, model.PostanskiBroj);
-            Lokacija lokacija = new Lokacija(adresa.Id);
+            if (model.XKoordinata == -1 && model.YKoordinata == -1)
+                lokacija  = new Lokacija(adresa.Id);
+            else
+                lokacija = new Lokacija(model.XKoordinata,model.YKoordinata,adresa.Id);
             DataBase.adrese.Add(adresa.Id,adresa);
             DataBase.lokacije.Add(lokacija.Id, lokacija);
             ((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID = lokacija.Id;

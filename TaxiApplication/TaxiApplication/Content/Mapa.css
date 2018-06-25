@@ -1,14 +1,14 @@
-﻿#mapCanvas {
-    height: 600px;
+﻿#mapCanvas,#mapCanvas2 {
+    height: 470px;
     text-align:center;
 }
 
-#infoPanel {
+#infoPanel, #infoPanel2 {
     float: left;
     margin-left: 10px;
 }
 
-    #infoPanel div {
+    #infoPanel div, #infoPanel2 div {
         margin-bottom: 5px;
     }
 

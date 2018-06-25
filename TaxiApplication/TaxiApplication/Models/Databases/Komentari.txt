@@ -15,3 +15,10 @@
 14|Nekulturan vozac|Jedan|6/24/2018 5:22:27 AM|9|musterija1
 15|Savrsena Voznja uvek bih se vozila sa vasom sluzbom|Pet|6/24/2018 5:22:49 AM|10|musterija1
 16|Vozac pristojan i brz|Pet|6/24/2018 5:23:32 AM|23|musterija1
+17|greska|Nula|6/25/2018 2:12:34 AM|12|vozac2
+18|Nije se pojavio|Nula|6/25/2018 2:14:19 AM|30|vozac1
+19|Nije se pojavio|Nula|6/25/2018 2:26:35 AM|24|vozac5
+20|Bezveze sam se vozio|Nula|6/25/2018 2:44:25 AM|38|vozac5
+21|sve odlicno, vozac nije dosadan|Pet|6/25/2018 2:55:46 AM|40|musterija3
+22|musterija nije dosla|Nula|6/25/2018 2:57:20 AM|42|vozac5
+23|musterija pobegla, popularni hamilton|Nula|6/25/2018 2:59:55 AM|43|vozac2
