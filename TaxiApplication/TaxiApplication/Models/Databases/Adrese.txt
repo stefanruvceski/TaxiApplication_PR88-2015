@@ -8,3 +8,12 @@
 7|Vardarska|1|Novi Sad|21000
 8|Bulevar cara Lazara|72|Novi Sad|21000
 9|Narodnog fronta|71|Novi Sad|21102
+10|Bulevar cara Lazara|25|Novi Sad|21000
+11|Romanijska|4|Novi Sad|21000
+12|Laze Lazarevića|50|Novi Sad|21000
+13|Narodnog fronta|1|Novi Sad|21000
+14|Narodnog fronta|89|Novi Sad|21102
+15|Narodnog fronta|34|Novi Sad|21102
+16|Miloša Crnjanskog|2|Novi Sad|21000
+17|Ćirila i Metodija|7|Novi Sad|21000
+18|Ćirila i Metodija|4|Novi Sad|21000

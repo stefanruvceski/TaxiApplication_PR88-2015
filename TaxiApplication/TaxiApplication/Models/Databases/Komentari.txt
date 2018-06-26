@@ -1,4 +1,6 @@
 -1|-1|Nula|6/18/2018 10:55:20 AM|-1|-1
-1|smrdeo je vozac|Cetiri|6/26/2018 8:08:09 PM|2|teodorarrrr
-2|nije se pojavio ja sam cekao 10nminuta|Nula|6/26/2018 8:10:43 PM|3|vozac2
-3|slucajno sam nazvala|Nula|6/26/2018 8:32:50 PM|6|musterija6
+1|smrdeo je vozac|Cetiri|6/26/2018 8:08:09 AM|2|teodorarrrr
+2|nije se pojavio ja sam cekao 10nminuta|Nula|6/26/2018 8:10:43 AM|3|vozac2
+3|slucajno sam nazvala|Nula|6/26/2018 8:32:50 AM|6|musterija6
+4|musterija je pobegla a nije platila|Nula|6/26/2018 11:37:38 PM|9|vozac3
+5|cekam predugo|Nula|6/27/2018 12:31:54 AM|13|musterija7

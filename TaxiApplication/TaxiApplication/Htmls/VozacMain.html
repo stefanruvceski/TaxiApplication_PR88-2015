@@ -180,6 +180,27 @@
                 window.location.href = localStorage.getItem('mainPage');
             }
 
+            $('body').on('click', function () {
+                $.ajax({
+                    url: '/api/korisnici/getaccess/',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (jqXHR) {
+
+                        $('#errorContent').text(jqXHR.responseJSON.ExceptionMessage);
+                        $('#errorModal').modal('show');
+                        localStorage.removeItem("accessToken");
+                        localStorage.removeItem("mainPage");
+                        window.location.href = 'login.html';
+                    }
+                });
+            });
+
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
             });
@@ -574,7 +595,7 @@
                         '<td> Iznos</td> ' +
                         '<td> <input type="number" id="iznos" name="iznos" placeholder="Iznos" /></td> ' +
                         '</tr><tr class="success">' +
-                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Post" /></td>' +
+                        '<td colspan="2"><input id="btnCommentPost" class="btn btn-success" type="button" value="Postavi" /></td>' +
                         '</tr>';
                 }
                 else {
@@ -728,7 +749,7 @@
             </div>
             <br /><br />
 
-            <input id="btnEditStart" class="btn btn-success" type="button" value="Promeni Podatke" />
+            <input id="btnEditStart" class="btn btn-success" type="button" value="Izmeni Podatke" />
             <input id="btnDetailsStart" class="btn btn-success" type="button" value="Korisnicki Podaci" />
             <input id="btnLocationStart" class="btn btn-success" type="button" value="Promeni Lokaciju" />
             <input id="btnChangePasswordStart" class="btn btn-success" type="button" value="Promena Lozinke" />
@@ -883,7 +904,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnEdit" class="btn btn-success" type="button" value="Edit" />
+                                            <input id="btnEdit" class="btn btn-success" type="button" value="Promeni" />
                                         </td>
                                     </tr>
                                 </tbody>

@@ -159,7 +159,7 @@
                     },
                     success: function () {
                         $('#ProcessOrderModal').modal('hide');
-                        $('#successContent').text('Process Successful!')
+                        $('#successContent').text('Uspesna Obrada!')
                         $('#successModal').modal('show');
                         $('#btnRefreshStart').trigger("click");
                     },
@@ -207,7 +207,7 @@
                     },
                     success: function () {
                         $('#VozacRegistrationModal').modal('hide');
-                        $('#successContent').text('Registration Successful!')
+                        $('#successContent').text('Registracija Uspesna!')
                         $('#successModal').modal('show');
 
                     },
@@ -257,11 +257,6 @@
                         prezime: $('#prezime2').val(),
                         kontaktTelefon: $('#kontaktTelefon2').val(),
                         email: $('#email2').val(),
-
-                        //brojTaksiVozila: $('#brojTaksiVozila').val(),
-                        //godisteAutomobila: $('#godisteAutomobila').val(),
-                        //tipAutomobila: $('#tipAutomobila').val(),
-                        //brojRegistarskeOznake: $('#brojRegistarskeOznake').val()
                     },
                     success: function () {
                         $('#EditModal').modal('hide');
@@ -902,13 +897,13 @@
                                     <tr>
                                         <td>Lozinka</td>
                                         <td>
-                                            <input type="password" required id="password" placeholder="Password" />
+                                            <input type="password" required id="password" placeholder="Lozinka" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Potvrda Lozinke</td>
                                         <td>
-                                            <input type="password" required id="confirmPassword" placeholder="Confirm Password" />
+                                            <input type="password" required id="confirmPassword" placeholder="Potvrda Lozinke" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -935,7 +930,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnRegister" class="btn btn-success" type="button" value="Register" />
+                                            <input id="btnRegister" class="btn btn-success" type="button" value="Registracija" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -1356,7 +1351,7 @@
                                     </tr>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnProcessOrder" class="btn btn-success" type="button" value="Process" />
+                                            <input id="btnProcessOrder" class="btn btn-success" type="button" value="Obradi" />
                                         </td>
                                     </tr>
                                 </tbody>

@@ -1,7 +1,7 @@
 -1|-1|-1|PutnickiAutomobil|-1
 111|NS-010-LE|2011|KombiVozilo|vozac1
 222|NS-020-LE|2012|PutnickiAutomobil|vozac2
-333|vozac3|2013|PutnickiAutomobil|NS-030-LE
+333|vozac3|2013|PutnickiAutomobil|vozac3
 444|NS-040-LE|2017|PutnickiAutomobil|vozac4
 555|NS-050-LE|2016|PutnickiAutomobil|vozac5
 666|NS-060-LE|2015|KombiVozilo|vozac6
@@ -9,3 +9,4 @@
 888|NS-080-LE|2018|KombiVozilo|vozac8
 999|NS-090-LE|1999|PutnickiAutomobil|vozac9
 101010|NS-100-LE|2008|PutnickiAutomobil|vozac10
+111111|NS-110-LE|2011|PutnickiAutomobil|vozac11
