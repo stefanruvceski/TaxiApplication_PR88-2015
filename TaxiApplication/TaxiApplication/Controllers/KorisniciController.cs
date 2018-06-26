@@ -66,6 +66,7 @@ namespace TaxiApplication.Controllers
         }
         #endregion
 
+        #region Dispecer menja prava pristupa korisnika
         // GET: api/Korisnici
         [Route("api/korisnici/changeAccess/{korisnik}")]
         [HttpGet]
@@ -85,7 +86,9 @@ namespace TaxiApplication.Controllers
                 return BadRequest("Ne postoji korisnik sa datim korisnickim imenom");
             }
         }
+        #endregion
 
+        #region Korisnik proverava svoja prava
         // GET: api/Korisnici
         [Route("api/korisnici/getAccess/")]
         [HttpGet]
@@ -103,6 +106,7 @@ namespace TaxiApplication.Controllers
                 return InternalServerError(new Exception("Pristup sajtu vam je zabranjen"));
 
         }
+        #endregion
 
         #region Svi korisnici 
         // GET: api/Korisnici

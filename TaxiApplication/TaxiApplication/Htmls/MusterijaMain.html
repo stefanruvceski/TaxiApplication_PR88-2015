@@ -96,7 +96,26 @@
                 window.location.href = localStorage.getItem('mainPage');
             }
 
-            
+            $('body').on('click', function () {
+                $.ajax({
+                    url: '/api/korisnici/getaccess/',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (jqXHR) {
+
+                        $('#errorContent').text(jqXHR.responseJSON.ExceptionMessage);
+                        $('#errorModal').modal('show');
+                        localStorage.removeItem("accessToken"); 
+                        localStorage.removeItem("mainPage");
+                        window.location.href = 'login.html';
+                    }
+                });
+            });
 
             Mousetrap.bind('shift+r', function () {
                 $('#btnRefreshStart').trigger('click');
@@ -112,6 +131,7 @@
                 $('#errorModal').modal('hide');
                 $('#' + modal).modal('show');
             });
+          
 
             $('body').on('click', "input[name='BbtnDetails']", function (data) {
                 id = data.target.id;
@@ -724,7 +744,7 @@
                                     <tr class="success">
                                         <th colspan="2">
                                             Popunite polja za poziv taksija&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" name="tipUnosa"  value="Unos Adrese" id="unosAdrese">
+                                            <input type="radio" name="tipUnosa" value="Unos Adrese" id="unosAdrese">
                                             <label for="PutnickoVozilo">Unos Adrese</label>
                                             &nbsp;&nbsp;&nbsp;
                                             <input type="radio" name="tipUnosa" checked="checked" value="Unos lokacije" id="unosLokacije">
