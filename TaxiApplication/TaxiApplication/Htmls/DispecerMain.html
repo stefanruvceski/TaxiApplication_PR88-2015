@@ -357,9 +357,10 @@
             });
             $('body').on('click', "input[name='LtipAutomobila']", function (data) {
                 id = data.target.id;
+                koord = koordinate.split(',');
                 $('#vozaci').html('');
                 $.ajax({
-                    url: '/api/Korisnici?flag=' + $("input[name='LtipAutomobila']:checked").val(),
+                    url: '/api/Korisnici?flag=' + $("input[name='LtipAutomobila']:checked").val() + '&x='+koord[0]+'&y='+koord[1],
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
@@ -640,6 +641,7 @@
                     $('#errorModal').modal('show');
                     $(forma).submit();
                 }
+                var koord = koordinate.split(',');
                 $.ajax({
                     url: '/api/voznje/dispecerpost',
                     method: 'POST',
@@ -653,13 +655,17 @@
                         postanskiBroj: $('#postanskiBroj').val(),
                         VozacId: $('#vozaci').val(),
                         tipAutomobila: $("input[name='OtipAutomobila']:checked").val(),
-                        VoznjaID: id
+                        VoznjaID: id,
+                        xkoordinata: koord[0],
+                        ykoordinata:koord[1]
                     },
                     success: function () {
                         $('#FormOrderModal').modal('hide');
                         $('#successContent').text('Order Successful!')
                         $('#successModal').modal('show');
                         $('#btnRefreshStart').trigger("click");
+                        $('#vozaci').html('');
+                        $('#Lvozaci').html('');
                     },
                     error: function (jqXHR) {
                         $('#errorContent').text(jqXHR.responseJSON.Message);

@@ -123,7 +123,7 @@ namespace TaxiApplication.Controllers
         }
         #endregion
 
-        #region Svi slobodni vozaci odredjene kategorije vozila za proces
+        #region Svi slobodni vozaci odredjene kategorije vozila za proces/adresa
         // GET: api/Korisnici/flag
         
         public List<string> GetAvailableDrivers(string flag)
@@ -146,6 +146,53 @@ namespace TaxiApplication.Controllers
             }
 
             return lista;   
+        }
+        #endregion
+
+        #region Svi slobodni vozaci odredjene kategorije vozila za proces/lokacija
+        // GET: api/Korisnici/flag/x/y
+        public List<string> GetAvailableDrivers(string flag, double x, double y)
+        {
+            List<string> lista = new List<string>();
+            List<string> pom = new List<string>();
+            bool isAvailable = true;
+            foreach (Korisnik k in DataBase.Korisnici.Values)
+            {
+                if (k.Uloga == Uloge.Vozac && k.KorisnickoIme != "-1")
+                {
+                    foreach (int i in k.VoznjeID)
+                        if (DataBase.voznje[i].StatusVoznje == StatusiVoznje.Prihvacena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Obradjena || DataBase.voznje[i].StatusVoznje == StatusiVoznje.Formirana)
+                            isAvailable = false;
+
+                    if (isAvailable && DataBase.automobili[((Vozac)k).AutomobilID].TipAutomobila.ToString() == flag)
+                        pom.Add(k.KorisnickoIme);
+                    isAvailable = true;
+                }
+            }
+
+            for (int i = 0; i < pom.Count - 1; i++)
+            {
+                for (int j = i + 1; j < pom.Count; j++)
+                {
+                    Lokacija l1 = DataBase.lokacije[((Vozac)DataBase.Korisnici[pom[i]]).LokacijaID];
+                    double razdaljina1 = Math.Sqrt(Math.Pow((x - l1.XKoordinata), 2) + Math.Pow((y- l1.YKoordinata), 2));
+                    Lokacija l2 = DataBase.lokacije[((Vozac)DataBase.Korisnici[pom[j]]).LokacijaID];
+                    double razdaljina2 = Math.Sqrt(Math.Pow((x - l2.XKoordinata), 2) + Math.Pow((y - l2.YKoordinata), 2));
+                    if (razdaljina1 > razdaljina2)
+                    {
+                        string temp = pom[i];
+                        pom[i] = pom[j];
+                        pom[j] = temp;
+                    }
+                }
+            }
+            if (pom.Count > 5)
+                lista = pom.GetRange(0, 5);
+            else
+                lista = pom;
+
+
+            return lista;
         }
         #endregion
 

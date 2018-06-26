@@ -127,4 +127,3 @@ D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiA
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csproj.CopyComplete
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.dll
 D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.pdb
-D:\GitHub\III Godina\VI Semestar\TaxiApplication_PR88-2015\TaxiApplication\TaxiApplication\obj\Debug\TaxiApplication.csprojAssemblyReference.cache

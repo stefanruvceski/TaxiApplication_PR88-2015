@@ -402,12 +402,12 @@ namespace TaxiApplication.Models
 
     public class KorisnikVoznjaBindingModel
     {
-        //[Required]
-        //[Display(Name = "X Koordinata")]
-        //public double XKoordinata { get; set; }
-        //[Required]
-        //[Display(Name = "Y Koordinata")]
-        //public double YKoordinata { get; set; }
+        [Display(Name = "X Koordinata")]
+        public double XKoordinata { get; set; }
+
+        [Display(Name = "Y Koordinata")]
+        public double YKoordinata { get; set; }
+
         [Required]
         [MinLength(2)]
         [MaxLength(50)]
@@ -432,12 +432,10 @@ namespace TaxiApplication.Models
     }
     public class DispecerVoznjaBindingModel
     {
-        //[Required]
-        //[Display(Name = "X Koordinata")]
-        //public double XKoordinata { get; set; }
-        //[Required]
-        //[Display(Name = "Y Koordinata")]
-        //public double YKoordinata { get; set; }
+        public double XKoordinata { get; set; }
+
+        public double YKoordinata { get; set; }
+
         [Required]
         [MinLength(2)]
         [MaxLength(50)]

@@ -1,24 +1,4 @@
 -1|-1|Nula|6/18/2018 10:55:20 AM|-1|-1
-1|Odlicna voznja|Pet|6/24/2018 12:10:02 PM|2|teodorarrrr
-2|Solidna voznja|Cetiri|6/24/2018 12:12:56 PM|3|teodorarrrr
-3|Nisam bas zadovoljan|Tri|6/24/2018 12:24:36 PM|5|teodorarrrr
-4|Odlican taksista,oclican usluga|Pet|6/24/2018 12:27:30 PM|6|musterija1
-5|uvek cu ga zvati|Pet|6/24/2018 4:24:23 AM|11|teodorarrrr
-6|dugo sam cekala kasnim|Nula|6/24/2018 4:56:04 AM|13|teodorarrrr
-7|nije dosao|Nula|6/24/2018 5:01:02 AM|14|teodorarrrr
-8|lose|Nula|6/24/2018 5:05:58 AM|16|teodorarrrr
-9|slucajno|Nula|6/24/2018 5:06:19 AM|17|teodorarrrr
-10|Cekao sam predugo|Nula|6/24/2018 5:07:53 AM|18|teodorarrrr
-11||Nula|6/24/2018 5:12:39 AM|19|vozac5
-12||Nula|6/24/2018 5:17:05 AM|21|vozac5
-13|ni ovaj se nije pojavio|Nula|6/24/2018 5:17:48 AM|22|vozac5
-14|Nekulturan vozac|Jedan|6/24/2018 5:22:27 AM|9|musterija1
-15|Savrsena Voznja uvek bih se vozila sa vasom sluzbom|Pet|6/24/2018 5:22:49 AM|10|musterija1
-16|Vozac pristojan i brz|Pet|6/24/2018 5:23:32 AM|23|musterija1
-17|greska|Nula|6/25/2018 2:12:34 AM|12|vozac2
-18|Nije se pojavio|Nula|6/25/2018 2:14:19 AM|30|vozac1
-19|Nije se pojavio|Nula|6/25/2018 2:26:35 AM|24|vozac5
-20|Bezveze sam se vozio|Nula|6/25/2018 2:44:25 AM|38|vozac5
-21|sve odlicno, vozac nije dosadan|Pet|6/25/2018 2:55:46 AM|40|musterija3
-22|musterija nije dosla|Nula|6/25/2018 2:57:20 AM|42|vozac5
-23|musterija pobegla, popularni hamilton|Nula|6/25/2018 2:59:55 AM|43|vozac2
+1|smrdeo je vozac|Cetiri|6/26/2018 8:08:09 PM|2|teodorarrrr
+2|nije se pojavio ja sam cekao 10nminuta|Nula|6/26/2018 8:10:43 PM|3|vozac2
+3|slucajno sam nazvala|Nula|6/26/2018 8:32:50 PM|6|musterija6

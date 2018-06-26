@@ -358,6 +358,23 @@ namespace TaxiApplication.Controllers
                     l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
                 }
 
+                for (int i = 0; i < l.Count - 1; i++)
+                {
+                    for (int j = i + 1; j < l.Count; j++)
+                    {
+                        Lokacija ll = DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID];
+                        Lokacija l1 = DataBase.lokacije[DataBase.voznje[int.Parse(l[i].VoznjaID)].LokacijaID];
+                        double razdaljina1 = Math.Sqrt(Math.Pow((ll.XKoordinata - l1.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l1.YKoordinata), 2));
+                        Lokacija l2 = DataBase.lokacije[DataBase.voznje[int.Parse(l[j].VoznjaID)].LokacijaID];
+                        double razdaljina2 = Math.Sqrt(Math.Pow((ll.XKoordinata - l2.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l2.YKoordinata), 2));
+                        if (razdaljina1 > razdaljina2)
+                        {
+                            VozacVoznjaBindingModel temp = l[i];
+                            l[i] = l[j];
+                            l[j] = temp;
+                        }
+                    }
+                }
 
             }
             if (l.Count == 0)
@@ -592,7 +609,7 @@ namespace TaxiApplication.Controllers
         }
         #endregion
         
-        #region Dispecer obradjuje voznju koja je na cekanju
+        #region Dispecer obradjuje voznju koja je na cekanju start
         [Route("api/voznje/process/{id:int}")]
         [HttpGet]
         [Authorize(Roles = "Dispecer")]
@@ -601,7 +618,7 @@ namespace TaxiApplication.Controllers
             Adresa a1 = DataBase.adrese[DataBase.lokacije[DataBase.voznje[id].LokacijaID].AdresaID];
             Automobil a = DataBase.automobili[((Vozac)DataBase.Korisnici[DataBase.voznje[id].VozacID]).AutomobilID];
             ProcessDispecerVoznjaBindingModel voznja = new ProcessDispecerVoznjaBindingModel();
-
+            Lokacija l = DataBase.lokacije[DataBase.voznje[id].LokacijaID];
             voznja.Adresa = a1.ToBindingString();
             voznja.Musterija = DataBase.Korisnici[DataBase.voznje[id].MusterijaID].KorisnickoIme;
             voznja.StatusVoznje = DataBase.voznje[id].StatusVoznje.ToString();
@@ -609,7 +626,7 @@ namespace TaxiApplication.Controllers
             voznja.Vozac = "Nedefinisano";
 
             voznja.Vozaci = new List<string>();
-
+            List<string> pom = new List<string>();
             bool isAvailable = true;
             foreach (Korisnik k in DataBase.Korisnici.Values)
             {
@@ -620,10 +637,33 @@ namespace TaxiApplication.Controllers
                             isAvailable = false;
 
                     if (isAvailable && DataBase.automobili[((Vozac)k).AutomobilID].TipAutomobila.ToString() == voznja.TipAutomobila )
-                        voznja.Vozaci.Add(k.KorisnickoIme);
+                        pom.Add(k.KorisnickoIme);
                     isAvailable = true;
                 }
             }
+
+
+            for (int i = 0; i < pom.Count-1; i++)
+            {
+                for (int j = i+1; j < pom.Count; j++)
+                {
+                    Lokacija l1 = DataBase.lokacije[((Vozac)DataBase.Korisnici[pom[i]]).LokacijaID];
+                    double razdaljina1 = Math.Sqrt(Math.Pow((l.XKoordinata - l1.XKoordinata), 2) + Math.Pow((l.YKoordinata - l1.YKoordinata), 2));
+                    Lokacija l2 = DataBase.lokacije[((Vozac)DataBase.Korisnici[pom[j]]).LokacijaID];
+                    double razdaljina2 = Math.Sqrt(Math.Pow((l.XKoordinata - l2.XKoordinata), 2) + Math.Pow((l.YKoordinata - l2.YKoordinata), 2));
+                    if (razdaljina1 > razdaljina2)
+                    {
+                        string temp =pom[i];
+                        pom[i] = pom[j];
+                        pom[j] = temp;
+                    }
+                }
+            }
+            if (pom.Count > 5)
+                voznja.Vozaci = pom.GetRange(0, 5);
+            else
+                voznja.Vozaci = pom;
+                
             return voznja;
         }
         #endregion
@@ -639,14 +679,18 @@ namespace TaxiApplication.Controllers
                 {
                     Adresa adresa = new Adresa(value.Broj, value.Ulica, value.Grad, value.PostanskiBroj);
                     DataBase.adrese.Add(adresa.Id, adresa);
-                    Lokacija lokacija = new Lokacija(adresa.Id);
-                    DataBase.lokacije.Add(lokacija.Id, lokacija);
+                    Lokacija l;
+                    if (value.XKoordinata != -1 && value.YKoordinata != -1)
+                        l = new Lokacija(value.XKoordinata, value.YKoordinata, adresa.Id);
+                    else
+                        l = new Lokacija(adresa.Id);
+                    DataBase.lokacije.Add(l.Id, l);
                     
                     TipoviAutomobila t; Enum.TryParse(value.TipAutomobila, out t);
                     Voznja voznja = new Voznja()
                     {
                         DispecerID = User.Identity.Name,
-                        LokacijaID = lokacija.Id,
+                        LokacijaID = l.Id,
                         TipAutomobila = t,
                         DatumIVreme = DateTime.Now,
                         VozacID = value.VozacID,
@@ -663,6 +707,10 @@ namespace TaxiApplication.Controllers
                     string lokacijaID = DataBase.voznje[int.Parse(value.VoznjaID)].LokacijaID;
                     string adresaID = DataBase.lokacije[lokacijaID].AdresaID;
                     Adresa adresa = new Adresa(adresaID, value.Broj, value.Ulica, value.Grad, value.PostanskiBroj);
+                    if (value.XKoordinata != -1 && value.YKoordinata != -1)
+                        DataBase.lokacije[lokacijaID] = new Lokacija(lokacijaID, value.XKoordinata, value.YKoordinata, adresa.Id);
+
+
                     DataBase.adrese[adresaID] = adresa;
                     TipoviAutomobila t; Enum.TryParse(value.TipAutomobila, out t);
                     DataBase.voznje[int.Parse(value.VoznjaID)].TipAutomobila = t;
@@ -679,7 +727,7 @@ namespace TaxiApplication.Controllers
 
         }
         #endregion
-        #region Dispecer obradjuje voznju koja je na cekanju->ne koristi se koliko vidim
+        #region Dispecer obradjuje voznju koja je na cekanju
         [Route("api/voznje/dispecerprocess")]
         [HttpPost]
         [Authorize(Roles = "Dispecer")]
@@ -724,13 +772,17 @@ namespace TaxiApplication.Controllers
                 {
                     Adresa adresa = new Adresa(value.Broj, value.Ulica, value.Grad, value.PostanskiBroj);
                     DataBase.adrese.Add(adresa.Id, adresa);
-                    Lokacija lokacija = new Lokacija(adresa.Id);
-                    DataBase.lokacije.Add(lokacija.Id, lokacija);
+                    Lokacija l;
+                    if (value.XKoordinata != -1 && value.YKoordinata != -1)
+                        l = new Lokacija(value.XKoordinata, value.YKoordinata, adresa.Id);
+                    else
+                        l = new Lokacija(adresa.Id);
+                    DataBase.lokacije.Add(l.Id, l);
                     TipoviAutomobila t; Enum.TryParse(value.TipAutomobila, out t);
                     Voznja voznja = new Voznja()
                     {
                         MusterijaID = User.Identity.Name,
-                        LokacijaID = lokacija.Id,
+                        LokacijaID = l.Id,
                         TipAutomobila = t,
                         DatumIVreme = DateTime.Now
                     };
