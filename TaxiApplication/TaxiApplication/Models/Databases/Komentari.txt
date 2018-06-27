@@ -8,3 +8,4 @@
 7|Odlicna usluga, lep auto.|Pet|6/27/2018 1:55:24 AM|22|musterija7
 8|musterija se nije pojavila|Nula|6/27/2018 2:06:49 AM|26|vozac4
 9|pijana musterija nije imala para da plati|Nula|6/27/2018 2:15:05 AM|27|vozac4
+10|Usla sam u drugi taksi|Nula|6/27/2018 2:41:41 PM|24|teodorarrrr

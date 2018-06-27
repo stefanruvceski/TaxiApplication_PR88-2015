@@ -21,7 +21,7 @@
 21|6/27/2018 12:11:32 PM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija7|-1|26|-1|-1
 22|6/27/2018 12:11:46 PM|Uspesna|PutnickiAutomobil|380|vozac8|musterija7|-1|27|33|7
 23|6/27/2018 1:35:12 AM|Uspesna|PutnickiAutomobil|300|vozac4|teodorarrrr|-1|28|30|6
-24|6/27/2018 1:50:50 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|teodorarrrr|-1|32|-1|-1
+24|6/27/2018 1:50:50 AM|Otkazana|PutnickiAutomobil|-1|-1|teodorarrrr|-1|32|-1|10
 25|6/27/2018 1:53:05 AM|Kreirana_NaCekanju|PutnickiAutomobil|-1|-1|musterija7|-1|34|-1|-1
 26|6/27/2018 1:56:21 AM|Neuspesna|PutnickiAutomobil|-1|vozac4|-1|isidorarrr|35|-1|8
 27|6/27/2018 2:11:59 AM|Neuspesna|PutnickiAutomobil|-1|vozac4|musterija7|isidorarrr|36|-1|9

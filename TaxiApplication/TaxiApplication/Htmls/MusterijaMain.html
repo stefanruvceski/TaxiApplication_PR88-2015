@@ -209,6 +209,13 @@
                 $('#PostKomentarModal').modal('show');
             });
             $('#btnCommentPost').click(function () {
+                if (!$('#komentarForm')[0].checkValidity()) {
+                    modal = 'PostKomentarModal';
+                    $('#PostKomentarModal').modal('hide');
+                    $('#errorContent').text('Morate uneti komentar i ocenu.');
+                    $('#errorModal').modal('show');
+                    $(forma).submit();
+                }
                 $.ajax({
                     url: '/api/komentari/',
                     method: 'POST',
@@ -1014,7 +1021,7 @@
                     <h4 class="modal-title">Postavite Komentar</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="orderForm">
+                    <form id="komentarForm">
                         <div class="modal-content">
                             <table class="table table-bordered">
                                 <thead>
@@ -1027,7 +1034,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Opis</td>
-                                        <td><textarea id="opis" name="comment" placeholder="Enter text here..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
+                                        <td><textarea id="opis" required name="comment" placeholder="Enter text here..." class="form-control" style="min-width: 100%;min-height:150px"></textarea></td>
                                     </tr>
                                     <tr>
                                         <td>Ocena</td>
@@ -1043,7 +1050,7 @@
                                         </td>
                                     <tr class="success">
                                         <td colspan="2">
-                                            <input id="btnCommentPost" class="btn btn-success" type="button" value="Post" />
+                                            <input id="btnCommentPost" class="btn btn-success" type="button" value="Postavi" />
                                         </td>
                                     </tr>
                                 </tbody>
