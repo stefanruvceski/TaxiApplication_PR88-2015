@@ -5,6 +5,6 @@
 4|musterija je pobegla a nije platila|Nula|6/26/2018 11:37:38 AM|9|vozac3
 5|cekam predugo|Nula|6/27/2018 12:31:54 PM|13|musterija7
 6|Odlicna i brza voznja, sve pohvale|Pet|6/27/2018 1:37:15 AM|23|teodorarrrr
-7|Odlicna usluga, lep auto.|Pet|6/27/2018 1:55:24 PM|22|musterija7
-8|musterija se nije pojavila|Nula|6/27/2018 2:06:49 PM|26|vozac4
-9|pijana musterija nije imala para da plati|Nula|6/27/2018 2:15:05 PM|27|vozac4
+7|Odlicna usluga, lep auto.|Pet|6/27/2018 1:55:24 AM|22|musterija7
+8|musterija se nije pojavila|Nula|6/27/2018 2:06:49 AM|26|vozac4
+9|pijana musterija nije imala para da plati|Nula|6/27/2018 2:15:05 AM|27|vozac4
