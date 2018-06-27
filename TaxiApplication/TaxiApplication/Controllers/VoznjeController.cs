@@ -47,6 +47,8 @@ namespace TaxiApplication.Controllers
             else
                 voznja.Iznos = DataBase.voznje[id].Iznos.ToString();
 
+            voznja.DatumIVreme = k.DatumObjave.ToString();
+
 
             return voznja;
         }

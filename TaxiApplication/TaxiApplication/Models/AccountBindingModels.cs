@@ -398,6 +398,9 @@ namespace TaxiApplication.Models
 
         [Required]
         public string BrojTaksija { get; set; }
+
+        [Required]
+        public string DatumIVreme { get; set; }
     }
 
     public class KorisnikVoznjaBindingModel

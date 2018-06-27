@@ -1,7 +1,7 @@
 -1|-1|-1|-1|-1
 1|Bulevar cara Lazara|45|Novi Sad|21000
 2|Моrnarska|48|Novi Sad|21000
-3|Bulevar cara Lazara|45|Novi Sad|21000
+3|Cara Dušana|8|Novi Sad|21000
 4|Nikole Tesle|34|Novi Sad|21000
 5|Cvećarska|23|Novi Sad|21124
 6|Kolo srpskih sestara|24|Novi Sad|403566
@@ -17,3 +17,15 @@
 16|Miloša Crnjanskog|2|Novi Sad|21000
 17|Ćirila i Metodija|7|Novi Sad|21000
 18|Ćirila i Metodija|4|Novi Sad|21000
+19|Kolo srpskih sestara|24|Novi Sad|21000
+20|Bulevar cara Lazara|19|Novi Sad|21000
+21|Vojvođanska|1|Novi Sad|21000
+22|Pavleka Miškine|12|Novi Sad|21124
+23|Romanijska|26|Novi Sad|21000
+24|Dr Sime Miloševića|5|Novi Sad|21000
+25|Bulevar Evrope|9|Novi Sad|21000
+26|Milutina Bojića|4|Novi Sad|21000
+27|Futoška|70|Novi Sad|21000
+28|Bulevar Evrope|15|Novi Sad|21000
+29|Bulevar Evrope|15|Novi Sad|21000
+30|Braće Ribnikar|25|Novi Sad|21000
