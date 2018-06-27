@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <link href="../Content/Site.css" rel="stylesheet" />
     <script src="../Scripts/jquery.shortcuts.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
@@ -53,7 +54,7 @@
                                 'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                             },
                             success: function (response) {
-                              
+
                                 $.ajax({
                                     url: '/api/korisnici/getpage/',
                                     method: 'GET',
@@ -67,7 +68,7 @@
                                     }
                                 });
                             },
-                            error: function (jqXHR){
+                            error: function (jqXHR) {
                                 $('#divErrorText').text(jqXHR.responseJSON.ExceptionMessage);
                                 $('#divError').show('fade');
                             }

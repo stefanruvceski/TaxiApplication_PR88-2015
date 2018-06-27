@@ -25,7 +25,14 @@
 24|Dr Sime Miloševića|5|Novi Sad|21000
 25|Bulevar Evrope|9|Novi Sad|21000
 26|Milutina Bojića|4|Novi Sad|21000
-27|Futoška|70|Novi Sad|21000
+27|Cara Dušana|34|Novi Sad|21000
 28|Bulevar Evrope|15|Novi Sad|21000
 29|Bulevar Evrope|15|Novi Sad|21000
 30|Braće Ribnikar|25|Novi Sad|21000
+31|Mileševska|2|Novi Sad|21000
+32|Bulevar cara Lazara|72|Novi Sad|21000
+33|Bulevar cara Lazara|83|Novi Sad|21000
+34|Teodora Pavlovića|38|Novi Sad|21000
+35|Bulevar despota Stefana|9|Novi Sad|21000
+36|Bulevar cara Lazara|14|Novi Sad|21000
+37|Bulevar cara Lazara|13|Novi Sad|21000
