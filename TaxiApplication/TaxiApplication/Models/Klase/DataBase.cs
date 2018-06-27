@@ -16,6 +16,7 @@ namespace TaxiApplication.Models.Klase
         public static Dictionary<string, Adresa> adrese = new Dictionary<string, Adresa>();
         public static Dictionary<int, Automobil> automobili = new Dictionary<int, Automobil>();
         public static Dictionary<int, Komentar> komentari = new Dictionary<int, Komentar>();
+        public static bool isChanged = true;
         #endregion
 
         #region Helpers
@@ -124,57 +125,60 @@ namespace TaxiApplication.Models.Klase
 
                 while (true)
                 {
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\korisnici.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
+                    if (isChanged)
                     {
-                        foreach (var item in Korisnici.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\korisnici.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in Korisnici.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
-                    }
 
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\voznje.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
-                    {
-                        foreach (var item in voznje.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\voznje.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in voznje.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
-                    }
 
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\lokacije.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
-                    {
-                        foreach (var item in lokacije.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\lokacije.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in lokacije.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
-                    }
 
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\adrese.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
-                    {
-                        foreach (var item in adrese.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\adrese.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in adrese.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
-                    }
 
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\automobili.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
-                    {
-                        foreach (var item in automobili.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\automobili.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in automobili.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
-                    }
 
-                    fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\komentari.txt");
-                    using (TextWriter tw = new StreamWriter(fullPath))
-                    {
-                        foreach (var item in komentari.Values.ToList())
+                        fullPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~\Models\Databases\komentari.txt");
+                        using (TextWriter tw = new StreamWriter(fullPath))
                         {
-                            tw.WriteLine(item.ToString());
+                            foreach (var item in komentari.Values.ToList())
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
                         }
                     }
                     Thread.Sleep(10000);
