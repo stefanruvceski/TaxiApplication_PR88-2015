@@ -8,7 +8,7 @@
 7|Vardarska|1|Novi Sad|21000
 8|Bulevar cara Lazara|72|Novi Sad|21000
 9|Narodnog fronta|71|Novi Sad|21102
-10|Bulevar cara Lazara|25|Novi Sad|21000
+10|Bulevar Jovana Dučića|17|Novi Sad|21000
 11|Romanijska|4|Novi Sad|21000
 12|Laze Lazarevića|50|Novi Sad|21000
 13|Narodnog fronta|1|Novi Sad|21000
@@ -36,3 +36,26 @@
 35|Bulevar despota Stefana|9|Novi Sad|21000
 36|Bulevar cara Lazara|14|Novi Sad|21000
 37|Bulevar cara Lazara|13|Novi Sad|21000
+38|Braće Krkljuš|15|Novi Sad|21000
+39|Milana Koma|19|Novi Sad|21124
+40|Bačka|13|Novi Sad|21000
+41|Alberta Tome|8|Novi Sad|21000
+42|Rudnička|31|Novi Sad|21000
+43|Jovana Popovića|2|Novi Sad|21124
+44|Seljačkih buna|1|Novi Sad|21000
+45|Ilije Vučetića|3|Novi Sad|21000
+46|Ljubice Ravasi|4|Novi Sad|21000
+47|Kraljevića Marka|11|Novi Sad|21000
+48|Miloja Čiplića|55|Novi Sad|21137
+49|Servo Mihalja|24|Novi Sad|21000
+50|Laze Nančića|18|Novi Sad|21000
+51|Prištinska|4|Novi Sad|21000
+52|Tone Hadžića|6|Novi Sad|21000
+53|Futoški Put|42|Novi Sad|21000
+54|Bulevar patrijarha Pavla|3|Novi Sad|21000
+55|Miroslava Antića|10|Novi Sad|21000
+56|Zorana Petrovića|12|Novi Sad|21000
+57|Bulevar Evrope|42|Novi Sad|21000
+58|Dr Milana Petrovića|16|Novi Sad|21000
+59|Bulevar cara Lazara|58|Novi Sad|21000
+60|Marije Bursać|7|Novi Sad|21000

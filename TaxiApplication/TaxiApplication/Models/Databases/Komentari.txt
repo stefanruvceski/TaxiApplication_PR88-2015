@@ -8,4 +8,11 @@
 7|Odlicna usluga, lep auto.|Pet|6/27/2018 1:55:24 AM|22|musterija7
 8|musterija se nije pojavila|Nula|6/27/2018 2:06:49 AM|26|vozac4
 9|pijana musterija nije imala para da plati|Nula|6/27/2018 2:15:05 AM|27|vozac4
-10|Usla sam u drugi taksi|Nula|6/27/2018 2:41:41 PM|24|teodorarrrr
+10|Usla sam u drugi taksi|Nula|6/27/2018 2:41:41 AM|24|teodorarrrr
+11|Odlicna voznja, malo skupa|Cetiri|6/27/2018 7:59:03 AM|8|musterija3
+12|Odlican vozac sve super|Pet|6/27/2018 11:13:51 AM|7|musterija6
+13|Neljubazan vozac, nikada se ne bih ponovo vozio sa istim.|Jedan|6/27/2018 11:14:11 AM|14|musterija6
+14|Solidna voznja, moze i bolje|Tri|6/27/2018 11:14:25 AM|29|musterija6
+15|Nisam mogao cekati|Nula|6/28/2018 12:48:30 PM|31|musterija1
+16|Bio je pijan, nisam ga primio u vozilo|Nula|6/28/2018 12:49:12 PM|17|vozac3
+17|Odlican vozac|Pet|6/28/2018 12:58:44 PM|35|musterija4

@@ -359,21 +359,23 @@ namespace TaxiApplication.Controllers
                 {
                     l = l.OrderByDescending(z => Enum.Parse(typeof(Ocene), z.Ocena)).ToList();
                 }
-
-                for (int i = 0; i < l.Count - 1; i++)
+                else if(flaggg == -1)
                 {
-                    for (int j = i + 1; j < l.Count; j++)
+                    for (int i = 0; i < l.Count - 1; i++)
                     {
-                        Lokacija ll = DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID];
-                        Lokacija l1 = DataBase.lokacije[DataBase.voznje[int.Parse(l[i].VoznjaID)].LokacijaID];
-                        double razdaljina1 = Math.Sqrt(Math.Pow((ll.XKoordinata - l1.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l1.YKoordinata), 2));
-                        Lokacija l2 = DataBase.lokacije[DataBase.voznje[int.Parse(l[j].VoznjaID)].LokacijaID];
-                        double razdaljina2 = Math.Sqrt(Math.Pow((ll.XKoordinata - l2.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l2.YKoordinata), 2));
-                        if (razdaljina1 > razdaljina2)
+                        for (int j = i + 1; j < l.Count; j++)
                         {
-                            VozacVoznjaBindingModel temp = l[i];
-                            l[i] = l[j];
-                            l[j] = temp;
+                            Lokacija ll = DataBase.lokacije[((Vozac)DataBase.Korisnici[User.Identity.Name]).LokacijaID];
+                            Lokacija l1 = DataBase.lokacije[DataBase.voznje[int.Parse(l[i].VoznjaID)].LokacijaID];
+                            double razdaljina1 = Math.Sqrt(Math.Pow((ll.XKoordinata - l1.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l1.YKoordinata), 2));
+                            Lokacija l2 = DataBase.lokacije[DataBase.voznje[int.Parse(l[j].VoznjaID)].LokacijaID];
+                            double razdaljina2 = Math.Sqrt(Math.Pow((ll.XKoordinata - l2.XKoordinata), 2) + Math.Pow((ll.YKoordinata - l2.YKoordinata), 2));
+                            if (razdaljina1 > razdaljina2)
+                            {
+                                VozacVoznjaBindingModel temp = l[i];
+                                l[i] = l[j];
+                                l[j] = temp;
+                            }
                         }
                     }
                 }

@@ -478,12 +478,12 @@
                                 else {
                                     var row = $('<tr><td>'
                                         + (index + 1) + '</td><td>'
-                                        + "Nedefinisano" + '</td><td>'
+                                        + value.BrojTaksija + '</td><td>'
                                         + value.Vozac + '<br/><input id=' + value.Vozac + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
                                         + value.Musterija + '<br/><input id=' + value.Musterija + ' name="btnDozvola" class="btn btn-xs btn-success"type = "button"  value = "&#x267B;" /></td><td>'
                                         + value.Dispecer + '</td><td>'
                                         + value.Polaziste + '</td><td>'
-                                        + "Nedefinisano" + '</td><td>'
+                                        + value.Odrediste + '</td><td>'
                                         + value.StatusVoznje + '</td><td>'
                                         + value.DatumIVreme + '</td><td>'
                                         + value.TipAutomobila + '</td><td>'
@@ -584,29 +584,31 @@
             $('#btnFormOrderStart').click(function () {
                 $('#UnosLokacije').show();
                 $('#UnosAdrese').hide();
+                koord = koordinate.split(',');
+                $('#vozaci').html('');
                 $.ajax({
-                    url: '/api/korisnici/getavailabledrivers',
+                    url: '/api/Korisnici?flag=' + $("input[name='LtipAutomobila']:checked").val() + '&x=' + koord[0] + '&y=' + koord[1],
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
                     },
                     success: function (data) {
-                        $('#vozaci').html('');
-                        $('#btnOrder').val('Order');
-                        $('#ulica').val('');
-                        $('#broj').val('');
-                        $('#grad').val('');
-                        $('#postanskiBroj').val('');
-                        $('#tipAutomobila').val('');
-                        $('#OrderModal').modal('show');
+                        if (data.length == 0) {
+                            modal = 'FormOrderModal';
+                            $('#FormOrderModal').modal('hide');
+                            $('#errorContent').text('Trenutno nema slobodnih vozaca sa zadatim tipom vozila.');
+                            $('#errorModal').modal('show');
+                        }
+
                         var vozaci = '';
                         $.each(data, function (index, value) {
-                            vozaci += '<option value=' + value + '>' + value + '</option>'
+                            vozaci += '<option value=' + value + '>' + value + '</option>';
                         });
-                        $('#vozaci').append(vozaci);
-                        $('#Lvozaci').append(vozaci);
+                        $('#vozaci').html(vozaci);
+                        $('#Lvozaci').html(vozaci);
                         $('#FormOrderModal').modal('show');
-                    }
+
+                    },
                 });
             });
             $('body').on('click', "input[name='tipUnosa']", function (data) {
@@ -698,7 +700,7 @@
                     },
                     success: function () {
                         $('#FormOrderModal').modal('hide');
-                        $('#successContent').text('Order Successful!')
+                        $('#successContent').text('Uspesno Narucivanje Taksija!')
                         $('#successModal').modal('show');
                         $('#btnRefreshStart').trigger("click");
                         $('#vozaci').html('');
@@ -729,7 +731,7 @@
                 <div style="display:inline-block">
                     <label for="date">Datum</label>
                     <input type="date" id="Dstart" class="Btn Btn-success" name="search" value="2018-06-01" min="2018-01-01" max="2018-12-31" />
-                    <input type="date" id="Dend" class="Btn Btn-success" name="search" value="2018-06-28" min="2018-01-01" max="2018-12-31" />
+                    <input type="date" id="Dend" class="Btn Btn-success" name="search" value="2018-06-29" min="2018-01-01" max="2018-12-31" />
                 </div>
             </div>
             <div id="Ocena" class="Btn Btn-success " style="display:inline-block;padding-top:7px">
